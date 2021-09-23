@@ -1,6 +1,8 @@
 import React from "react";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
+import "../styles/reset.scss";
+import "../styles/variables.css";
 import "../styles/globals.scss";
 
 export default function MyApp(props: AppProps) {
