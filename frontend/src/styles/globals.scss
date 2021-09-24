@@ -22,13 +22,13 @@ html {
 html {
   font-size: calc(100vw / 375 * 10);
 
-  // ${media.tablet}{
-  //   font-size: calc(100vw / 1920 * 10);
-  // }
+  @include media(">phone") {
+    font-size: calc(100vw / 1920 * 10);
+  }
 
-  // ${media.custom(1920)}{
-  //   font-size: 62.5%;
-  // }
+  @include media(">=desktop") {
+    font-size: 62.5%;
+  }
 }
 
 a {
