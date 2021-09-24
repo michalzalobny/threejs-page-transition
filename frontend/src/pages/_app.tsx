@@ -2,18 +2,16 @@ import React, { useRef, useEffect } from "react";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 
-import { useDelayedRouteExit } from "hooks/useDelayedRouteExit";
 import { globalState } from "utils/globalState";
+import { App } from "classes/App";
+import { ReactRouterHandler } from "classes/ReactRouteHandler";
 
-import { App } from "../classes/App";
 import styles from "../styles/app.module.scss";
 import "../styles/index.scss";
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
   const router = useRouter();
-
-  useDelayedRouteExit();
 
   const rendererWrapperEl = useRef(null);
 
@@ -27,6 +25,16 @@ export default function MyApp(props: AppProps) {
 
     return () => {
       if (globalState.app) globalState.app.destroy();
+    };
+  }, []);
+
+  useEffect(() => {
+    globalState.reactRouterHandler = ReactRouterHandler.getInstance();
+    globalState.reactRouterHandler.init();
+
+    return () => {
+      if (globalState.reactRouterHandler)
+        globalState.reactRouterHandler.destroy();
     };
   }, []);
 
