@@ -1,8 +1,19 @@
+@import "../../styles/responsive.scss";
+
 .title {
   font-size: 10rem;
-  background: red;
+  width: 100%;
 }
 
 .input {
   font-size: 6rem;
+  width: 100%;
+}
+
+.container {
+  margin: 0 auto;
+
+  @include media(">phone") {
+    background-color: red;
+  }
 }
