@@ -1,5 +1,3 @@
-@import "../../styles/responsive.scss";
-
 .title {
   font-size: 10rem;
   width: 100%;
@@ -13,7 +11,7 @@
 .container {
   margin: 0 auto;
 
-  @include media(">phone") {
+  @include media(">tablet") {
     background-color: red;
   }
 }
