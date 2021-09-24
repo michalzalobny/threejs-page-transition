@@ -37,6 +37,7 @@ a {
   outline: none;
   pointer-events: auto;
   text-decoration: none;
+  display: inline-block;
 }
 
 a[href^="tel"] {
