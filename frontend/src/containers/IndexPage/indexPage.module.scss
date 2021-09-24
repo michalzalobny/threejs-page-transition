@@ -4,14 +4,16 @@
 }
 
 .input {
+  background: rgb(44, 160, 135);
+  transform: translateY(120%);
   font-size: 6rem;
   width: 100%;
 }
 
 .container {
-  margin: 0 auto;
+  margin: 20rem auto;
 
-  @include media(">tablet") {
-    background-color: red;
+  @include media(">phone") {
+    max-width: 120rem;
   }
 }
