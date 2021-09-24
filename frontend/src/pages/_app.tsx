@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 
 import { useDelayedRouteExit } from "hooks/useDelayedRouteExit";
+import { globalState } from "utils/globalState";
 
 import { App } from "../classes/App";
 import styles from "../styles/app.module.scss";
@@ -15,18 +16,17 @@ export default function MyApp(props: AppProps) {
   useDelayedRouteExit();
 
   const rendererWrapperEl = useRef(null);
-  const myApp = useRef<App | null>(null);
 
   useEffect(() => {
     if (!rendererWrapperEl.current) return;
 
     if (rendererWrapperEl.current) {
-      myApp.current = App.getInstance();
-      myApp.current.rendererWrapperEl = rendererWrapperEl.current;
+      globalState.app = App.getInstance();
+      globalState.app.rendererWrapperEl = rendererWrapperEl.current;
     }
 
     return () => {
-      if (myApp.current) myApp.current.destroy();
+      if (globalState.app) globalState.app.destroy();
     };
   }, []);
 
