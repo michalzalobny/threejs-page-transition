@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from "react";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 
-import { useWarningOnExit } from "hooks/useWarningOnExit";
+import { useDelayedRouteExit } from "hooks/useDelayedRouteExit";
 
 import { App } from "../classes/App";
 import styles from "../styles/app.module.scss";
@@ -12,7 +12,7 @@ export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
   const router = useRouter();
 
-  useWarningOnExit(true);
+  useDelayedRouteExit();
 
   const rendererWrapperEl = useRef(null);
   const myApp = useRef<App | null>(null);
