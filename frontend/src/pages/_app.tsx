@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 
 import { globalState } from "utils/globalState";
 import { App } from "classes/App";
-import { ReactRouterHandler } from "classes/ReactRouteHandler";
+import { PageWrapper } from "components/PageWrapper";
 
 import styles from "../styles/app.module.scss";
 import "../styles/index.scss";
@@ -28,20 +28,12 @@ export default function MyApp(props: AppProps) {
     };
   }, []);
 
-  useEffect(() => {
-    globalState.reactRouterHandler = ReactRouterHandler.getInstance();
-    globalState.reactRouterHandler.init();
-
-    return () => {
-      if (globalState.reactRouterHandler)
-        globalState.reactRouterHandler.destroy();
-    };
-  }, []);
-
   return (
     <>
       <div className={styles.canvasWrapper} ref={rendererWrapperEl}></div>
-      <Component router={router} {...pageProps} />
+      <PageWrapper>
+        <Component key={router.pathname} router={router} {...pageProps} />
+      </PageWrapper>
     </>
   );
 }

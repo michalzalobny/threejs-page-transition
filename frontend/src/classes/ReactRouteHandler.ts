@@ -58,3 +58,15 @@ export class ReactRouterHandler extends THREE.EventDispatcher {
     if (this._timeoutId) clearTimeout(this._timeoutId);
   }
 }
+
+//In _app.js
+
+// useEffect(() => {
+//   globalState.reactRouterHandler = ReactRouterHandler.getInstance();
+//   globalState.reactRouterHandler.init();
+
+//   return () => {
+//     if (globalState.reactRouterHandler)
+//       globalState.reactRouterHandler.destroy();
+//   };
+// }, []);
