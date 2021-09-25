@@ -15,18 +15,18 @@ export default function MyApp(props: AppProps) {
 
   const rendererWrapperEl = useRef(null);
 
-  // useEffect(() => {
-  //   if (!rendererWrapperEl.current) return;
+  useEffect(() => {
+    if (!rendererWrapperEl.current) return;
 
-  //   if (rendererWrapperEl.current) {
-  //     globalState.app = App.getInstance();
-  //     globalState.app.rendererWrapperEl = rendererWrapperEl.current;
-  //   }
+    if (rendererWrapperEl.current) {
+      globalState.app = App.getInstance();
+      globalState.app.rendererWrapperEl = rendererWrapperEl.current;
+    }
 
-  //   return () => {
-  //     if (globalState.app) globalState.app.destroy();
-  //   };
-  // }, []);
+    return () => {
+      if (globalState.app) globalState.app.destroy();
+    };
+  }, []);
 
   return (
     <>

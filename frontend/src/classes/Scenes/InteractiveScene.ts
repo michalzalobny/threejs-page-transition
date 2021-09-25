@@ -1,13 +1,13 @@
-import * as THREE from 'three';
+import * as THREE from "three";
 
-import { MouseMove } from '../Singletons/MouseMove';
-import { Bounds, UpdateInfo, Mouse } from '../types';
+import { MouseMove } from "../Singletons/MouseMove";
+import { Bounds, UpdateInfo, Mouse } from "../types";
 import {
   InteractiveObject3D,
   ColliderName,
-} from '../Components/InteractiveObject3D';
-import { IntersectiveBackground3D } from '../Components/IntersectiveBackground3D';
-import { lerp } from '../utils/lerp';
+} from "../Components/InteractiveObject3D";
+import { IntersectiveBackground3D } from "../Components/IntersectiveBackground3D";
+import { lerp } from "../utils/lerp";
 
 interface Constructor {
   camera: THREE.PerspectiveCamera;
@@ -96,7 +96,7 @@ export class InteractiveScene extends THREE.Scene {
       this._mouse3D.target.x,
       this._mouse3D.target.y,
       this._raycaster,
-      this._camera,
+      this._camera
     );
 
     if (intersectPoint) {
@@ -133,22 +133,22 @@ export class InteractiveScene extends THREE.Scene {
     this._performRaycast({
       x: mouse3DX,
       y: mouse3DY,
-      colliderName: 'cardItem',
-      fnToCallIfHit: 'onClick',
+      colliderName: "cardItem",
+      fnToCallIfHit: "onClick",
     });
   };
 
   _addListeners() {
-    this._mouseMove.addEventListener('mousemove', this._onMouseMove);
-    this._mouseMove.addEventListener('click', this._onClick);
+    this._mouseMove.addEventListener("mousemove", this._onMouseMove);
+    this._mouseMove.addEventListener("click", this._onClick);
   }
 
   _removeListeners() {
-    this._mouseMove.removeEventListener('mousemove', this._onMouseMove);
-    this._mouseMove.removeEventListener('click', this._onClick);
+    this._mouseMove.removeEventListener("mousemove", this._onMouseMove);
+    this._mouseMove.removeEventListener("click", this._onClick);
   }
 
-  set rendererBounds(bounds: Bounds) {
+  setRendererBounds(bounds: Bounds) {
     this._rendererBounds = bounds;
   }
 
@@ -157,56 +157,56 @@ export class InteractiveScene extends THREE.Scene {
     this._mouseStrength.current = lerp(
       this._mouseStrength.current,
       this._mouseStrength.target,
-      InteractiveScene.lerpEase * updateInfo.slowDownFactor,
+      InteractiveScene.lerpEase * updateInfo.slowDownFactor
     );
 
     //Lerp 2D mouse coords
     this._mouse2D.current.x = lerp(
       this._mouse2D.current.x,
       this._mouse2D.target.x,
-      InteractiveScene.lerpEase * updateInfo.slowDownFactor,
+      InteractiveScene.lerpEase * updateInfo.slowDownFactor
     );
     this._mouse2D.current.y = lerp(
       this._mouse2D.current.y,
       this._mouse2D.target.y,
-      InteractiveScene.lerpEase * updateInfo.slowDownFactor,
+      InteractiveScene.lerpEase * updateInfo.slowDownFactor
     );
 
     //Lerp 3D mouse coords
     this._mouse3D.current.x = lerp(
       this._mouse3D.current.x,
       this._mouse3D.target.x,
-      InteractiveScene.lerpEase * updateInfo.slowDownFactor,
+      InteractiveScene.lerpEase * updateInfo.slowDownFactor
     );
     this._mouse3D.current.y = lerp(
       this._mouse3D.current.y,
       this._mouse3D.target.y,
-      InteractiveScene.lerpEase * updateInfo.slowDownFactor,
+      InteractiveScene.lerpEase * updateInfo.slowDownFactor
     );
 
     //Lerp intersect 3D point
     const intersectLerpX = lerp(
       this._intersectPointLerp.x,
       this._intersectPoint.x,
-      InteractiveScene.lerpEase * updateInfo.slowDownFactor,
+      InteractiveScene.lerpEase * updateInfo.slowDownFactor
     );
 
     const intersectLerpY = lerp(
       this._intersectPointLerp.y,
       this._intersectPoint.y,
-      InteractiveScene.lerpEase * updateInfo.slowDownFactor,
+      InteractiveScene.lerpEase * updateInfo.slowDownFactor
     );
 
     const intersectLerpZ = lerp(
       this._intersectPointLerp.z,
       this._intersectPoint.z,
-      InteractiveScene.lerpEase * updateInfo.slowDownFactor,
+      InteractiveScene.lerpEase * updateInfo.slowDownFactor
     );
 
     this._intersectPointLerp.set(
       intersectLerpX,
       intersectLerpY,
-      intersectLerpZ,
+      intersectLerpZ
     );
   }
 
