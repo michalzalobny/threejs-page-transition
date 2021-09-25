@@ -11,10 +11,7 @@ export default function IndexPage() {
 
         <input className={styles.input} type="text" />
 
-        <div
-          style={{ height: "100vh", background: "yellow" }}
-          className={styles.block}
-        ></div>
+        <div className={styles.block}></div>
 
         <Link passHref href="/details">
           <a className={styles.button}>Go to details</a>
