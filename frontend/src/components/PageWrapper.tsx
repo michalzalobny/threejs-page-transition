@@ -7,7 +7,7 @@ export interface PageWrapperProps {
 }
 
 export const PageWrapper = (props: PageWrapperProps) => {
-  const { children, ...rest } = props;
+  const { children } = props;
 
   const [prevChildren, setPrevChildren] =
     React.useState<PageWrapperProps["children"]>(null);
