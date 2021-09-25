@@ -17,7 +17,7 @@ export const PageWrapper = (props: PageWrapperProps) => {
       console.log(children?.key);
       setPrevChildren(children);
     };
-  }, [children]);
+  }, [children?.key]);
 
   return (
     <>
