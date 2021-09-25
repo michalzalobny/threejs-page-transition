@@ -8,7 +8,7 @@ export default function DetailsPage() {
     <>
       <div className={styles.container}>
         <h1 className={styles.title}>Details page</h1>
-
+        <div className={styles.block}></div>
         <Link passHref href="/">
           <a className={styles.button}>Go to index</a>
         </Link>

@@ -11,6 +11,8 @@ export default function IndexPage() {
 
         <input className={styles.input} type="text" />
 
+        <div className={styles.block}></div>
+
         <Link passHref href="/details">
           <a className={styles.button}>Go to details</a>
         </Link>
