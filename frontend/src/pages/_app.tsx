@@ -6,7 +6,6 @@ import { globalState } from "utils/globalState";
 import { App } from "classes/App";
 import { PageWrapper } from "components/PageWrapper";
 
-import styles from "../styles/app.module.scss";
 import "../styles/index.scss";
 
 export default function MyApp(props: AppProps) {
@@ -30,7 +29,7 @@ export default function MyApp(props: AppProps) {
 
   return (
     <>
-      <div className={styles.canvasWrapper} ref={rendererWrapperEl}></div>
+      <div className="canvas__wrapper" ref={rendererWrapperEl}></div>
       <PageWrapper>
         <Component key={router.pathname} router={router} {...pageProps} />
       </PageWrapper>

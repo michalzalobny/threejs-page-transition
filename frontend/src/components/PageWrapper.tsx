@@ -1,7 +1,5 @@
 import React from "react";
 
-import styles from "./pageWrapper.module.scss";
-
 export interface PageWrapperProps {
   children: React.ReactElement<any, any> | null;
 }
@@ -21,8 +19,8 @@ export const PageWrapper = (props: PageWrapperProps) => {
 
   return (
     <>
-      <div className={styles.wrapper}>{children}</div>
-      <div className={styles.wrapper}>{prevChildren}</div>
+      <div>{children}</div>
+      <div>{prevChildren}</div>
     </>
   );
 };

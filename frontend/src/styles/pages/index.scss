@@ -1,0 +1,16 @@
+.index {
+  &__title {
+    font-size: 10rem;
+  }
+
+  &__wrapper {
+    background-color: green;
+  }
+
+  &__button {
+    color: black;
+    font-size: 2rem;
+    padding: 3rem;
+    background-color: pink;
+  }
+}

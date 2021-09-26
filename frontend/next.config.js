@@ -3,10 +3,6 @@ const withPlugins = require("next-compose-plugins");
 
 const nextConfig = {
   reactStrictMode: true,
-  sassOptions: {
-    includePaths: [path.join(__dirname, "styles")],
-    prependData: `@import "./src/styles/responsive.scss";`,
-  },
   i18n: {
     locales: ["en-US"],
     defaultLocale: "en-US",

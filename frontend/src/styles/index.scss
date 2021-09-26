@@ -1,4 +1,12 @@
-@import "./fonts.scss";
-@import "./variables";
-@import "./reset";
-@import "./globals";
+@import "./utils/responsive.scss";
+@import "./utils/variables.scss";
+
+@import "./base/fonts.scss";
+@import "./base/reset.scss";
+@import "./base/global.scss";
+
+@import "./pages/details.scss";
+@import "./pages/index.scss";
+@import "./pages/error.scss";
+
+@import "./components/canvas.scss";

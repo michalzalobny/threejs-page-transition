@@ -1,0 +1,14 @@
+.error {
+  &__code {
+    font-size: 15px;
+    color: black;
+    letter-spacing: 1px;
+
+    &__wrapper {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}
