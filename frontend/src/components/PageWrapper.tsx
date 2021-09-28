@@ -1,5 +1,7 @@
 import React from "react";
 
+import { globalState } from "utils/globalState";
+
 export interface PageWrapperProps {
   children: React.ReactElement<any, any> | null;
 }
@@ -7,20 +9,32 @@ export interface PageWrapperProps {
 export const PageWrapper = (props: PageWrapperProps) => {
   const { children } = props;
 
-  const [prevChildren, setPrevChildren] =
+  const [leavingChildren, setLeavingChildren] =
     React.useState<PageWrapperProps["children"]>(null);
 
+  const [enterChildren, setEnterChildren] =
+    React.useState<PageWrapperProps["children"]>(null);
+
+  const destroyLeavingChildren = () => {
+    setLeavingChildren(null);
+  };
+
   React.useEffect(() => {
+    globalState.app &&
+      globalState.app.onRouteChange(children?.key?.toString() || "other", () =>
+        destroyLeavingChildren()
+      );
+    console.log("route changed");
+    setEnterChildren(children);
     return () => {
-      console.log(children?.key);
-      setPrevChildren(children);
+      setLeavingChildren(children);
     };
   }, [children?.key]);
 
   return (
     <>
-      <div>{children}</div>
-      <div>{prevChildren}</div>
+      <div>{enterChildren}</div>
+      <div>{leavingChildren}</div>
     </>
   );
 };

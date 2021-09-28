@@ -1,0 +1,11 @@
+.page {
+  transition: opacity 0.3s;
+
+  &__out {
+    opacity: 0;
+  }
+
+  &__in {
+    opacity: 1;
+  }
+}

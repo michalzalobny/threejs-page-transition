@@ -152,6 +152,14 @@ export class App extends THREE.EventDispatcher {
     this._preloader.destroy();
   }
 
+  onRouteChange(route: string, fn: () => void) {
+    console.log("ff", route);
+
+    setTimeout(() => {
+      fn();
+    }, 2000);
+  }
+
   set rendererWrapperEl(el: HTMLDivElement) {
     this._rendererWrapperEl = el;
     this._canvas = document.createElement("canvas");
