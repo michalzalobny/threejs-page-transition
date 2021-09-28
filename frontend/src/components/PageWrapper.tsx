@@ -1,40 +1,48 @@
-import React from "react";
+import React, { useState, useCallback, useEffect } from "react";
 
 import { globalState } from "utils/globalState";
 
-export interface PageWrapperProps {
+export interface Props {
   children: React.ReactElement<any, any> | null;
 }
 
-export const PageWrapper = (props: PageWrapperProps) => {
+export const PageWrapper = (props: Props) => {
   const { children } = props;
 
-  const [leavingChildren, setLeavingChildren] =
-    React.useState<PageWrapperProps["children"]>(null);
+  const [pagesArray, setPagesArray] = useState<Props["children"][]>([]);
 
-  const [enterChildren, setEnterChildren] =
-    React.useState<PageWrapperProps["children"]>(null);
+  const destroyLeavingChildren = useCallback(
+    (pageKey: string) => {
+      console.log(pagesArray);
+      // const filteredArray = pagesArray.filter((item) => item?.key !== pageKey);
+      // console.log(filteredArray);
+      // setPagesArray(filteredArray);
+    },
+    [pagesArray]
+  );
 
-  const destroyLeavingChildren = () => {
-    setLeavingChildren(null);
-  };
+  useEffect(() => {
+    const pageItem = pagesArray.find((item) => item?.key === children?.key);
 
-  React.useEffect(() => {
-    globalState.app &&
-      globalState.app.onRouteChange(children?.key?.toString() || "other", () =>
-        destroyLeavingChildren()
-      );
-    console.log("route changed");
-    setEnterChildren(children);
-    return () => {
-      setLeavingChildren(children);
-    };
+    if (!pageItem) {
+      setPagesArray((prev) => [...prev, children]);
+    }
   }, [children?.key]);
+
+  useEffect(() => {
+    if (globalState.app && children?.key?.toString()) {
+      globalState.app.onRouteChange(
+        children.key.toString(),
+        (pageKey: string) => destroyLeavingChildren(pageKey)
+      );
+    }
+  }, [pagesArray]);
 
   return (
     <>
-      <div>{enterChildren}</div>
-      <div>{leavingChildren}</div>
+      {pagesArray.map((item, key) => {
+        return item;
+      })}
     </>
   );
 };

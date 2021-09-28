@@ -152,12 +152,10 @@ export class App extends THREE.EventDispatcher {
     this._preloader.destroy();
   }
 
-  onRouteChange(route: string, fn: () => void) {
-    console.log("ff", route);
-
+  onRouteChange(route: string, fn: (pageKey: string) => void) {
     setTimeout(() => {
-      fn();
-    }, 2000);
+      fn(route);
+    }, 1000);
   }
 
   set rendererWrapperEl(el: HTMLDivElement) {
