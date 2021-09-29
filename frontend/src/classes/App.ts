@@ -7,6 +7,12 @@ import { Scroll } from "./Singletons/Scroll";
 import { SlideScene } from "./Scenes/SlideScene";
 import { Preloader } from "./Utility/Preloader";
 
+interface HandleRouteChange {
+  enterRouteKey: string;
+  leavingRouteKeys: string[];
+  destroyRoute: (routeKey: string) => void;
+}
+
 export class App extends THREE.EventDispatcher {
   static defaultFps = 60;
   static dtFps = 1000 / App.defaultFps;
@@ -152,10 +158,12 @@ export class App extends THREE.EventDispatcher {
     this._preloader.destroy();
   }
 
-  onRouteChange(route: string, fn: (pageKey: string) => void) {
-    setTimeout(() => {
-      fn(route);
-    }, 1000);
+  handleRouteChange(props: HandleRouteChange) {
+    const { destroyRoute, enterRouteKey, leavingRouteKeys } = props;
+
+    leavingRouteKeys.forEach((route) => {
+      destroyRoute(route);
+    });
   }
 
   set rendererWrapperEl(el: HTMLDivElement) {

@@ -6,6 +6,7 @@ interface GlobalState {
   isTransitioned: boolean;
   app: App | null;
   reactRouterHandler: ReactRouterHandler | null;
+  isPageTrackerActive: boolean;
 }
 
 export const globalState: GlobalState = {
@@ -13,4 +14,5 @@ export const globalState: GlobalState = {
   isTransitioned: true,
   app: null,
   reactRouterHandler: null,
+  isPageTrackerActive: false,
 };
