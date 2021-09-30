@@ -1,11 +1,11 @@
-import TWEEN from "@tweenjs/tween.js";
-import * as THREE from "three";
-import debounce from "lodash/debounce";
+import TWEEN from '@tweenjs/tween.js';
+import * as THREE from 'three';
+import debounce from 'lodash/debounce';
 
-import { MouseMove } from "./Singletons/MouseMove";
-import { Scroll } from "./Singletons/Scroll";
-import { SlideScene } from "./Scenes/SlideScene";
-import { Preloader } from "./Utility/Preloader";
+import { MouseMove } from './Singletons/MouseMove';
+import { Scroll } from './Singletons/Scroll';
+import { SlideScene } from './Scenes/SlideScene';
+import { Preloader } from './Utility/Preloader';
 
 interface HandleRouteChange {
   enterRouteKey: string;
@@ -45,7 +45,7 @@ export class App extends THREE.EventDispatcher {
     super();
 
     if (App._instance || !App._canCreate) {
-      throw new Error("Use App.getInstance()");
+      throw new Error('Use App.getInstance()');
     }
 
     App._instance = this;
@@ -91,15 +91,15 @@ export class App extends THREE.EventDispatcher {
   };
 
   _addListeners() {
-    window.addEventListener("resize", this._onResizeDebounced);
-    window.addEventListener("visibilitychange", this._onVisibilityChange);
-    this._preloader.addEventListener("loaded", this._onAssetsLoaded);
+    window.addEventListener('resize', this._onResizeDebounced);
+    window.addEventListener('visibilitychange', this._onVisibilityChange);
+    this._preloader.addEventListener('loaded', this._onAssetsLoaded);
   }
 
   _removeListeners() {
-    window.removeEventListener("resize", this._onResizeDebounced);
-    window.removeEventListener("visibilitychange", this._onVisibilityChange);
-    this._preloader.removeEventListener("loaded", this._onAssetsLoaded);
+    window.removeEventListener('resize', this._onResizeDebounced);
+    window.removeEventListener('visibilitychange', this._onVisibilityChange);
+    this._preloader.removeEventListener('loaded', this._onAssetsLoaded);
   }
 
   _resumeAppFrame() {
@@ -168,7 +168,7 @@ export class App extends THREE.EventDispatcher {
 
   set rendererWrapperEl(el: HTMLDivElement) {
     this._rendererWrapperEl = el;
-    this._canvas = document.createElement("canvas");
+    this._canvas = document.createElement('canvas');
     this._rendererWrapperEl.appendChild(this._canvas);
     this._camera = new THREE.PerspectiveCamera();
 

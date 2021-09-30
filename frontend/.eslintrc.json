@@ -1,15 +1,21 @@
 {
   "extends": [
-    "next/core-web-vitals",
+    "./node_modules/gts/",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended"
   ],
   "rules": {
+    "@typescript-eslint/no-unused-vars": "off",
     "react/react-in-jsx-scope": "off",
     "@next/next/no-document-import-in-page": "off",
-    "@typescript-eslint/no-empty-interface": "off"
+    "@typescript-eslint/no-empty-interface": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ]
   },
-  "parser": "babel-eslint",
   "settings": {
     "react": {
       "version": "detect"

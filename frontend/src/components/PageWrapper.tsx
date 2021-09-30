@@ -41,7 +41,7 @@ export const PageWrapper = (props: Props) => {
       if (enterRouteKey) enterRouteKeyString = enterRouteKey.toString();
       if (!enterRouteKeyString) return;
 
-      let pagesToDestroy: string[] = [];
+      const pagesToDestroy: string[] = [];
 
       pagesArray.forEach((item) => {
         const elKey = item.key;

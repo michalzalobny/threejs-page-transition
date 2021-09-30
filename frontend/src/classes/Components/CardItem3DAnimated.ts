@@ -59,7 +59,7 @@ export class CardItem3DAnimated extends CardItem3D {
       .to({ x: destinationX, y: destinationY }, duration)
       .delay(delay)
       .easing(easing)
-      .onUpdate(obj => {
+      .onUpdate((obj) => {
         if (this._mesh) {
           this._scaleTranslate.x = -(this._domElBounds.width - obj.x) / 2;
           this._scaleTranslate.y = (this._domElBounds.height - obj.y) / 2;
@@ -89,7 +89,7 @@ export class CardItem3DAnimated extends CardItem3D {
       .to({ progress: destination }, duration)
       .delay(delay)
       .easing(easing)
-      .onUpdate(obj => {
+      .onUpdate((obj) => {
         this._rotationProgress = obj.progress;
 
         if (this._mesh) {
@@ -116,7 +116,7 @@ export class CardItem3DAnimated extends CardItem3D {
       .to({ progress: destination }, duration)
       .delay(delay)
       .easing(easing)
-      .onUpdate(obj => {
+      .onUpdate((obj) => {
         this._readyProgress = obj.progress;
       })
       .onComplete(() => {
@@ -142,7 +142,7 @@ export class CardItem3DAnimated extends CardItem3D {
       .to({ progress: destination }, duration)
       .delay(delay)
       .easing(easing)
-      .onUpdate(obj => {
+      .onUpdate((obj) => {
         this._gatherProgress = obj.progress;
       });
 
@@ -166,7 +166,7 @@ export class CardItem3DAnimated extends CardItem3D {
       .to({ progress: destination }, duration)
       .delay(delay)
       .easing(easing)
-      .onUpdate(obj => {
+      .onUpdate((obj) => {
         this._tweenOpacity = obj.progress;
       });
 
@@ -191,7 +191,7 @@ export class CardItem3DAnimated extends CardItem3D {
       .to({ translationX: destination }, duration)
       .delay(delay)
       .easing(easing)
-      .onUpdate(obj => {
+      .onUpdate((obj) => {
         this._extraTranslate.x = obj.translationX;
       });
 
@@ -216,7 +216,7 @@ export class CardItem3DAnimated extends CardItem3D {
       .to({ translationY: destination }, duration)
       .delay(delay)
       .easing(easing)
-      .onUpdate(obj => {
+      .onUpdate((obj) => {
         this._extraTranslate.y = obj.translationY;
       });
 
