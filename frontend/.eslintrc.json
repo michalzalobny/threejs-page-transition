@@ -4,6 +4,11 @@
     "plugin:react/recommended",
     "plugin:react-hooks/recommended"
   ],
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "@next/next/no-document-import-in-page": "off",
+    "@typescript-eslint/no-empty-interface": "off"
+  },
   "parser": "babel-eslint",
   "settings": {
     "react": {

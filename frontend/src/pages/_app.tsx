@@ -1,12 +1,12 @@
-import React, { useRef, useEffect } from "react";
-import type { AppProps } from "next/app";
-import { useRouter } from "next/router";
+import React, { useRef, useEffect } from 'react';
+import type { AppProps } from 'next/app';
+import { useRouter } from 'next/router';
 
-import { globalState } from "utils/globalState";
-import { App } from "classes/App";
-import { PageWrapper } from "components/PageWrapper";
+import { globalState } from 'utils/globalState';
+import { App } from 'classes/App';
+import { PageWrapper } from 'components/PageWrapper';
 
-import "../styles/index.scss";
+import '../styles/index.scss';
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
