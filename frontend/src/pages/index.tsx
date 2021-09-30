@@ -1,1 +1,1 @@
-export { default } from "containers/IndexPage/IndexPage";
+export { default } from 'containers/IndexPage/IndexPage';

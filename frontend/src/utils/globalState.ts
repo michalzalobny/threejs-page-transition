@@ -1,5 +1,5 @@
-import { App } from "classes/App";
-import { ReactRouterHandler } from "classes/ReactRouteHandler";
+import { App } from 'classes/App';
+import { ReactRouterHandler } from 'classes/ReactRouteHandler';
 
 interface GlobalState {
   isTransitioning: boolean;
