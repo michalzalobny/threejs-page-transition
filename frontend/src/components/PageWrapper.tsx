@@ -1,6 +1,6 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect } from 'react';
 
-import { globalState } from "utils/globalState";
+import { globalState } from 'utils/globalState';
 
 export interface Props {
   children: React.ReactElement;
@@ -9,7 +9,7 @@ export interface Props {
 export const PageWrapper = (props: Props) => {
   const { children } = props;
 
-  const [pagesArray, setPagesArray] = useState<Props["children"][]>([]);
+  const [pagesArray, setPagesArray] = useState<Props['children'][]>([]);
 
   const destroyLeavingChildren = useCallback(
     (pageKey: string) => {
@@ -17,7 +17,7 @@ export const PageWrapper = (props: Props) => {
       setPagesArray(filteredArray);
       globalState.isPageTrackerActive = false;
     },
-    [pagesArray]
+    [pagesArray],
   );
 
   useEffect(() => {
