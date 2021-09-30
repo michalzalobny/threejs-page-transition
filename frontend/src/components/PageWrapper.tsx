@@ -31,7 +31,7 @@ export const PageWrapper = (props: Props) => {
 
   useEffect(() => {
     if (
-      globalState.app &&
+      globalState.canvasApp &&
       children?.key?.toString() &&
       globalState.isPageTrackerActive &&
       pagesArray.length > 1
@@ -51,7 +51,7 @@ export const PageWrapper = (props: Props) => {
         if (keyString !== enterRouteKey) pagesToDestroy.push(keyString);
       });
 
-      globalState.app.handleRouteChange({
+      globalState.canvasApp.handleRouteChange({
         destroyRoute: (routeKey) => destroyLeavingChildren(routeKey),
         enterRouteKey: enterRouteKeyString,
         leavingRouteKeys: pagesToDestroy,

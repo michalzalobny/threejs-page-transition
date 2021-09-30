@@ -20,7 +20,7 @@ export class Paragraph extends Animation {
     ) as HTMLElement[];
 
     if (paragraphs.length !== 0) {
-      each(paragraphs, element => {
+      each(paragraphs, (element) => {
         split({ element });
         split({ element });
 
@@ -46,7 +46,7 @@ export class Paragraph extends Animation {
   animateIn() {
     super.animateIn();
     each(this.calculatedLines, (line, lineIndex) => {
-      each(line, word => {
+      each(line, (word) => {
         word.style.transition = `transform 1s ${
           0.8 + lineIndex * 0.1
         }s cubic-bezier(0.77, 0, 0.175, 1)`;
@@ -59,7 +59,7 @@ export class Paragraph extends Animation {
   animateOut() {
     super.animateOut();
     each(this.calculatedLines, (line, lineIndex) => {
-      each(line, word => {
+      each(line, (word) => {
         word.style.transition = `transform 1s ${
           0.2 + lineIndex * 0.1
         }s cubic-bezier(0.77, 0, 0.175, 1)`;

@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 
 import { globalState } from 'utils/globalState';
-import { App } from 'classes/App';
+import { CanvasApp } from 'classes/CanvasApp';
 import { PageWrapper } from 'components/PageWrapper';
 
 import '../styles/index.scss';
@@ -18,12 +18,12 @@ export default function MyApp(props: AppProps) {
     if (!rendererWrapperEl.current) return;
 
     if (rendererWrapperEl.current) {
-      globalState.app = App.getInstance();
-      globalState.app.rendererWrapperEl = rendererWrapperEl.current;
+      globalState.canvasApp = CanvasApp.getInstance();
+      globalState.canvasApp.rendererWrapperEl = rendererWrapperEl.current;
     }
 
     return () => {
-      if (globalState.app) globalState.app.destroy();
+      if (globalState.canvasApp) globalState.canvasApp.destroy();
     };
   }, []);
 

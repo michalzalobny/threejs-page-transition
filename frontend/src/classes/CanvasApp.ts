@@ -13,20 +13,20 @@ interface HandleRouteChange {
   destroyRoute: (routeKey: string) => void;
 }
 
-export class App extends THREE.EventDispatcher {
+export class CanvasApp extends THREE.EventDispatcher {
   static defaultFps = 60;
-  static dtFps = 1000 / App.defaultFps;
+  static dtFps = 1000 / CanvasApp.defaultFps;
 
-  static _instance: App | null;
+  static _instance: CanvasApp | null;
   static _canCreate = false;
   static getInstance() {
-    if (!App._instance) {
-      App._canCreate = true;
-      App._instance = new App();
-      App._canCreate = false;
+    if (!CanvasApp._instance) {
+      CanvasApp._canCreate = true;
+      CanvasApp._instance = new CanvasApp();
+      CanvasApp._canCreate = false;
     }
 
-    return App._instance;
+    return CanvasApp._instance;
   }
 
   _rendererWrapperEl: HTMLDivElement | null = null;
@@ -44,11 +44,11 @@ export class App extends THREE.EventDispatcher {
   constructor() {
     super();
 
-    if (App._instance || !App._canCreate) {
-      throw new Error('Use App.getInstance()');
+    if (CanvasApp._instance || !CanvasApp._canCreate) {
+      throw new Error('Use CanvasApp.getInstance()');
     }
 
-    App._instance = this;
+    CanvasApp._instance = this;
   }
 
   _onResizeDebounced = debounce(() => this._onResize(), 300);
@@ -119,7 +119,7 @@ export class App extends THREE.EventDispatcher {
     TWEEN.update(time);
 
     const delta = time - this._lastFrameTime;
-    let slowDownFactor = delta / App.dtFps;
+    let slowDownFactor = delta / CanvasApp.dtFps;
 
     //Rounded slowDown factor to the nearest integer reduces physics lags
     const slowDownFactorRounded = Math.round(slowDownFactor);

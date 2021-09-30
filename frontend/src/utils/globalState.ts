@@ -1,10 +1,10 @@
-import { App } from 'classes/App';
+import { CanvasApp } from 'classes/CanvasApp';
 import { ReactRouterHandler } from 'classes/ReactRouteHandler';
 
 interface GlobalState {
   isTransitioning: boolean;
   isTransitioned: boolean;
-  app: App | null;
+  canvasApp: CanvasApp | null;
   reactRouterHandler: ReactRouterHandler | null;
   isPageTrackerActive: boolean;
 }
@@ -12,7 +12,7 @@ interface GlobalState {
 export const globalState: GlobalState = {
   isTransitioning: false,
   isTransitioned: true,
-  app: null,
+  canvasApp: null,
   reactRouterHandler: null,
   isPageTrackerActive: false,
 };

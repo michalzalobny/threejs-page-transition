@@ -39,8 +39,8 @@ export class Animation {
   }
 
   createObserver() {
-    this.observer = new window.IntersectionObserver(entries => {
-      entries.forEach(entry => {
+    this.observer = new window.IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
           this.animateIn();
         } else {
