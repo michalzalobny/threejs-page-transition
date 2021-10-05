@@ -4,14 +4,9 @@ import debounce from 'lodash/debounce';
 
 import { MouseMove } from './Singletons/MouseMove';
 import { Scroll } from './Singletons/Scroll';
-import { SlideScene } from './Scenes/SlideScene';
 import { Preloader } from './Utility/Preloader';
-
-interface HandleRouteChange {
-  enterRouteKey: string;
-  leavingRouteKeys: string[];
-  destroyRoute: (routeKey: string) => void;
-}
+import { PageManager } from './Pages/PageManager';
+import { OnRouteChange } from './types';
 
 export class CanvasApp extends THREE.EventDispatcher {
   static defaultFps = 60;
@@ -39,7 +34,7 @@ export class CanvasApp extends THREE.EventDispatcher {
   _mouseMove = MouseMove.getInstance();
   _scroll = Scroll.getInstance();
   _preloader = new Preloader();
-  _slideScene: SlideScene | null = null;
+  _pageManager = new PageManager();
 
   constructor() {
     super();
@@ -72,7 +67,9 @@ export class CanvasApp extends THREE.EventDispatcher {
     this._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this._camera.updateProjectionMatrix();
 
-    if (this._slideScene) this._slideScene.setRendererBounds(rendererBounds);
+    this._pageManager.onResize();
+
+    //Update rendererBounds for all the pages
   }
 
   _onVisibilityChange = () => {
@@ -84,10 +81,7 @@ export class CanvasApp extends THREE.EventDispatcher {
   };
 
   _onAssetsLoaded = (e: THREE.Event) => {
-    if (this._slideScene) {
-      this._slideScene.textureItems = (e.target as Preloader).textureItems;
-      this._slideScene.animateIn();
-    }
+    //Notify all the pages about assets being loaded
   };
 
   _addListeners() {
@@ -132,13 +126,13 @@ export class CanvasApp extends THREE.EventDispatcher {
     this._mouseMove.update({ delta, slowDownFactor, time });
     this._scroll.update({ delta, slowDownFactor, time });
 
-    if (!this._slideScene || !this._renderer || !this._camera) {
-      return;
-    }
+    // if (!this._slideScene || !this._renderer || !this._camera) {
+    //   return;
+    // }
 
-    this._slideScene.update({ delta, slowDownFactor, time });
+    // this._slideScene.update({ delta, slowDownFactor, time });
 
-    this._renderer.render(this._slideScene, this._camera);
+    // this._renderer.render(this._slideScene, this._camera);
   };
 
   _stopAppFrame() {
@@ -154,17 +148,15 @@ export class CanvasApp extends THREE.EventDispatcher {
     this._stopAppFrame();
     this._removeListeners();
 
-    if (this._slideScene) this._slideScene.destroy();
+    //Destroy all pages
     this._preloader.destroy();
   }
 
-  handleRouteChange(props: HandleRouteChange) {
-    const { destroyRoute, enterRouteKey, leavingRouteKeys } = props;
-
-    leavingRouteKeys.forEach((route) => {
-      destroyRoute(route);
-    });
+  onRouteChange(props: OnRouteChange) {
+    this._pageManager.onRouteChange(props);
   }
+
+  init() {}
 
   set rendererWrapperEl(el: HTMLDivElement) {
     this._rendererWrapperEl = el;

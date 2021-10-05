@@ -1,0 +1,33 @@
+[data-animation='label'],
+[data-animation='paragraph'],
+[data-animation='title'] {
+  span {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+  }
+}
+
+[data-animation='button'] {
+  display: inline-block;
+  position: relative;
+  white-space: nowrap;
+
+  span {
+    display: inline-block;
+    transform-origin: center center 0.5em;
+    vertical-align: middle;
+  }
+}
+
+[data-animation='link'] {
+  display: inline-block;
+  position: relative;
+  white-space: nowrap;
+
+  span {
+    display: inline-block;
+    transform-origin: center center 0.5em;
+    vertical-align: middle;
+  }
+}

@@ -1,13 +1,14 @@
-@import "./utils/responsive.scss";
-@import "./utils/variables.scss";
+@import './utils/responsive.scss';
+@import './utils/variables.scss';
 
-@import "./base/fonts.scss";
-@import "./base/reset.scss";
-@import "./base/global.scss";
+@import './base/fonts.scss';
+@import './base/reset.scss';
+@import './base/global.scss';
 
-@import "./pages/details.scss";
-@import "./pages/index.scss";
-@import "./pages/error.scss";
+@import './pages/details.scss';
+@import './pages/index.scss';
+@import './pages/error.scss';
 
-@import "./components/canvas.scss";
-@import "./components/pageWrapper.scss";
+@import './components/canvas.scss';
+@import './components/pageWrapper.scss';
+@import './components/animations.scss';

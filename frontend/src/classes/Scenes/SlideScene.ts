@@ -1,14 +1,14 @@
-import * as THREE from "three";
-import TWEEN, { Tween } from "@tweenjs/tween.js";
+import * as THREE from 'three';
+import TWEEN, { Tween } from '@tweenjs/tween.js';
 
-import { UpdateInfo, Bounds, AnimateProps } from "../types";
-import { Scroll } from "../Singletons/Scroll";
-import { ItemScene } from "./ItemScene";
-import { MouseMove } from "../Singletons/MouseMove";
-import { lerp } from "../utils/lerp";
-import { CardItem3DAnimated } from "../Components/CardItem3DAnimated";
-import { Paragraph } from "../HTMLComponents/Paragraph";
-import { Animation } from "../HTMLComponents/Animation";
+import { UpdateInfo, Bounds, AnimateProps } from '../types';
+import { Scroll } from '../Singletons/Scroll';
+import { ItemScene } from './ItemScene';
+import { MouseMove } from '../Singletons/MouseMove';
+import { lerp } from '../utils/lerp';
+import { CardItem3DAnimated } from '../Components/CardItem3DAnimated';
+import { Paragraph } from '../HTMLComponents/Paragraph';
+import { Animation } from '../HTMLComponents/Animation';
 
 interface Constructor {
   camera: THREE.PerspectiveCamera;
@@ -41,7 +41,7 @@ export class SlideScene extends ItemScene {
   _isReady = false;
   _HTMLTitles: Animation[] = [];
   _HTMLDescriptions: Animation[] = [];
-  _activeCollection = "";
+  _activeCollection = '';
 
   constructor({ camera, mouseMove, scroll }: Constructor) {
     super({ camera, mouseMove });
@@ -50,7 +50,7 @@ export class SlideScene extends ItemScene {
     this._intersectiveBackground3D.setPlaneDepth(0);
 
     const animatedDescriptions = Array.from(
-      document.querySelectorAll('[data-animationel="description"]')
+      document.querySelectorAll('[data-animationel="description"]'),
     ) as HTMLElement[];
 
     animatedDescriptions.forEach((el) => {
@@ -59,7 +59,7 @@ export class SlideScene extends ItemScene {
     });
 
     const animatedTitles = Array.from(
-      document.querySelectorAll('[data-animationel="title"]')
+      document.querySelectorAll('[data-animationel="title"]'),
     ) as HTMLElement[];
 
     animatedTitles.forEach((el) => {
@@ -136,16 +136,16 @@ export class SlideScene extends ItemScene {
 
   _addListeners() {
     super._addListeners();
-    this._scroll.addEventListener("mouse", this._onScrollMouse);
-    this._scroll.addEventListener("touch", this._onScrollTouch);
-    this._scroll.addEventListener("wheel", this._onScrollWheel);
+    this._scroll.addEventListener('mouse', this._onScrollMouse);
+    this._scroll.addEventListener('touch', this._onScrollTouch);
+    this._scroll.addEventListener('wheel', this._onScrollWheel);
   }
 
   _removeListeners() {
     super._removeListeners();
-    this._scroll.removeEventListener("mouse", this._onScrollMouse);
-    this._scroll.removeEventListener("touch", this._onScrollTouch);
-    this._scroll.removeEventListener("wheel", this._onScrollWheel);
+    this._scroll.removeEventListener('mouse', this._onScrollMouse);
+    this._scroll.removeEventListener('touch', this._onScrollTouch);
+    this._scroll.removeEventListener('wheel', this._onScrollWheel);
   }
 
   _passValues() {
@@ -224,7 +224,7 @@ export class SlideScene extends ItemScene {
     this._offsetX.current = lerp(
       this._offsetX.current,
       this._offsetX.target,
-      SlideScene.lerpEase * updateInfo.slowDownFactor
+      SlideScene.lerpEase * updateInfo.slowDownFactor,
     );
 
     this._offsetX.strengthTarget = this._offsetX.last - this._offsetX.current;
@@ -232,16 +232,16 @@ export class SlideScene extends ItemScene {
     this._offsetX.strengthCurrent = lerp(
       this._offsetX.strengthCurrent,
       this._offsetX.strengthTarget,
-      SlideScene.lerpEase * updateInfo.slowDownFactor
+      SlideScene.lerpEase * updateInfo.slowDownFactor,
     );
 
     const prevIndex = Math.round(
-      (this._offsetX.last / this._scrollBoundary) * (this._items3D.length - 1)
+      (this._offsetX.last / this._scrollBoundary) * (this._items3D.length - 1),
     );
 
     const currentIndex = Math.round(
       (this._offsetX.current / this._scrollBoundary) *
-        (this._items3D.length - 1)
+        (this._items3D.length - 1),
     );
 
     if (prevIndex !== currentIndex) {
@@ -250,7 +250,8 @@ export class SlideScene extends ItemScene {
     }
 
     this._targetIndex = Math.round(
-      (this._offsetX.target / this._scrollBoundary) * (this._items3D.length - 1)
+      (this._offsetX.target / this._scrollBoundary) *
+        (this._items3D.length - 1),
     );
   }
 

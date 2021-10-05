@@ -14,7 +14,7 @@ export function split({ element, expression = ' ', append = true }: Split) {
 
   let innerHTML = '';
 
-  each(words, line => {
+  each(words, (line) => {
     if (line.indexOf('<br>') > -1) {
       const lines = line.split('<br>');
 
@@ -32,7 +32,7 @@ export function split({ element, expression = ' ', append = true }: Split) {
   const spans = element.querySelectorAll('span');
 
   if (append) {
-    each(spans, span => {
+    each(spans, (span) => {
       if (!span.textContent) {
         return;
       }
@@ -106,7 +106,7 @@ function splitText({ expression, text }: SplitText) {
 
     const innerHTML: string[] = [];
 
-    each(words, word => {
+    each(words, (word) => {
       if (!isLink && (word.includes('<a') || word.includes('<strong'))) {
         link = '';
 

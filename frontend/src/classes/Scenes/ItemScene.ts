@@ -1,10 +1,10 @@
-import * as THREE from "three";
+import * as THREE from 'three';
 
-import { UpdateInfo, CardItemProps, Bounds } from "../types";
-import { InteractiveScene } from "./InteractiveScene";
-import { MouseMove } from "../Singletons/MouseMove";
-import { CardItem3DAnimated } from "../Components/CardItem3DAnimated";
-import { TextureItems } from "../types";
+import { UpdateInfo, CardItemProps, Bounds } from '../types';
+import { InteractiveScene } from './InteractiveScene';
+import { MouseMove } from '../Singletons/MouseMove';
+import { CardItem3DAnimated } from '../Components/CardItem3DAnimated';
+import { TextureItems } from '../types';
 
 interface Constructor {
   camera: THREE.PerspectiveCamera;
@@ -25,7 +25,7 @@ export class ItemScene extends InteractiveScene {
     super({ camera, mouseMove });
 
     this._collectionWrapper = Array.from(
-      document.querySelectorAll('[data-collection-wrapper="wrapper"]')
+      document.querySelectorAll('[data-collection-wrapper="wrapper"]'),
     )[0] as HTMLDivElement;
 
     this._collectionWrapperRect =
@@ -44,7 +44,7 @@ export class ItemScene extends InteractiveScene {
     this._items3D.forEach((item) => {
       item.destroy();
       this.remove(item);
-      item.removeEventListener("click", this._onItemClick);
+      item.removeEventListener('click', this._onItemClick);
     });
     this._items3D = [];
   }
@@ -80,7 +80,7 @@ export class ItemScene extends InteractiveScene {
     this._destroyItems();
 
     this._items3D.forEach((item) => {
-      item.addEventListener("click", this._onItemClick);
+      item.addEventListener('click', this._onItemClick);
     });
   }
 

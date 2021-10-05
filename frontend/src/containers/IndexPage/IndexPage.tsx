@@ -10,6 +10,13 @@ export default function IndexPage() {
         <Link passHref href="/details">
           <a className="index__button">Go to details</a>
         </Link>
+
+        <p data-animation="paragraph" className="index__paragraph">
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quaerat,
+          dolores excepturi repellendus voluptate nemo, fugiat, a sint cumque
+          quos minima numquam quam recusandae odio facilis optio impedit vero et
+          dolorem?
+        </p>
       </div>
     </>
   );

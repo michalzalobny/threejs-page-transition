@@ -1,4 +1,4 @@
-import * as THREE from "three";
+import * as THREE from 'three';
 
 export interface TextureItem {
   texture: THREE.Texture;
@@ -39,4 +39,9 @@ export interface AnimateProps {
   delay?: number;
   destination: number;
   easing?: (amount: number) => number;
+}
+
+export interface OnRouteChange {
+  enterPageId: string;
+  destroyPageFn: (pageId: string) => void;
 }

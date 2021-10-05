@@ -36,25 +36,19 @@ export const PageWrapper = (props: Props) => {
       globalState.isPageTrackerActive &&
       pagesArray.length > 1
     ) {
+      if (!globalState.isCanvasAppInit) {
+        globalState.isCanvasAppInit = true;
+        globalState.canvasApp.init();
+      }
+
       const enterRouteKey = pagesArray[pagesArray.length - 1].key;
       let enterRouteKeyString;
       if (enterRouteKey) enterRouteKeyString = enterRouteKey.toString();
       if (!enterRouteKeyString) return;
 
-      const pagesToDestroy: string[] = [];
-
-      pagesArray.forEach((item) => {
-        const elKey = item.key;
-        let keyString;
-        if (elKey) keyString = elKey.toString();
-        if (!keyString) return;
-        if (keyString !== enterRouteKey) pagesToDestroy.push(keyString);
-      });
-
-      globalState.canvasApp.handleRouteChange({
-        destroyRoute: (routeKey) => destroyLeavingChildren(routeKey),
-        enterRouteKey: enterRouteKeyString,
-        leavingRouteKeys: pagesToDestroy,
+      globalState.canvasApp.onRouteChange({
+        destroyPageFn: (routeKey) => destroyLeavingChildren(routeKey),
+        enterPageId: enterRouteKeyString,
       });
     }
   }, [pagesArray]);
