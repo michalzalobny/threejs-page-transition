@@ -34,7 +34,7 @@ export const PageWrapper = (props: Props) => {
       globalState.canvasApp &&
       children?.key?.toString() &&
       globalState.isPageTrackerActive &&
-      pagesArray.length > 1
+      pagesArray.length >= 1
     ) {
       if (!globalState.isCanvasAppInit) {
         globalState.isCanvasAppInit = true;

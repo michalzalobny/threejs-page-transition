@@ -13,11 +13,7 @@ export class Animation {
   observer: void | null = null;
 
   constructor({ element }: Constructor) {
-    const {
-      animationdelay = '0',
-      animationtarget = null,
-      useobserver = false,
-    } = element.dataset;
+    const { animationdelay = '0', animationtarget = null } = element.dataset;
 
     this.delay = Number(animationdelay);
 
@@ -28,10 +24,6 @@ export class Animation {
       : null;
 
     this.target = specificTarget ? specificTarget : element;
-
-    if (!useobserver) {
-      return;
-    }
 
     if ('IntersectionObserver' in window) {
       this.createObserver();

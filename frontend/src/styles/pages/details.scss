@@ -1,4 +1,9 @@
 .details {
+  &__spacer {
+    height: 50vh;
+    background: rgb(224, 224, 224);
+  }
+
   &__title {
     font-size: 10rem;
   }

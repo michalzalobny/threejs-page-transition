@@ -12,10 +12,10 @@ export default function IndexPage() {
         </Link>
 
         <p data-animation="paragraph" className="index__paragraph">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quaerat,
-          dolores excepturi repellendus voluptate nemo, fugiat, a sint cumque
-          quos minima numquam quam recusandae odio facilis optio impedit vero et
-          dolorem?
+          Index page Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+          Quaerat, dolores excepturi repellendus voluptate nemo, fugiat, a sint
+          cumque quos minima numquam quam recusandae odio facilis optio impedit
+          vero et dolorem?
         </p>
       </div>
     </>
