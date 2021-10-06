@@ -5,6 +5,11 @@
     display: inline-block;
     overflow: hidden;
     vertical-align: top;
+
+    span {
+      opacity: 0;
+      transform: translateY(100%);
+    }
   }
 }
 
