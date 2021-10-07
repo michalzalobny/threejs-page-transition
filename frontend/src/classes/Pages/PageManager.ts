@@ -24,7 +24,21 @@ export class PageManager extends THREE.EventDispatcher {
   }
 
   onRouteChange(props: OnRouteChange) {
-    const { destroyPageFn, enterPageId } = props;
+    const { destroyPageFn, enterPageId, triggeredOnRouteChangeStart } = props;
+
+    if (triggeredOnRouteChangeStart) {
+      const leavingPage = this._pagesArray.find(
+        (page) => page.isTransitioningOut === true,
+      );
+
+      if (leavingPage?.pageId !== enterPageId) {
+        return;
+      } else {
+        // console.log('during trans');
+      }
+    }
+
+    console.log('onRouteCHange');
 
     const activePage = this._pagesArray.find((el) => el.pageId === enterPageId);
     activePage?.init();

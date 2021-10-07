@@ -44,4 +44,5 @@ export interface AnimateProps {
 export interface OnRouteChange {
   enterPageId: string;
   destroyPageFn: (pageId: string) => void;
+  triggeredOnRouteChangeStart?: boolean;
 }

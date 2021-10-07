@@ -15,6 +15,9 @@ export class Page extends THREE.EventDispatcher {
   pageId: string;
   _wrapper: string;
   _anmParagraphs: Paragraph[] = [];
+  _isInit = false;
+  _destroyTimeout: ReturnType<typeof setTimeout> | null = null;
+  isTransitioningOut = false;
 
   constructor({ pageId, wrapper }: Constructor) {
     super();
@@ -26,6 +29,10 @@ export class Page extends THREE.EventDispatcher {
     const pageWrapper = Array.from(
       document.querySelectorAll(`.${this._wrapper}`),
     )[0] as HTMLElement;
+
+    if (!pageWrapper) {
+      return;
+    }
 
     const paragraphs = Array.from(
       pageWrapper.querySelectorAll(Page.anmParagraph),
@@ -47,18 +54,34 @@ export class Page extends THREE.EventDispatcher {
     this._anmParagraphs.forEach((el) => {
       el.animateOut();
     });
+
+    this._anmParagraphs = [];
   }
 
   init() {
     this._createAnimations();
+    this._isInit = true;
+
+    if (this._destroyTimeout) {
+      // console.log('init pageId', this.pageId);
+      clearTimeout(this._destroyTimeout);
+      this.isTransitioningOut = false;
+    }
   }
 
   destroy(destroyPageFn: OnRouteChange['destroyPageFn']) {
     this._animateOut();
 
-    setTimeout(() => {
-      destroyPageFn(this.pageId);
-    }, 3000);
+    if (this._isInit) this.isTransitioningOut = true;
+
+    this._destroyTimeout = setTimeout(() => {
+      if (this._isInit) {
+        console.log('destroyed', this.pageId);
+        destroyPageFn(this.pageId);
+        this._isInit = false;
+        this.isTransitioningOut = false;
+      }
+    }, 2000);
   }
 
   onResize() {

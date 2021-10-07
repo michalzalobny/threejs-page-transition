@@ -30,9 +30,9 @@ export default function MyApp(props: AppProps) {
   return (
     <>
       <div className="canvas__wrapper" ref={rendererWrapperEl}></div>
-      <PageWrapper>
-        <Component key={router.pathname} router={router} {...pageProps} />
-      </PageWrapper>
+      {/* <PageWrapper> */}
+      <Component key={router.pathname} router={router} {...pageProps} />
+      {/* </PageWrapper> */}
     </>
   );
 }
