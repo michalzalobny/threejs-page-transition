@@ -3,7 +3,6 @@ import * as THREE from 'three';
 import { DetailsPage } from './DetailsPage';
 import { IndexPage } from './IndexPage';
 import { Page } from './Page';
-import { OnRouteChange } from '../types';
 
 export class PageManager extends THREE.EventDispatcher {
   _pagesArray: Page[] = [];
@@ -23,31 +22,18 @@ export class PageManager extends THREE.EventDispatcher {
     );
   }
 
-  onRouteChange(props: OnRouteChange) {
-    const { destroyPageFn, enterPageId, triggeredOnRouteChangeStart } = props;
+  handlePageEnter(pageEl: HTMLElement) {
+    const pageId = pageEl.dataset.page;
+    const page = this._pagesArray.find((page) => page.pageId === pageId);
 
-    if (triggeredOnRouteChangeStart) {
-      const leavingPage = this._pagesArray.find(
-        (page) => page.isTransitioningOut === true,
-      );
+    if (page) page.onEnter(pageEl);
+  }
 
-      if (leavingPage?.pageId !== enterPageId) {
-        return;
-      } else {
-        // console.log('during trans');
-      }
-    }
+  handlePageExit(pageEl: HTMLElement) {
+    const pageId = pageEl.dataset.page;
+    const page = this._pagesArray.find((page) => page.pageId === pageId);
 
-    console.log('onRouteCHange');
-
-    const activePage = this._pagesArray.find((el) => el.pageId === enterPageId);
-    activePage?.init();
-
-    this._pagesArray.forEach((page) => {
-      if (page !== activePage) {
-        page.destroy(destroyPageFn);
-      }
-    });
+    if (page) page.onExit();
   }
 
   onResize() {

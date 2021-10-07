@@ -15,7 +15,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
 
-  font-family: "Open Sans", "1", Roboto, -apple-system, BlinkMacSystemFont,
+  font-family: 'Open Sans', '1', Roboto, -apple-system, BlinkMacSystemFont,
     Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
     sans-serif;
 }
@@ -23,11 +23,11 @@ html {
 html {
   font-size: calc(100vw / 375 * 10);
 
-  @include media(">phone") {
+  @include media('>phone') {
     font-size: calc(100vw / 1920 * 10);
   }
 
-  @include media(">=desktop") {
+  @include media('>=desktop') {
     font-size: 62.5%;
   }
 }
@@ -40,7 +40,7 @@ a {
   display: inline-block;
 }
 
-a[href^="tel"] {
+a[href^='tel'] {
   color: inherit;
   text-decoration: none;
 }
@@ -78,8 +78,8 @@ textarea:not([disabled]),
 button:not([disabled]),
 iframe,
 [tabindex],
-[contentEditable="true"] {
-  &:not([tabindex="-1"]) {
+[contentEditable='true'] {
+  &:not([tabindex='-1']) {
     &:focus {
       outline: 2px dashed var(--brand-color-main);
     }
@@ -96,23 +96,23 @@ iframe,
 
 //Creative
 
-// body {
-//   position: fixed;
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-//   height: 100%;
-// }
+body {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
 
-// html {
-//   position: fixed;
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-//   height: 100%;
-//   overflow: hidden;
-//   overscroll-behavior: none;
-// }
+html {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
 
 // *,
 // *:before,

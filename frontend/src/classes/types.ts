@@ -40,9 +40,3 @@ export interface AnimateProps {
   destination: number;
   easing?: (amount: number) => number;
 }
-
-export interface OnRouteChange {
-  enterPageId: string;
-  destroyPageFn: (pageId: string) => void;
-  triggeredOnRouteChangeStart?: boolean;
-}

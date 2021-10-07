@@ -6,7 +6,6 @@ import { MouseMove } from './Singletons/MouseMove';
 import { Scroll } from './Singletons/Scroll';
 import { Preloader } from './Utility/Preloader';
 import { PageManager } from './Pages/PageManager';
-import { OnRouteChange } from './types';
 
 export class CanvasApp extends THREE.EventDispatcher {
   static defaultFps = 60;
@@ -152,8 +151,12 @@ export class CanvasApp extends THREE.EventDispatcher {
     this._preloader.destroy();
   }
 
-  onRouteChange(props: OnRouteChange) {
-    this._pageManager.onRouteChange(props);
+  handlePageEnter(pageEl: HTMLElement) {
+    this._pageManager.handlePageEnter(pageEl);
+  }
+
+  handlePageExit(pageEl: HTMLElement) {
+    this._pageManager.handlePageExit(pageEl);
   }
 
   init() {}

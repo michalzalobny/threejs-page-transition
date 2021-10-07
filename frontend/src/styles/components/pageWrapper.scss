@@ -1,11 +1,37 @@
-.page {
-  transition: opacity 0.3s;
+.page-transition {
+  // transition: opacity 0.3s;
 
-  &__out {
+  // &__out {
+  //   opacity: 0;
+  // }
+
+  // &__in {
+  //   opacity: 1;
+  // }
+
+  &-enter {
     opacity: 0;
   }
 
-  &__in {
+  &-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+  }
+
+  &-exit {
     opacity: 1;
   }
+
+  &-exit-active {
+    opacity: 0;
+    transition: opacity 500ms ease-in;
+  }
+}
+
+.page {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
 }

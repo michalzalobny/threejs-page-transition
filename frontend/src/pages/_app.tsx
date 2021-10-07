@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import { globalState } from 'utils/globalState';
 import { CanvasApp } from 'classes/CanvasApp';
@@ -27,11 +28,39 @@ export default function MyApp(props: AppProps) {
     };
   }, []);
 
+  const onPageEnter = (el: HTMLElement) => {
+    if (globalState.canvasApp) globalState.canvasApp.handlePageEnter(el);
+  };
+
+  const onPageExit = (el: HTMLElement) => {
+    if (globalState.canvasApp) globalState.canvasApp.handlePageExit(el);
+  };
+
+  useEffect(() => {
+    const el = document.querySelectorAll('.page')[0] as HTMLElement;
+    if (globalState.canvasApp) globalState.canvasApp.handlePageEnter(el);
+  }, []);
+
   return (
     <>
       <div className="canvas__wrapper" ref={rendererWrapperEl}></div>
       {/* <PageWrapper> */}
-      <Component key={router.pathname} router={router} {...pageProps} />
+
+      <TransitionGroup>
+        <CSSTransition
+          key={router.pathname}
+          timeout={500}
+          classNames="page-transition"
+          unmountOnExit
+          onEnter={onPageEnter}
+          onExit={onPageExit}
+        >
+          <div data-page={router.pathname} className="page">
+            <Component key={router.pathname} router={router} {...pageProps} />
+          </div>
+        </CSSTransition>
+      </TransitionGroup>
+
       {/* </PageWrapper> */}
     </>
   );
