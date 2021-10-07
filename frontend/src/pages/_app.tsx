@@ -5,7 +5,6 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import { globalState } from 'utils/globalState';
 import { CanvasApp } from 'classes/CanvasApp';
-import { PageWrapper } from 'components/PageWrapper';
 
 import '../styles/index.scss';
 
