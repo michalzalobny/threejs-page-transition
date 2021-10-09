@@ -23,11 +23,11 @@ export class PageManager extends THREE.EventDispatcher {
 
     if (page) page.onEnter(pageEl);
 
-    const enterFn = () => {
+    const parentFn = () => {
       if (page) page.animateIn();
     };
 
-    this._transition.show('#ded4bd', enterFn);
+    this._transition.show('#ded4bd', parentFn);
   }
 
   handlePageExit(pageEl: HTMLElement) {
