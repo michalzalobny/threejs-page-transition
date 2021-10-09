@@ -1,17 +1,20 @@
 import * as THREE from 'three';
 
+import { Transition } from '../Components/Transition';
 import { DetailsPage } from './DetailsPage';
 import { IndexPage } from './IndexPage';
 import { Page } from './Page';
 
 export class PageManager extends THREE.EventDispatcher {
   _pagesArray: Page[] = [];
+  _transition: Transition;
 
   constructor() {
     super();
 
     this._pagesArray.push(new IndexPage({ pageId: '/' }));
     this._pagesArray.push(new DetailsPage({ pageId: '/details' }));
+    this._transition = new Transition();
   }
 
   handlePageEnter(pageEl: HTMLElement) {
@@ -19,6 +22,12 @@ export class PageManager extends THREE.EventDispatcher {
     const page = this._pagesArray.find((page) => page.pageId === pageId);
 
     if (page) page.onEnter(pageEl);
+
+    const enterFn = () => {
+      if (page) page.animateIn();
+    };
+
+    this._transition.show('#ded4bd', enterFn);
   }
 
   handlePageExit(pageEl: HTMLElement) {

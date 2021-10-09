@@ -5,17 +5,13 @@ interface Constructor {
 }
 
 export class Animation {
-  _delay: number;
   _element: HTMLElement;
   _transformPrefix = Prefix('transform');
   _observer: void | null = null;
+  _canAnimate = false;
   isVisible = false;
 
   constructor({ element }: Constructor) {
-    const { animationdelay = '0' } = element.dataset;
-
-    this._delay = Number(animationdelay);
-
     this._element = element;
 
     if ('IntersectionObserver' in window) {
@@ -26,16 +22,19 @@ export class Animation {
   createObserver() {
     this._observer = new window.IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          this.animateIn();
-        } else {
-          this.animateOut();
+        if (this._canAnimate) {
+          if (entry.isIntersecting) {
+            this.animateIn();
+          } else {
+            this.animateOut();
+          }
         }
       });
     }).observe(this._element);
   }
 
   animateIn() {
+    this._canAnimate = true;
     this.isVisible = true;
   }
 

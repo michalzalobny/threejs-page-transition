@@ -64,5 +64,6 @@ export class Paragraph extends Animation {
       tagName: 'span',
       types: 'lines,words',
     });
+    this.animateIn();
   }
 }
