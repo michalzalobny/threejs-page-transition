@@ -165,6 +165,13 @@ export class CanvasApp extends THREE.EventDispatcher {
     const page = Array.from(
       document.querySelectorAll(`[data-pageid="${globalState.currentPageId}"]`),
     )[0] as HTMLElement;
+
+    const pageWrapper = Array.from(
+      document.querySelectorAll('.page-wrapper'),
+    )[0] as HTMLElement;
+
+    pageWrapper.classList.add('page-wrapper--active');
+
     this.handlePageEnter(page, true);
     globalState.isCanvasAppInit = true;
   }

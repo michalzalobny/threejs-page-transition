@@ -18,6 +18,15 @@
   }
 }
 
+.page-wrapper {
+  transition: opacity 0.4s ease-in;
+  opacity: 0;
+
+  &--active {
+    opacity: 1;
+  }
+}
+
 .page {
   position: absolute;
   width: 100%;

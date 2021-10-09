@@ -51,21 +51,23 @@ export default function MyApp(props: AppProps) {
 
   return (
     <>
-      <div className="canvas__wrapper" ref={rendererWrapperEl}></div>
-      <TransitionGroup>
-        <CSSTransition
-          key={router.pathname}
-          timeout={1000}
-          classNames="page-transition"
-          unmountOnExit
-          onEnter={onPageEnter}
-          onExit={onPageExit}
-        >
-          <div data-pageid={router.pathname} className="page">
-            <Component key={router.pathname} router={router} {...pageProps} />
-          </div>
-        </CSSTransition>
-      </TransitionGroup>
+      <div className="canvas__wrapper" ref={rendererWrapperEl} />
+      <div className="page-wrapper">
+        <TransitionGroup>
+          <CSSTransition
+            key={router.pathname}
+            timeout={1000}
+            classNames="page-transition"
+            unmountOnExit
+            onEnter={onPageEnter}
+            onExit={onPageExit}
+          >
+            <div data-pageid={router.pathname} className="page">
+              <Component key={router.pathname} router={router} {...pageProps} />
+            </div>
+          </CSSTransition>
+        </TransitionGroup>
+      </div>
     </>
   );
 }
