@@ -95,7 +95,10 @@ export class Transition {
     this._ctx.lineTo(0, this._rendererBounds.height);
 
     const t = (1 - this._curtainProgress) * this._rendererBounds.height;
-    const amplitude = 250 * Math.sin(this._curtainProgress * Math.PI);
+    const amplitude =
+      this._rendererBounds.width *
+      0.1 *
+      Math.sin(this._curtainProgress * Math.PI);
 
     this._ctx.lineTo(0, t);
 
