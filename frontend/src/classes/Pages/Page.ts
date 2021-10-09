@@ -45,8 +45,6 @@ export class Page extends THREE.EventDispatcher {
     this._anmParagraphs = paragraphs.map((el) => {
       return new Paragraph({ element: el });
     });
-
-    this._animateIn();
   }
 
   onExit() {

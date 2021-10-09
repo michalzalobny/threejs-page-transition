@@ -5,25 +5,18 @@ interface Constructor {
 }
 
 export class Animation {
-  delay: number;
-  element: HTMLElement;
-  target: HTMLElement;
-  transformPrefix = Prefix('transform');
+  _delay: number;
+  _element: HTMLElement;
+  _transformPrefix = Prefix('transform');
+  _observer: void | null = null;
   isVisible = false;
-  observer: void | null = null;
 
   constructor({ element }: Constructor) {
-    const { animationdelay = '0', animationtarget = null } = element.dataset;
+    const { animationdelay = '0' } = element.dataset;
 
-    this.delay = Number(animationdelay);
+    this._delay = Number(animationdelay);
 
-    this.element = element;
-
-    const specificTarget = animationtarget
-      ? (element.closest(animationtarget) as HTMLElement)
-      : null;
-
-    this.target = specificTarget ? specificTarget : element;
+    this._element = element;
 
     if ('IntersectionObserver' in window) {
       this.createObserver();
@@ -31,7 +24,7 @@ export class Animation {
   }
 
   createObserver() {
-    this.observer = new window.IntersectionObserver((entries) => {
+    this._observer = new window.IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           this.animateIn();
@@ -39,7 +32,7 @@ export class Animation {
           this.animateOut();
         }
       });
-    }).observe(this.target);
+    }).observe(this._element);
   }
 
   animateIn() {

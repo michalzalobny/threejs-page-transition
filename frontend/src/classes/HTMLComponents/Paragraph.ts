@@ -1,76 +1,68 @@
-import each from 'lodash/each';
+import SplitType from 'split-type';
 
 import { Animation } from './Animation';
-
-import { calculate, split } from '../utils/text';
 
 interface Constructor {
   element: HTMLElement;
 }
 
 export class Paragraph extends Animation {
-  lines: HTMLElement[] = [];
-  calculatedLines: HTMLElement[][] = [];
+  _text: SplitType;
 
   constructor({ element }: Constructor) {
     super({ element });
 
-    const paragraphs = Array.from(
-      element.querySelectorAll('h1, h2, p'),
-    ) as HTMLElement[];
-
-    if (paragraphs.length !== 0) {
-      each(paragraphs, (element) => {
-        split({ element });
-        split({ element });
-
-        const spans = Array.from(
-          element.querySelectorAll('span span'),
-        ) as HTMLElement[];
-
-        this.lines.push(...spans);
-      });
-    } else {
-      split({ element });
-      split({ element });
-
-      const spans = Array.from(
-        element.querySelectorAll('span span'),
-      ) as HTMLElement[];
-
-      this.lines.push(...spans);
-    }
-    this.onResize();
+    this._text = new SplitType(this._element, {
+      tagName: 'span',
+      types: 'lines,words',
+    });
   }
 
   animateIn() {
     super.animateIn();
-    each(this.calculatedLines, (line, lineIndex) => {
-      each(line, (word) => {
-        word.style.transition = `transform 1.2s ${
-          lineIndex * 0.1
-        }s cubic-bezier(0.77, 0, 0.175, 1)`;
-        word.style[this.transformPrefix] = 'translateY(0)';
-        word.style.opacity = '1';
-      });
+
+    if (!this._text.lines) {
+      return;
+    }
+
+    this._text.lines.forEach((line, lineIndex) => {
+      (Array.from(line.children) as HTMLElement[]).forEach(
+        (word, wordIndex) => {
+          word.style.transition = `transform 1.5s ${
+            lineIndex * 0.2 + 0.01 * wordIndex
+          }s cubic-bezier(0.77, 0, 0.175, 1)`;
+          word.classList.add('word--active');
+        },
+      );
     });
   }
 
   animateOut() {
     super.animateOut();
-    each(this.calculatedLines, (line, lineIndex) => {
-      each(line, (word) => {
-        word.style.transition = `transform 1s ${
-          lineIndex * 0.1
-        }s cubic-bezier(0.77, 0, 0.175, 1)`;
-        word.style[this.transformPrefix] = 'translateY(100%)';
-        word.style.opacity = '1';
-      });
+
+    if (!this._text.lines) {
+      return;
+    }
+
+    this._text.lines.forEach((line, lineIndex) => {
+      (Array.from(line.children) as HTMLElement[]).forEach(
+        (word, wordIndex) => {
+          word.style.transition = `transform 1s ${
+            lineIndex * 0.1 + 0.01 * wordIndex
+          }s cubic-bezier(0.77, 0, 0.175, 1)`;
+          word.classList.remove('word--active');
+        },
+      );
     });
   }
 
   onResize() {
     super.onResize();
-    this.calculatedLines = calculate(this.lines);
+
+    this._text.revert();
+    this._text = new SplitType(this._element, {
+      tagName: 'span',
+      types: 'lines,words',
+    });
   }
 }

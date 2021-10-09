@@ -1,14 +1,17 @@
 [data-animation='label'],
 [data-animation='paragraph'],
 [data-animation='title'] {
-  span {
+  .line {
     display: inline-block;
     overflow: hidden;
     vertical-align: top;
+  }
 
-    span {
-      opacity: 0;
-      transform: translateY(100%);
+  .word {
+    transform: translateY(100%);
+
+    &--active {
+      transform: translateY(0%);
     }
   }
 }
