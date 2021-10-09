@@ -8,6 +8,7 @@ import { Page } from './Page';
 export class PageManager extends THREE.EventDispatcher {
   _pagesArray: Page[] = [];
   _transition: Transition;
+  _isInit = false;
 
   constructor() {
     super();
@@ -26,6 +27,17 @@ export class PageManager extends THREE.EventDispatcher {
     const parentFn = () => {
       if (page) page.animateIn();
     };
+
+    if (!this._isInit) {
+      this._isInit = true;
+
+      // Raf fixes css styles issue (without Raf, they are being added at the same time as a class, and it removes the initial animation)
+      window.requestAnimationFrame(() => {
+        parentFn();
+      });
+
+      return;
+    }
 
     this._transition.show('#ded4bd', parentFn);
   }
