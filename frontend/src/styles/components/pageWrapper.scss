@@ -1,9 +1,11 @@
 .page-transition {
   &-enter {
     opacity: 0;
+    pointer-events: none;
   }
 
   &-enter-active {
+    pointer-events: initial;
     opacity: 1;
     transition: opacity 0ms ease-in;
     transition-delay: 1000ms;
@@ -14,6 +16,7 @@
   }
 
   &-exit-active {
+    pointer-events: none;
     opacity: 0;
     transition: opacity 0ms ease-in;
     transition-delay: 1000ms;
@@ -30,7 +33,7 @@
 }
 
 .page {
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
   top: 0;
