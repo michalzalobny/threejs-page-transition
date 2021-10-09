@@ -31,7 +31,7 @@ export class Transition {
     this._curtainProgressTween = new TWEEN.Tween({
       progress: this._curtainProgress,
     })
-      .to({ progress: destination }, 1200)
+      .to({ progress: destination }, 1000)
       .easing(TWEEN.Easing.Exponential.InOut)
       .onUpdate((obj) => {
         this._curtainProgress = obj.progress;
