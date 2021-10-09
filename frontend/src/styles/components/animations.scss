@@ -1,6 +1,4 @@
-[data-animation='label'],
-[data-animation='paragraph'],
-[data-animation='title'] {
+[data-animation='paragraph'] {
   .line {
     display: inline-block;
     overflow: hidden;
@@ -13,29 +11,5 @@
     &--active {
       transform: translateY(0%);
     }
-  }
-}
-
-[data-animation='button'] {
-  display: inline-block;
-  position: relative;
-  white-space: nowrap;
-
-  span {
-    display: inline-block;
-    transform-origin: center center 0.5em;
-    vertical-align: middle;
-  }
-}
-
-[data-animation='link'] {
-  display: inline-block;
-  position: relative;
-  white-space: nowrap;
-
-  span {
-    display: inline-block;
-    transform-origin: center center 0.5em;
-    vertical-align: middle;
   }
 }

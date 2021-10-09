@@ -10,16 +10,8 @@ export class PageManager extends THREE.EventDispatcher {
   constructor() {
     super();
 
-    this._pagesArray.push(
-      new IndexPage({ pageId: '/', wrapper: 'index__wrapper' }),
-    );
-
-    this._pagesArray.push(
-      new DetailsPage({
-        pageId: '/details',
-        wrapper: 'details__wrapper',
-      }),
-    );
+    this._pagesArray.push(new IndexPage({ pageId: '/' }));
+    this._pagesArray.push(new DetailsPage({ pageId: '/details' }));
   }
 
   handlePageEnter(pageEl: HTMLElement) {

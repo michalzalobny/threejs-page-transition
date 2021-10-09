@@ -43,12 +43,10 @@ export default function MyApp(props: AppProps) {
   return (
     <>
       <div className="canvas__wrapper" ref={rendererWrapperEl}></div>
-      {/* <PageWrapper> */}
-
       <TransitionGroup>
         <CSSTransition
           key={router.pathname}
-          timeout={500}
+          timeout={1000}
           classNames="page-transition"
           unmountOnExit
           onEnter={onPageEnter}
@@ -59,8 +57,6 @@ export default function MyApp(props: AppProps) {
           </div>
         </CSSTransition>
       </TransitionGroup>
-
-      {/* </PageWrapper> */}
     </>
   );
 }

@@ -1,21 +1,11 @@
 .page-transition {
-  // transition: opacity 0.3s;
-
-  // &__out {
-  //   opacity: 0;
-  // }
-
-  // &__in {
-  //   opacity: 1;
-  // }
-
   &-enter {
     opacity: 0;
   }
 
   &-enter-active {
     opacity: 1;
-    transition: opacity 500ms ease-in;
+    transition: opacity 1000ms ease-in;
   }
 
   &-exit {
@@ -24,7 +14,7 @@
 
   &-exit-active {
     opacity: 0;
-    transition: opacity 500ms ease-in;
+    transition: opacity 1000ms ease-in;
   }
 }
 
