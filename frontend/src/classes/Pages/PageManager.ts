@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 
+import { Bounds } from '../types';
 import { globalState } from 'utils/globalState';
 
 import { Transition } from '../Components/Transition';
@@ -49,11 +50,11 @@ export class PageManager extends THREE.EventDispatcher {
     if (page) page.onExit();
   }
 
-  onResize() {
+  setRendererBounds(rendererBounds: Bounds) {
     this._pagesArray.forEach((page) => {
       page.onResize();
     });
 
-    this._transition.onResize();
+    this._transition.setRendererBounds(rendererBounds);
   }
 }

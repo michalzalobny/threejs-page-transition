@@ -1,6 +1,8 @@
 import TWEEN, { Tween } from '@tweenjs/tween.js';
 import Prefix from 'prefix';
 
+import { Bounds } from '../types';
+
 export class Transition {
   static animateParentRatio = 0.8; // value from 0 to 1, fires animating in elements;
 
@@ -11,6 +13,7 @@ export class Transition {
   _color = '#000000';
   _transformPrefix = Prefix('transform');
   _parentFn: (() => void) | null = null;
+  _rendererBounds: Bounds = { height: 100, width: 100 };
 
   constructor() {
     this._canvas = document.createElement('canvas');
@@ -22,9 +25,9 @@ export class Transition {
 
   _setSizes() {
     if (this._canvas && this._ctx) {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      const ratio = window.devicePixelRatio;
+      const w = this._rendererBounds.width;
+      const h = this._rendererBounds.height;
+      const ratio = Math.min(window.devicePixelRatio, 2);
 
       this._canvas.width = w * ratio;
       this._canvas.height = h * ratio;
@@ -76,24 +79,30 @@ export class Transition {
       return;
     }
 
-    this._ctx.clearRect(0, 0, this._canvas.width, this._canvas.height);
+    this._ctx.clearRect(
+      0,
+      0,
+      this._rendererBounds.width,
+      this._rendererBounds.height,
+    );
     this._ctx.save();
     this._ctx.beginPath();
 
     const segments = 20;
 
-    const widthSegments = Math.ceil(this._canvas.width / segments);
-    this._ctx.moveTo(this._canvas.width, this._canvas.height);
-    this._ctx.lineTo(0, this._canvas.height);
+    const widthSegments = Math.ceil(this._rendererBounds.width / segments);
+    this._ctx.moveTo(this._rendererBounds.width, this._rendererBounds.height);
+    this._ctx.lineTo(0, this._rendererBounds.height);
 
-    const t = (1 - this._curtainProgress) * this._canvas.height;
+    const t = (1 - this._curtainProgress) * this._rendererBounds.height;
     const amplitude = 250 * Math.sin(this._curtainProgress * Math.PI);
 
     this._ctx.lineTo(0, t);
 
     for (let index = 0; index <= widthSegments; index++) {
       const n = segments * index;
-      const r = t - Math.sin((n / this._canvas.width) * Math.PI) * amplitude;
+      const r =
+        t - Math.sin((n / this._rendererBounds.width) * Math.PI) * amplitude;
 
       this._ctx.lineTo(n, r);
     }
@@ -110,7 +119,8 @@ export class Transition {
     this._animateProgress(1);
   }
 
-  onResize() {
+  setRendererBounds(rendererBounds: Bounds) {
+    this._rendererBounds = rendererBounds;
     this._setSizes();
   }
 }

@@ -68,9 +68,7 @@ export class CanvasApp extends THREE.EventDispatcher {
     this._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this._camera.updateProjectionMatrix();
 
-    this._pageManager.onResize();
-
-    //Update rendererBounds for all the pages
+    this._pageManager.setRendererBounds(rendererBounds);
   }
 
   _onVisibilityChange = () => {
