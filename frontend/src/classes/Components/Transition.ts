@@ -2,8 +2,10 @@ import TWEEN, { Tween } from '@tweenjs/tween.js';
 import Prefix from 'prefix';
 
 export class Transition {
-  element: HTMLCanvasElement;
-  context: CanvasRenderingContext2D | null;
+  static animateParentRatio = 0.8; // value from 0 to 1, fires animating in elements;
+
+  _element: HTMLCanvasElement;
+  _context: CanvasRenderingContext2D | null;
   _curtainProgress = 0;
   _curtainProgressTween: Tween<{ progress: number }> | null = null;
   _color = '#000000';
@@ -11,80 +13,87 @@ export class Transition {
   _parentFn: (() => void) | null = null;
 
   constructor() {
-    this.element = document.createElement('canvas');
-    this.element.className = 'transition';
-    this.element.height = window.innerHeight * window.devicePixelRatio;
-    this.element.width = window.innerWidth * window.devicePixelRatio;
-    this.context = this.element.getContext('2d');
-    document.body.appendChild(this.element);
+    this._element = document.createElement('canvas');
+    this._element.className = 'transition';
+    this._element.height = window.innerHeight * window.devicePixelRatio;
+    this._element.width = window.innerWidth * window.devicePixelRatio;
+    this._context = this._element.getContext('2d');
+    document.body.appendChild(this._element);
   }
 
-  animateProgress(destination: number) {
+  _animateProgress(destination: number) {
     if (this._curtainProgressTween) {
       this._curtainProgressTween.stop();
     }
 
+    let canFireParentFn = true;
+
     this._curtainProgressTween = new TWEEN.Tween({
       progress: this._curtainProgress,
     })
-      .to({ progress: destination }, 1500)
+      .to({ progress: destination }, 1200)
       .easing(TWEEN.Easing.Exponential.InOut)
       .onUpdate((obj) => {
         this._curtainProgress = obj.progress;
-        this.onUpdate();
-      })
-      .onComplete(() => {
-        if (destination === 1) this.hide();
-        if (destination === 0) {
+        this._onUpdate();
+
+        if (
+          destination === 0 &&
+          this._curtainProgress < Transition.animateParentRatio &&
+          canFireParentFn
+        ) {
+          canFireParentFn = false;
           if (this._parentFn) this._parentFn();
         }
+      })
+      .onComplete(() => {
+        if (destination === 1) this._hide();
       });
 
     this._curtainProgressTween.start();
   }
 
-  show(color: string, parentFn: () => void) {
-    this._color = color;
-    this.element.style[this._transformPrefix] = 'rotate(180deg)';
-    this._parentFn = parentFn;
-
-    this.animateProgress(1);
+  _hide() {
+    this._element.style[this._transformPrefix] = 'rotate(0deg)';
+    this._animateProgress(0);
   }
 
-  hide() {
-    this.element.style[this._transformPrefix] = 'rotate(0deg)';
-    this.animateProgress(0);
-  }
-
-  onUpdate() {
-    if (!this.context) {
+  _onUpdate() {
+    if (!this._context) {
       return;
     }
 
-    this.context.clearRect(0, 0, this.element.width, this.element.height);
-    this.context.save();
-    this.context.beginPath();
+    this._context.clearRect(0, 0, this._element.width, this._element.height);
+    this._context.save();
+    this._context.beginPath();
 
     const segments = window.innerWidth < 400 ? 20 : 40; //TODO
 
-    const widthSegments = Math.ceil(this.element.width / segments);
-    this.context.moveTo(this.element.width, this.element.height);
-    this.context.lineTo(0, this.element.height);
+    const widthSegments = Math.ceil(this._element.width / segments);
+    this._context.moveTo(this._element.width, this._element.height);
+    this._context.lineTo(0, this._element.height);
 
-    const t = (1 - this._curtainProgress) * this.element.height;
+    const t = (1 - this._curtainProgress) * this._element.height;
     const amplitude = 250 * Math.sin(this._curtainProgress * Math.PI);
 
-    this.context.lineTo(0, t);
+    this._context.lineTo(0, t);
 
     for (let index = 0; index <= widthSegments; index++) {
       const n = segments * index;
-      const r = t - Math.sin((n / this.element.width) * Math.PI) * amplitude;
+      const r = t - Math.sin((n / this._element.width) * Math.PI) * amplitude;
 
-      this.context.lineTo(n, r);
+      this._context.lineTo(n, r);
     }
 
-    this.context.fillStyle = this._color;
-    this.context.fill();
-    this.context.restore();
+    this._context.fillStyle = this._color;
+    this._context.fill();
+    this._context.restore();
+  }
+
+  show(color: string, parentFn: () => void) {
+    this._color = color;
+    this._element.style[this._transformPrefix] = 'rotate(180deg)';
+    this._parentFn = parentFn;
+    this._animateProgress(1);
   }
 }
