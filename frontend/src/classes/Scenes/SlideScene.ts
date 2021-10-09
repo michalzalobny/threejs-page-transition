@@ -170,50 +170,43 @@ export class SlideScene extends ItemScene {
   }
 
   _handleIndexClick(index: number) {
-    if (!this._isReady) {
-      return;
-    }
-
-    super._handleIndexClick(index);
-
-    if (index === this._activeIndex) {
-    } else {
-      this.animateToIndex({ destination: index });
-    }
-
-    const el = this._items3D[index];
-
-    if (!el) {
-      return;
-    }
-
-    if (el.isFocused) {
-      this._handlePreview(el);
-    }
+    // if (!this._isReady) {
+    //   return;
+    // }
+    // super._handleIndexClick(index);
+    // if (index === this._activeIndex) {
+    // } else {
+    //   this.animateToIndex({ destination: index });
+    // }
+    // const el = this._items3D[index];
+    // if (!el) {
+    //   return;
+    // }
+    // if (el.isFocused) {
+    //   this._handlePreview(el);
+    // }
   }
 
   _updateActiveCollectionTitle() {
-    this._HTMLDescriptions.forEach((el) => {
-      const elFilter = el.element.dataset.cfilter;
-
-      if (elFilter === this._activeCollection) {
-        el.animateIn();
-      } else {
-        el.animateOut();
-      }
-    });
+    // this._HTMLDescriptions.forEach((el) => {
+    //   const elFilter = el.element.dataset.cfilter;
+    //   if (elFilter === this._activeCollection) {
+    //     el.animateIn();
+    //   } else {
+    //     el.animateOut();
+    //   }
+    // });
   }
 
   _updateActiveItemTitle() {
-    this._HTMLTitles.forEach((el) => {
-      const elKey = el.element.dataset.celkey;
-
-      if (elKey === this._activeIndex.toString()) {
-        el.animateIn();
-      } else {
-        el.animateOut();
-      }
-    });
+    // this._HTMLTitles.forEach((el) => {
+    //   const elKey = el.element.dataset.celkey;
+    //   if (elKey === this._activeIndex.toString()) {
+    //     el.animateIn();
+    //   } else {
+    //     el.animateOut();
+    //   }
+    // });
   }
 
   _onIndexChange() {}
