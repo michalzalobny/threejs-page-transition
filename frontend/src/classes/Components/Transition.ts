@@ -67,7 +67,7 @@ export class Transition {
     this._context.save();
     this._context.beginPath();
 
-    const segments = window.innerWidth < 400 ? 20 : 40; //TODO
+    const segments = 20;
 
     const widthSegments = Math.ceil(this._element.width / segments);
     this._context.moveTo(this._element.width, this._element.height);
