@@ -53,5 +53,7 @@ export class PageManager extends THREE.EventDispatcher {
     this._pagesArray.forEach((page) => {
       page.onResize();
     });
+
+    this._transition.onResize();
   }
 }

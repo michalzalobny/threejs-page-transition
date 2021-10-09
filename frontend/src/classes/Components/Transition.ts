@@ -4,8 +4,8 @@ import Prefix from 'prefix';
 export class Transition {
   static animateParentRatio = 0.8; // value from 0 to 1, fires animating in elements;
 
-  _element: HTMLCanvasElement;
-  _context: CanvasRenderingContext2D | null;
+  _canvas: HTMLCanvasElement;
+  _ctx: CanvasRenderingContext2D | null;
   _curtainProgress = 0;
   _curtainProgressTween: Tween<{ progress: number }> | null = null;
   _color = '#000000';
@@ -13,12 +13,25 @@ export class Transition {
   _parentFn: (() => void) | null = null;
 
   constructor() {
-    this._element = document.createElement('canvas');
-    this._element.className = 'transition';
-    this._element.height = window.innerHeight * window.devicePixelRatio;
-    this._element.width = window.innerWidth * window.devicePixelRatio;
-    this._context = this._element.getContext('2d');
-    document.body.appendChild(this._element);
+    this._canvas = document.createElement('canvas');
+    this._canvas.className = 'transition';
+    this._ctx = this._canvas.getContext('2d');
+    this._setSizes();
+    document.body.appendChild(this._canvas);
+  }
+
+  _setSizes() {
+    if (this._canvas && this._ctx) {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const ratio = window.devicePixelRatio;
+
+      this._canvas.width = w * ratio;
+      this._canvas.height = h * ratio;
+      this._canvas.style.width = w + 'px';
+      this._canvas.style.height = h + 'px';
+      this._ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    }
   }
 
   _animateProgress(destination: number) {
@@ -54,46 +67,50 @@ export class Transition {
   }
 
   _hide() {
-    this._element.style[this._transformPrefix] = 'rotate(0deg)';
+    this._canvas.style[this._transformPrefix] = 'rotate(0deg)';
     this._animateProgress(0);
   }
 
   _onUpdate() {
-    if (!this._context) {
+    if (!this._ctx) {
       return;
     }
 
-    this._context.clearRect(0, 0, this._element.width, this._element.height);
-    this._context.save();
-    this._context.beginPath();
+    this._ctx.clearRect(0, 0, this._canvas.width, this._canvas.height);
+    this._ctx.save();
+    this._ctx.beginPath();
 
     const segments = 20;
 
-    const widthSegments = Math.ceil(this._element.width / segments);
-    this._context.moveTo(this._element.width, this._element.height);
-    this._context.lineTo(0, this._element.height);
+    const widthSegments = Math.ceil(this._canvas.width / segments);
+    this._ctx.moveTo(this._canvas.width, this._canvas.height);
+    this._ctx.lineTo(0, this._canvas.height);
 
-    const t = (1 - this._curtainProgress) * this._element.height;
+    const t = (1 - this._curtainProgress) * this._canvas.height;
     const amplitude = 250 * Math.sin(this._curtainProgress * Math.PI);
 
-    this._context.lineTo(0, t);
+    this._ctx.lineTo(0, t);
 
     for (let index = 0; index <= widthSegments; index++) {
       const n = segments * index;
-      const r = t - Math.sin((n / this._element.width) * Math.PI) * amplitude;
+      const r = t - Math.sin((n / this._canvas.width) * Math.PI) * amplitude;
 
-      this._context.lineTo(n, r);
+      this._ctx.lineTo(n, r);
     }
 
-    this._context.fillStyle = this._color;
-    this._context.fill();
-    this._context.restore();
+    this._ctx.fillStyle = this._color;
+    this._ctx.fill();
+    this._ctx.restore();
   }
 
   show(color: string, parentFn: () => void) {
     this._color = color;
-    this._element.style[this._transformPrefix] = 'rotate(180deg)';
+    this._canvas.style[this._transformPrefix] = 'rotate(180deg)';
     this._parentFn = parentFn;
     this._animateProgress(1);
+  }
+
+  onResize() {
+    this._setSizes();
   }
 }
