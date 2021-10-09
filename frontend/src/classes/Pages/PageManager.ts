@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 
+import { globalState } from 'utils/globalState';
+
 import { Transition } from '../Components/Transition';
 import { DetailsPage } from './DetailsPage';
 import { IndexPage } from './IndexPage';
@@ -8,7 +10,6 @@ import { Page } from './Page';
 export class PageManager extends THREE.EventDispatcher {
   _pagesArray: Page[] = [];
   _transition: Transition;
-  _isInit = false;
 
   constructor() {
     super();
@@ -18,8 +19,9 @@ export class PageManager extends THREE.EventDispatcher {
     this._transition = new Transition();
   }
 
-  handlePageEnter(pageEl: HTMLElement) {
+  handlePageEnter(pageEl: HTMLElement, skipTransition: boolean) {
     const pageId = pageEl.dataset.page;
+    if (pageId) globalState.currentPageId = pageId;
     const page = this._pagesArray.find((page) => page.pageId === pageId);
 
     if (page) page.onEnter(pageEl);
@@ -28,9 +30,7 @@ export class PageManager extends THREE.EventDispatcher {
       if (page) page.animateIn();
     };
 
-    if (!this._isInit) {
-      this._isInit = true;
-
+    if (skipTransition) {
       // Raf fixes css styles issue (without Raf, they are being added at the same time as a class, and it removes the initial animation)
       window.requestAnimationFrame(() => {
         parentFn();

@@ -1,21 +1,21 @@
 @font-face {
-  font-family: "1";
+  font-family: 'Suisse';
   font-display: swap;
-  src: url("/fonts/1.woff2") format("woff2");
+  src: url('/fonts/suisse.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: "Open Sans";
+  font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("/fonts/opensans400.woff2") format("woff2");
+  src: url('/fonts/opensans400.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: "Open Sans";
+  font-family: 'Open Sans';
   font-style: normal;
   font-weight: 800;
   font-display: swap;
-  src: url("/fonts/opensans800.woff2") format("woff2");
+  src: url('/fonts/opensans800.woff2') format('woff2');
 }

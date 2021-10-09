@@ -2,6 +2,8 @@ import TWEEN from '@tweenjs/tween.js';
 import * as THREE from 'three';
 import debounce from 'lodash/debounce';
 
+import { globalState } from 'utils/globalState';
+
 import { MouseMove } from './Singletons/MouseMove';
 import { Scroll } from './Singletons/Scroll';
 import { Preloader } from './Utility/Preloader';
@@ -151,15 +153,21 @@ export class CanvasApp extends THREE.EventDispatcher {
     this._preloader.destroy();
   }
 
-  handlePageEnter(pageEl: HTMLElement) {
-    this._pageManager.handlePageEnter(pageEl);
+  handlePageEnter(pageEl: HTMLElement, skipTransition = false) {
+    this._pageManager.handlePageEnter(pageEl, skipTransition);
   }
 
   handlePageExit(pageEl: HTMLElement) {
     this._pageManager.handlePageExit(pageEl);
   }
 
-  init() {}
+  init() {
+    const page = Array.from(
+      document.querySelectorAll(`[data-page="${globalState.currentPageId}"]`),
+    )[0] as HTMLElement;
+    this.handlePageEnter(page, true);
+    globalState.isCanvasAppInit = true;
+  }
 
   set rendererWrapperEl(el: HTMLDivElement) {
     this._rendererWrapperEl = el;

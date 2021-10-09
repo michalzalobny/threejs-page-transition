@@ -16,7 +16,7 @@ export default class MyDocument extends Document {
             rel="preload"
             as="font"
             type="font/woff2"
-            href="/fonts/1.woff2"
+            href="/fonts/suisse.woff2"
             crossOrigin="anonymous"
           />
           <link

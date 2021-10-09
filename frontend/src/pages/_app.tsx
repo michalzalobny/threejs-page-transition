@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+import FontFaceObserver from 'fontfaceobserver';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
@@ -18,6 +19,10 @@ export default function MyApp(props: AppProps) {
     if (!rendererWrapperEl.current) return;
 
     if (rendererWrapperEl.current) {
+      const el = document.querySelectorAll('.page')[0] as HTMLElement;
+      const pageId = el.dataset.page;
+      if (pageId) globalState.currentPageId = pageId;
+
       globalState.canvasApp = CanvasApp.getInstance();
       globalState.canvasApp.rendererWrapperEl = rendererWrapperEl.current;
     }
@@ -36,8 +41,12 @@ export default function MyApp(props: AppProps) {
   };
 
   useEffect(() => {
-    const el = document.querySelectorAll('.page')[0] as HTMLElement;
-    if (globalState.canvasApp) globalState.canvasApp.handlePageEnter(el);
+    const fontA = new FontFaceObserver('Suisse');
+    const fontB = new FontFaceObserver('Open Sans');
+
+    Promise.all([fontA.load(), fontB.load()]).then(() => {
+      if (globalState.canvasApp) globalState.canvasApp.init();
+    });
   }, []);
 
   return (
