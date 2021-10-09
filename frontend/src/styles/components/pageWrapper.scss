@@ -5,7 +5,8 @@
 
   &-enter-active {
     opacity: 1;
-    transition: opacity 1000ms ease-in;
+    transition: opacity 0ms ease-in;
+    transition-delay: 1000ms;
   }
 
   &-exit {
@@ -14,7 +15,8 @@
 
   &-exit-active {
     opacity: 0;
-    transition: opacity 1000ms ease-in;
+    transition: opacity 0ms ease-in;
+    transition-delay: 1000ms;
   }
 }
 
