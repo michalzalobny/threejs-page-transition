@@ -114,8 +114,8 @@ html {
   overscroll-behavior: none;
 }
 
-// *,
-// *:before,
-// *:after {
-//   user-select: none;
-// }
+*,
+*:before,
+*:after {
+  user-select: none;
+}
