@@ -27,9 +27,9 @@ export class Paragraph extends Animation {
 
     this._text.lines.forEach((line, lineIndex) => {
       (Array.from(line.children) as HTMLElement[]).forEach(
-        (word, wordIndex) => {
+        (word, _wordIndex) => {
           word.style.transition = `transform 1.5s ${
-            lineIndex * 0.2 + 0.01 * wordIndex
+            lineIndex * 0.2
           }s cubic-bezier(0.77, 0, 0.175, 1)`;
           word.classList.add('word--active');
         },
@@ -46,9 +46,9 @@ export class Paragraph extends Animation {
 
     this._text.lines.forEach((line, lineIndex) => {
       (Array.from(line.children) as HTMLElement[]).forEach(
-        (word, wordIndex) => {
+        (word, _wordIndex) => {
           word.style.transition = `transform 1s ${
-            lineIndex * 0.1 + 0.01 * wordIndex
+            lineIndex * 0.1
           }s cubic-bezier(0.77, 0, 0.175, 1)`;
           word.classList.remove('word--active');
         },
