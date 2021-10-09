@@ -20,7 +20,7 @@ export class PageManager extends THREE.EventDispatcher {
   }
 
   handlePageEnter(pageEl: HTMLElement, skipTransition: boolean) {
-    const pageId = pageEl.dataset.page;
+    const pageId = pageEl.dataset.pageid;
     if (pageId) globalState.currentPageId = pageId;
     const page = this._pagesArray.find((page) => page.pageId === pageId);
 
@@ -43,7 +43,7 @@ export class PageManager extends THREE.EventDispatcher {
   }
 
   handlePageExit(pageEl: HTMLElement) {
-    const pageId = pageEl.dataset.page;
+    const pageId = pageEl.dataset.pageid;
     const page = this._pagesArray.find((page) => page.pageId === pageId);
 
     if (page) page.onExit();

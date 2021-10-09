@@ -20,7 +20,7 @@ export default function MyApp(props: AppProps) {
 
     if (rendererWrapperEl.current) {
       const el = document.querySelectorAll('.page')[0] as HTMLElement;
-      const pageId = el.dataset.page;
+      const pageId = el.dataset.pageid;
       if (pageId) globalState.currentPageId = pageId;
 
       globalState.canvasApp = CanvasApp.getInstance();
@@ -61,7 +61,7 @@ export default function MyApp(props: AppProps) {
           onEnter={onPageEnter}
           onExit={onPageExit}
         >
-          <div data-page={router.pathname} className="page">
+          <div data-pageid={router.pathname} className="page">
             <Component key={router.pathname} router={router} {...pageProps} />
           </div>
         </CSSTransition>
