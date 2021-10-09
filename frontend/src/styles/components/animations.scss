@@ -1,4 +1,7 @@
 [data-animation='paragraph'] {
+  //The opacity is 0 until the text sliced to spans
+  opacity: 0;
+
   .line {
     display: inline-block;
     overflow: hidden;
