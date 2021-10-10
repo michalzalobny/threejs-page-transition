@@ -13,6 +13,7 @@ export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
   const router = useRouter();
 
+  const initTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const rendererWrapperEl = useRef(null);
 
   useEffect(() => {
@@ -50,14 +51,21 @@ export default function MyApp(props: AppProps) {
           if (globalState.canvasApp) globalState.canvasApp.init();
         },
         () => {
-          if (globalState.canvasApp) globalState.canvasApp.init();
-          console.warn('Fonts were loading too long');
+          console.warn('Fonts were loading too long (over 2000ms)');
         },
       )
       .catch((err) => {
-        if (globalState.canvasApp) globalState.canvasApp.init();
         console.warn('Some critical font are not available:', err);
       });
+
+    initTimeout.current = setTimeout(() => {
+      if (globalState.canvasApp && !globalState.isCanvasAppInit)
+        globalState.canvasApp.init();
+    }, 2000);
+
+    return () => {
+      if (initTimeout.current) clearTimeout(initTimeout.current);
+    };
   }, []);
 
   return (
