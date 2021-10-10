@@ -168,7 +168,13 @@ export class CanvasApp extends THREE.EventDispatcher {
       document.querySelectorAll('.page-wrapper'),
     )[0] as HTMLElement;
 
+    const pageOverlay = Array.from(
+      document.querySelectorAll('.page__overlay'),
+    )[0] as HTMLElement;
+
     pageWrapper.classList.add('page-wrapper--active');
+    pageOverlay.classList.add('page__overlay--disabled');
+
     this._onResize();
     this.handlePageEnter(page, true);
     globalState.isCanvasAppInit = true;

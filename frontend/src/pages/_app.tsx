@@ -63,6 +63,7 @@ export default function MyApp(props: AppProps) {
   return (
     <>
       <div className="canvas__wrapper" ref={rendererWrapperEl} />
+      <div className="page__overlay" />
       <div className="page-wrapper">
         <TransitionGroup>
           <CSSTransition
