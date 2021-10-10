@@ -28,6 +28,10 @@ export class Transition {
       const h = this._rendererBounds.height;
       const ratio = Math.min(window.devicePixelRatio, 2);
 
+      console.log('w', w);
+      console.log('h', h);
+      console.log('ratio', ratio);
+
       this._canvas.width = w * ratio;
       this._canvas.height = h * ratio;
       this._canvas.style.width = w + 'px';
