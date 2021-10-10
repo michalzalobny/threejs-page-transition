@@ -1,5 +1,6 @@
 import SplitType from 'split-type';
 
+import { globalState } from 'utils/globalState';
 import { Animation } from './Animation';
 
 interface Constructor {
@@ -20,6 +21,10 @@ export class Paragraph extends Animation {
   }
 
   animateIn() {
+    if (!globalState.isCanvasAppInit) {
+      return;
+    }
+
     super.animateIn();
 
     if (!this._text.lines) {
@@ -59,11 +64,13 @@ export class Paragraph extends Animation {
 
   onResize() {
     super.onResize();
-
     this._text.revert();
+
     this._text = new SplitType(this._element, {
       tagName: 'span',
       types: 'lines,words',
     });
+
+    this.animateIn();
   }
 }
