@@ -34,7 +34,10 @@ export class PageManager extends THREE.EventDispatcher {
     if (skipTransition) {
       // Raf fixes css styles issue (without Raf, they are being added at the same time as a class, and it removes the initial animation)
       window.requestAnimationFrame(() => {
-        parentFn();
+        window.requestAnimationFrame(() => {
+          console.log('test');
+          parentFn();
+        });
       });
 
       return;
