@@ -4,8 +4,8 @@ import { Bounds } from '../types';
 import { globalState } from 'utils/globalState';
 
 import { Transition } from '../Components/Transition';
-import { DetailsPage } from './DetailsPage';
-import { IndexPage } from './IndexPage';
+import { DetailsPage } from './DetailsPage/DetailsPage';
+import { IndexPage } from './IndexPage/IndexPage';
 import { Page } from './Page';
 
 export class PageManager extends THREE.EventDispatcher {

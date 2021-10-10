@@ -1,4 +1,4 @@
-import { Page } from './Page';
+import { Page } from '../Page';
 
 interface Constructor {
   pageId: string;
