@@ -169,7 +169,7 @@ export class CanvasApp extends THREE.EventDispatcher {
     )[0] as HTMLElement;
 
     pageWrapper.classList.add('page-wrapper--active');
-
+    this._onResize();
     this.handlePageEnter(page, true);
     globalState.isCanvasAppInit = true;
   }
@@ -192,7 +192,7 @@ export class CanvasApp extends THREE.EventDispatcher {
     //   mouseMove: this._mouseMove,
     // });
 
-    this._onResize();
+    // this._onResize();
     this._addListeners();
     this._resumeAppFrame();
   }
