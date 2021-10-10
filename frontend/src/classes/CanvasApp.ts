@@ -8,6 +8,7 @@ import { MouseMove } from './Singletons/MouseMove';
 import { Scroll } from './Singletons/Scroll';
 import { Preloader } from './Utility/Preloader';
 import { PageManager } from './Pages/PageManager';
+import { InteractiveScene } from './InteractiveScene';
 
 export class CanvasApp extends THREE.EventDispatcher {
   static defaultFps = 60;
@@ -36,6 +37,7 @@ export class CanvasApp extends THREE.EventDispatcher {
   _scroll = Scroll.getInstance();
   _preloader = new Preloader();
   _pageManager = new PageManager();
+  _interactiveScene: InteractiveScene | null = null;
 
   constructor() {
     super();
@@ -67,6 +69,9 @@ export class CanvasApp extends THREE.EventDispatcher {
     this._renderer.setSize(rendererBounds.width, rendererBounds.height);
     this._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this._camera.updateProjectionMatrix();
+
+    this._interactiveScene &&
+      this._interactiveScene.setRendererBounds(rendererBounds);
 
     this._pageManager.setRendererBounds(rendererBounds);
   }
@@ -125,13 +130,13 @@ export class CanvasApp extends THREE.EventDispatcher {
     this._mouseMove.update({ delta, slowDownFactor, time });
     this._scroll.update({ delta, slowDownFactor, time });
 
-    // if (!this._slideScene || !this._renderer || !this._camera) {
-    //   return;
-    // }
+    if (!this._interactiveScene || !this._renderer || !this._camera) {
+      return;
+    }
 
-    // this._slideScene.update({ delta, slowDownFactor, time });
-
-    // this._renderer.render(this._slideScene, this._camera);
+    this._interactiveScene.update({ delta, slowDownFactor, time });
+    this._pageManager.update({ delta, slowDownFactor, time });
+    this._renderer.render(this._interactiveScene, this._camera);
   };
 
   _stopAppFrame() {
@@ -146,6 +151,8 @@ export class CanvasApp extends THREE.EventDispatcher {
     }
     this._stopAppFrame();
     this._removeListeners();
+
+    this._interactiveScene && this._interactiveScene.destroy();
 
     //Destroy all pages
     this._preloader.destroy();
@@ -192,13 +199,12 @@ export class CanvasApp extends THREE.EventDispatcher {
       alpha: true,
     });
 
-    // this._slideScene = new SlideScene({
-    //   camera: this._camera,
-    //   scroll: this._scroll,
-    //   mouseMove: this._mouseMove,
-    // });
+    this._interactiveScene = new InteractiveScene({
+      camera: this._camera,
+    });
 
-    // this._onResize();
+    this._pageManager.setInteractiveScene(this._interactiveScene);
+
     this._addListeners();
     this._resumeAppFrame();
   }

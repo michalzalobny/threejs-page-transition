@@ -6,18 +6,42 @@ export default function IndexPage() {
     <>
       <div className="index__wrapper">
         <h1 data-animation="paragraph" className="index__title">
-          Index page 2
+          Index page
         </h1>
 
         <Link passHref href="/details">
-          <a className="index__button">Go to details</a>
+          <a className="index__button">Go to index</a>
         </Link>
-
-        <p data-animation="paragraph" className="index__paragraph">
+        <div className="index__spacer" />
+        <p data-animation="paragraph" className="index__p">
           Index page Lorem ipsum dolor sit amet consectetur, adipisicing elit.
           Quaerat, dolores excepturi repellendus voluptate nemo, fugiat, a sint
-          cumque quos minima numquam quam recusandae odio facilis optio impedit
-          vero et dolorem?
+        </p>
+
+        <p data-animation="paragraph" className="index__p">
+          Index page Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+          Quaerat, dolores excepturi repellendus voluptate nemo, fugiat, a sint
+          cumque.
+        </p>
+
+        <p data-animation="paragraph" className="index__p">
+          consectetur, adipisicing elit. Quaerat, dolores excepturi repellendus
+          voluptate nemo, fugiat, a sint cumque quos minima numquam quam
+          recusandae odio facilis optio impedit vero et dolorem?
+        </p>
+
+        <p data-animation="paragraph" className="index__p">
+          Dlor sit amet consectetur, adipisicing elit. Quaerat, dolores
+          excepturi repellendus voluptate nemo, fugiat, a sint cumque quos
+          minima numquam quam recusandae odio facilis optio impedit vero et
+          dolorem?
+        </p>
+
+        <p data-animation="paragraph" className="index__p">
+          Dlor sit amet consectetur, adipisicing elit. Quaerat, dolores
+          excepturi repellendus voluptate nemo, fugiat, a sint cumque quos
+          minima numquam quam recusandae odio facilis optio impedit vero et
+          dolorem?
         </p>
       </div>
     </>

@@ -4,19 +4,28 @@
   }
 
   &__title {
+    padding: 5rem 0;
     font-size: 10rem;
     line-height: 1.3;
   }
 
   &__wrapper {
-    max-width: 120rem;
+    max-width: 80rem;
     margin: 0 auto;
   }
 
   &__button {
+    margin: 2rem 0;
     color: black;
     background: rgb(196, 252, 196);
     font-size: 2rem;
     padding: 3rem;
+  }
+
+  &__p {
+    font-size: 2.5rem;
+    line-height: 1.8;
+    color: black;
+    padding: 12rem 0;
   }
 }

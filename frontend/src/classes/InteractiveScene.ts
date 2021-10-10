@@ -1,17 +1,16 @@
 import * as THREE from 'three';
 
-import { MouseMove } from '../Singletons/MouseMove';
-import { Bounds, UpdateInfo, Mouse } from '../types';
+import { MouseMove } from './Singletons/MouseMove';
+import { Bounds, UpdateInfo, Mouse } from './types';
 import {
   InteractiveObject3D,
   ColliderName,
-} from '../Components/InteractiveObject3D';
-import { IntersectiveBackground3D } from '../Components/IntersectiveBackground3D';
-import { lerp } from '../utils/lerp';
+} from './Components/InteractiveObject3D';
+import { IntersectiveBackground3D } from './Components/IntersectiveBackground3D';
+import { lerp } from './utils/lerp';
 
 interface Constructor {
   camera: THREE.PerspectiveCamera;
-  mouseMove: MouseMove;
 }
 
 interface PerformRaycast {
@@ -27,7 +26,7 @@ export class InteractiveScene extends THREE.Scene {
   _raycaster = new THREE.Raycaster();
   _rendererBounds: Bounds = { height: 100, width: 100 };
   _camera: THREE.PerspectiveCamera;
-  _mouseMove: MouseMove;
+  _mouseMove = MouseMove.getInstance();
 
   _mouse2D: Mouse = {
     current: { x: 0, y: 0 },
@@ -48,12 +47,12 @@ export class InteractiveScene extends THREE.Scene {
   _canHoverObject = true;
   _intersectiveBackground3D = new IntersectiveBackground3D();
 
-  constructor({ mouseMove, camera }: Constructor) {
+  constructor({ camera }: Constructor) {
     super();
     this._camera = camera;
-    this._mouseMove = mouseMove;
 
     this.add(this._intersectiveBackground3D);
+    this._addListeners();
   }
 
   _performRaycast({ x, y, colliderName, fnToCallIfHit }: PerformRaycast) {

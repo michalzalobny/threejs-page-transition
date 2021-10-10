@@ -1,13 +1,9 @@
-import { UpdateInfo, Bounds, AnimateProps } from '../../../types';
-import { Scroll } from '../../../Singletons/Scroll';
+import { PageCanvas } from '../../PageCanvas';
 
-interface Constructor {
-  scroll: Scroll;
-}
+interface Constructor {}
 
-export class IndexPageCanvas {
-  _scroll: Scroll;
+export class IndexPageCanvas extends PageCanvas {
   constructor(props: Constructor) {
-    this._scroll = props.scroll;
+    super({});
   }
 }

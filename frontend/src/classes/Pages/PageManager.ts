@@ -1,16 +1,18 @@
 import * as THREE from 'three';
 
-import { Bounds } from '../types';
+import { Bounds, UpdateInfo } from '../types';
 import { globalState } from 'utils/globalState';
 
 import { Transition } from '../Components/Transition';
 import { DetailsPage } from './DetailsPage/DetailsPage';
 import { IndexPage } from './IndexPage/IndexPage';
 import { Page } from './Page';
+import { InteractiveScene } from '../InteractiveScene';
 
 export class PageManager extends THREE.EventDispatcher {
   _pagesArray: Page[] = [];
   _transition: Transition;
+  _interactiveScene: InteractiveScene | null = null;
 
   constructor() {
     super();
@@ -54,9 +56,19 @@ export class PageManager extends THREE.EventDispatcher {
 
   setRendererBounds(rendererBounds: Bounds) {
     this._pagesArray.forEach((page) => {
-      page.onResize();
+      page.setRendererBounds(rendererBounds);
     });
 
     this._transition.setRendererBounds(rendererBounds);
+  }
+
+  setInteractiveScene(scene: InteractiveScene) {
+    this._interactiveScene = scene;
+  }
+
+  update(updateInfo: UpdateInfo) {
+    this._pagesArray.forEach((page) => {
+      page.update(updateInfo);
+    });
   }
 }
