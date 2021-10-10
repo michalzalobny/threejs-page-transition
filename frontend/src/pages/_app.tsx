@@ -44,7 +44,7 @@ export default function MyApp(props: AppProps) {
     const fontA = new FontFaceObserver('Suisse');
     const fontB = new FontFaceObserver('Open Sans');
 
-    Promise.all([fontA.load(null, 10), fontB.load()])
+    Promise.all([fontA.load(null, 2000), fontB.load()])
       .then(
         () => {
           if (globalState.canvasApp) globalState.canvasApp.init();
