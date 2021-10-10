@@ -1,7 +1,6 @@
 .details {
   &__spacer {
-    height: 50vh;
-    background: rgb(224, 224, 224);
+    height: 10vh;
   }
 
   &__title {
@@ -12,13 +11,12 @@
   &__wrapper {
     max-width: 120rem;
     margin: 0 auto;
-    background-color: rgb(239, 157, 255);
   }
 
   &__button {
     color: black;
+    background: rgb(196, 252, 196);
     font-size: 2rem;
     padding: 3rem;
-    background-color: rgb(71, 88, 236);
   }
 }
