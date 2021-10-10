@@ -15,8 +15,8 @@ export class Scroll extends EventDispatcher {
   _touchMomentum = { x: 0, y: 0 };
   _isTouching = false;
 
-  static momentumCarry = 0.2;
-  static momentumDamping = 0.58;
+  static momentumCarry = 0.5;
+  static momentumDamping = 0.95;
   static _instance: Scroll;
   static _canCreate = false;
   static getInstance() {

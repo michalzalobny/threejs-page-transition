@@ -120,7 +120,7 @@ export class Page extends THREE.EventDispatcher {
     this._applyScroll(e.x * Page.touchMultiplier, e.y * Page.touchMultiplier);
   };
   _onScrollWheel = (e: THREE.Event) => {
-    this._applyScroll(e.x * Page.touchMultiplier, e.y * Page.wheelMultiplier);
+    this._applyScroll(e.x * Page.wheelMultiplier, e.y * Page.wheelMultiplier);
   };
 
   _addListeners() {
