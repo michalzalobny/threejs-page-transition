@@ -13,7 +13,7 @@ export class Transition {
   _color = '#000000';
   _transformPrefix = Prefix('transform');
   _parentFn: (() => void) | null = null;
-  _rendererBounds: Bounds = { height: 100, width: 100 };
+  _rendererBounds: Bounds = { height: 10, width: 100 };
 
   constructor() {
     this._canvas = document.createElement('canvas');

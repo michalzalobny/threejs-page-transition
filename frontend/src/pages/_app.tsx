@@ -44,9 +44,20 @@ export default function MyApp(props: AppProps) {
     const fontA = new FontFaceObserver('Suisse');
     const fontB = new FontFaceObserver('Open Sans');
 
-    Promise.all([fontA.load(), fontB.load()]).then(() => {
-      if (globalState.canvasApp) globalState.canvasApp.init();
-    });
+    Promise.all([fontA.load(null, 10), fontB.load()])
+      .then(
+        () => {
+          if (globalState.canvasApp) globalState.canvasApp.init();
+        },
+        () => {
+          if (globalState.canvasApp) globalState.canvasApp.init();
+          console.warn('Fonts were loading too long');
+        },
+      )
+      .catch((err) => {
+        if (globalState.canvasApp) globalState.canvasApp.init();
+        console.warn('Some critical font are not available:', err);
+      });
   }, []);
 
   return (
