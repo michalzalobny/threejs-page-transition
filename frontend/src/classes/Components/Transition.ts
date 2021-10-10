@@ -19,7 +19,6 @@ export class Transition {
     this._canvas = document.createElement('canvas');
     this._canvas.className = 'transition';
     this._ctx = this._canvas.getContext('2d');
-    this._setSizes();
     document.body.appendChild(this._canvas);
   }
 
