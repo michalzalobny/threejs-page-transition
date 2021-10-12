@@ -105,10 +105,15 @@ export class Page extends THREE.EventDispatcher {
     this._scrollValues.target.x -= x;
     let newY = this._scrollValues.target.y + y;
 
-    newY = Math.max(
-      Math.min(0, newY),
-      -(this._pageElBounds.height - this._rendererBounds.height),
-    );
+    const bottomBound = 0;
+    let topBound = this._pageElBounds.height - this._rendererBounds.height;
+    if (topBound < 0) topBound = 0;
+
+    if (-newY <= bottomBound) {
+      newY = bottomBound;
+    } else if (-newY >= topBound) {
+      newY = -topBound;
+    }
 
     this._scrollValues.target.y = newY;
   };
