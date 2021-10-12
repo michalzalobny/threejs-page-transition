@@ -143,7 +143,7 @@ export class Page extends THREE.EventDispatcher {
 
   animateIn() {
     this._anmParagraphs.forEach((el) => {
-      el.animateIn();
+      el.initObserver();
     });
   }
 

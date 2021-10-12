@@ -7,40 +7,36 @@ interface Constructor {
 export class Animation {
   _element: HTMLElement;
   _transformPrefix = Prefix('transform');
-  _observer: void | null = null;
-  _canAnimate = false;
-  isVisible = false;
+  _observer: IntersectionObserver;
+  _triggerOnce = false;
 
   constructor({ element }: Constructor) {
     this._element = element;
-
-    if ('IntersectionObserver' in window) {
-      this.createObserver();
-    }
+    this._observer = new IntersectionObserver(this._handleIntersection);
   }
 
-  createObserver() {
-    this._observer = new window.IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (this._canAnimate) {
-          if (entry.isIntersecting) {
-            this.animateIn();
-          } else {
-            this.animateOut();
-          }
-        }
-      });
-    }).observe(this._element);
+  _handleIntersection = (
+    entries: IntersectionObserverEntry[],
+    observer: IntersectionObserver,
+  ) => {
+    entries.forEach((entry) => {
+      if (entry.intersectionRatio > 0) {
+        this.animateIn();
+        if (this._triggerOnce) observer.unobserve(entry.target);
+      } else {
+        this.animateOut();
+      }
+    });
+  };
+
+  initObserver() {
+    this._observer.unobserve(this._element);
+    this._observer.observe(this._element);
   }
 
-  animateIn() {
-    this._canAnimate = true;
-    this.isVisible = true;
-  }
+  animateIn() {}
 
-  animateOut() {
-    this.isVisible = false;
-  }
+  animateOut() {}
 
   onResize() {}
 }

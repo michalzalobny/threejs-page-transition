@@ -1,6 +1,5 @@
 import SplitType from 'split-type';
 
-import { globalState } from 'utils/globalState';
 import { Animation } from './Animation';
 
 interface Constructor {
@@ -21,15 +20,8 @@ export class Paragraph extends Animation {
   }
 
   animateIn() {
-    if (!globalState.isCanvasAppInit) {
-      return;
-    }
-
     super.animateIn();
-
-    if (!this._text.lines) {
-      return;
-    }
+    if (!this._text.lines) return;
 
     this._text.lines.forEach((line, lineIndex) => {
       (Array.from(line.children) as HTMLElement[]).forEach(
@@ -46,9 +38,7 @@ export class Paragraph extends Animation {
   animateOut() {
     super.animateOut();
 
-    if (!this._text.lines) {
-      return;
-    }
+    if (!this._text.lines) return;
 
     this._text.lines.forEach((line, lineIndex) => {
       (Array.from(line.children) as HTMLElement[]).forEach(
@@ -71,6 +61,6 @@ export class Paragraph extends Animation {
       types: 'lines,words',
     });
 
-    this.animateIn();
+    this.initObserver();
   }
 }

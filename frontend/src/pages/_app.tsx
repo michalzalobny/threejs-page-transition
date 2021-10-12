@@ -3,6 +3,7 @@ import FontFaceObserver from 'fontfaceobserver';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import 'intersection-observer';
 
 import { globalState } from 'utils/globalState';
 import { CanvasApp } from 'classes/CanvasApp';
