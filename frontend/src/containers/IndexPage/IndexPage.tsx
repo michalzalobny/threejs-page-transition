@@ -20,14 +20,17 @@ export default function IndexPage() {
         <p data-animation="paragraph" className="index__p">
           Index page Lorem ipsum dolor sit amet consectetur, adipisicing elit.
           Quaerat, dolores excepturi repellendus voluptate nemo, fugiat, a sint
-          cumque.
+          cumque.w
         </p>
 
         <Link passHref href="/details">
           <a className="index__img-link">
-            <figure className="index__img-wrapper">
+            <figure
+              data-animation="image3d"
+              data-src={imageSrc.src}
+              className="index__img-wrapper"
+            >
               <img
-                data-src={imageSrc.src}
                 src={imageSrc.src}
                 className="index__img"
                 alt="Newcastle tyne river"

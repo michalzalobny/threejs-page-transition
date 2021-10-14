@@ -12,7 +12,6 @@ import { InteractiveScene } from '../InteractiveScene';
 export class PageManager extends THREE.EventDispatcher {
   _pagesArray: Page[] = [];
   _transition: Transition;
-  _interactiveScene: InteractiveScene | null = null;
 
   constructor() {
     super();
@@ -63,7 +62,15 @@ export class PageManager extends THREE.EventDispatcher {
   }
 
   setInteractiveScene(scene: InteractiveScene) {
-    this._interactiveScene = scene;
+    this._pagesArray.forEach((page) => {
+      page.setInteractiveScene(scene);
+    });
+  }
+
+  onAssetsLoaded() {
+    this._pagesArray.forEach((page) => {
+      page.onAssetsLoaded();
+    });
   }
 
   update(updateInfo: UpdateInfo) {

@@ -20,7 +20,6 @@ export class Page extends THREE.EventDispatcher {
 
   pageId: string;
   _anmParagraphs: Paragraph[] = [];
-  _interactiveScene: InteractiveScene | null = null;
   _scroll = Scroll.getInstance();
   _pageEl: HTMLElement | null = null;
   _rendererBounds: Bounds = { height: 10, width: 100 };
@@ -157,9 +156,9 @@ export class Page extends THREE.EventDispatcher {
     this._removeListeners();
   }
 
-  setInteractiveScene(scene: InteractiveScene) {
-    this._interactiveScene = scene;
-  }
+  setInteractiveScene(scene: InteractiveScene) {}
+
+  onAssetsLoaded() {}
 
   setRendererBounds(bounds: Bounds) {
     this._rendererBounds = bounds;

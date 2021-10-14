@@ -13,7 +13,7 @@ export class Preloader extends EventDispatcher {
   }
 
   _preloadTextures() {
-    this._images.forEach(item => {
+    this._images.forEach((item) => {
       const texture = new THREE.Texture();
       const image = new window.Image();
       image.crossOrigin = 'anonymous';
