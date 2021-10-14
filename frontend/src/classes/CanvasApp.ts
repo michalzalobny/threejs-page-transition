@@ -72,7 +72,6 @@ export class CanvasApp extends THREE.EventDispatcher {
 
     this._interactiveScene &&
       this._interactiveScene.setRendererBounds(rendererBounds);
-
     this._pageManager.setRendererBounds(rendererBounds);
   }
 
