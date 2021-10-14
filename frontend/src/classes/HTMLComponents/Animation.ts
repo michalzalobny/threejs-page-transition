@@ -8,7 +8,7 @@ export class Animation {
   _element: HTMLElement;
   _transformPrefix = Prefix('transform');
   _observer: IntersectionObserver;
-  _triggerOnce = false;
+  _triggerOnce = true;
 
   constructor({ element }: Constructor) {
     this._element = element;
