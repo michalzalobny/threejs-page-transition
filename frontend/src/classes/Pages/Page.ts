@@ -24,17 +24,17 @@ export class Page extends THREE.EventDispatcher {
   _pageEl: HTMLElement | null = null;
   _rendererBounds: Bounds = { height: 10, width: 100 };
   _pageElBounds: DOMRect | null = null;
-
   _scrollValues: ScrollValues = {
-    current: { x: 0, y: 0 },
-    target: { x: 0, y: 0 },
-    last: { x: 0, y: 0 },
-    direction: { x: 'left', y: 'up' },
+    scroll: {
+      current: 0,
+      target: 0,
+      last: 0,
+    },
+    direction: 'down',
     strength: {
       current: 0,
       target: 0,
     },
-    scrollSpeed: { x: 0, y: 0 },
   };
 
   constructor({ pageId }: Constructor) {
@@ -51,28 +51,18 @@ export class Page extends THREE.EventDispatcher {
   }
 
   _updateScrollValues(updateInfo: UpdateInfo) {
-    this._scrollValues.target.y += this._scrollValues.scrollSpeed.y;
-
     //Update scroll direction
-    if (this._scrollValues.current.x > this._scrollValues.last.x) {
-      this._scrollValues.direction.x = 'left';
+    if (this._scrollValues.scroll.current > this._scrollValues.scroll.last) {
+      this._scrollValues.direction = 'up';
     } else {
-      this._scrollValues.direction.x = 'right';
-    }
-
-    if (this._scrollValues.current.y > this._scrollValues.last.y) {
-      this._scrollValues.direction.y = 'up';
-    } else {
-      this._scrollValues.direction.y = 'down';
+      this._scrollValues.direction = 'down';
     }
 
     //Update scroll strength
-    const deltaX = this._scrollValues.current.x - this._scrollValues.last.x;
-    const deltaY = this._scrollValues.current.y - this._scrollValues.last.y;
+    const deltaY =
+      this._scrollValues.scroll.current - this._scrollValues.scroll.last;
 
-    this._scrollValues.strength.target = Math.sqrt(
-      deltaX * deltaX + deltaY * deltaY,
-    );
+    this._scrollValues.strength.target = deltaY;
 
     this._scrollValues.strength.current = lerp(
       this._scrollValues.strength.current,
@@ -80,19 +70,12 @@ export class Page extends THREE.EventDispatcher {
       Page.lerpEase * updateInfo.slowDownFactor,
     );
 
-    this._scrollValues.last.x = this._scrollValues.current.x;
-    this._scrollValues.last.y = this._scrollValues.current.y;
+    this._scrollValues.scroll.last = this._scrollValues.scroll.current;
 
     //lerp scroll
-    this._scrollValues.current.x = lerp(
-      this._scrollValues.current.x,
-      this._scrollValues.target.x,
-      Page.lerpEase * updateInfo.slowDownFactor,
-    );
-
-    this._scrollValues.current.y = lerp(
-      this._scrollValues.current.y,
-      this._scrollValues.target.y,
+    this._scrollValues.scroll.current = lerp(
+      this._scrollValues.scroll.current,
+      this._scrollValues.scroll.target,
       Page.lerpEase * updateInfo.slowDownFactor,
     );
   }
@@ -102,8 +85,7 @@ export class Page extends THREE.EventDispatcher {
       return;
     }
 
-    this._scrollValues.target.x -= x;
-    let newY = this._scrollValues.target.y + y;
+    let newY = this._scrollValues.scroll.target + y;
 
     const bottomBound = 0;
     let topBound = this._pageElBounds.height - this._rendererBounds.height;
@@ -115,7 +97,7 @@ export class Page extends THREE.EventDispatcher {
       newY = -topBound;
     }
 
-    this._scrollValues.target.y = newY;
+    this._scrollValues.scroll.target = newY;
   };
 
   _onScrollMouse = (e: THREE.Event) => {
@@ -142,7 +124,7 @@ export class Page extends THREE.EventDispatcher {
 
   _updateCss() {
     if (this._pageEl) {
-      this._pageEl.style.transform = `translate3d(0,${this._scrollValues.current.y}px,0)`;
+      this._pageEl.style.transform = `translate3d(0,${this._scrollValues.scroll.current}px,0)`;
     }
   }
 
