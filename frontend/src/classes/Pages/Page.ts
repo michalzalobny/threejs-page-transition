@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import Prefix from 'prefix';
 
 import { Bounds, ScrollValues, UpdateInfo } from '../types';
 import { Scroll } from '../Singletons/Scroll';
@@ -24,6 +25,7 @@ export class Page extends THREE.EventDispatcher {
   _pageEl: HTMLElement | null = null;
   _rendererBounds: Bounds = { height: 10, width: 100 };
   _pageElBounds: DOMRect | null = null;
+  _transformPrefix = Prefix('transform');
   _scrollValues: ScrollValues = {
     scroll: {
       current: 0,
@@ -124,7 +126,9 @@ export class Page extends THREE.EventDispatcher {
 
   _updateCss() {
     if (this._pageEl) {
-      this._pageEl.style.transform = `translate3d(0,${this._scrollValues.scroll.current}px,0)`;
+      this._pageEl.style[
+        this._transformPrefix
+      ] = `translate3d(0,${this._scrollValues.scroll.current}px,0)`;
     }
   }
 
