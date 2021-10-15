@@ -35,7 +35,6 @@
   }
 
   &__img-wrapper {
-    transform: translateX(50%);
     opacity: 0.3;
     width: 100%;
     position: relative;
@@ -44,7 +43,7 @@
       content: '';
       display: block;
       width: 100%;
-      padding-bottom: 30rem;
+      padding-bottom: 20rem;
     }
   }
 }
