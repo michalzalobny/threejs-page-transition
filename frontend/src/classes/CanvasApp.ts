@@ -86,7 +86,6 @@ export class CanvasApp extends THREE.EventDispatcher {
   _onAssetsLoaded = (e: THREE.Event) => {
     globalState.textureItems = (e.target as Preloader).textureItems;
     this._pageManager.onAssetsLoaded();
-    //Notify all the pages about assets being loaded
   };
 
   _addListeners() {
