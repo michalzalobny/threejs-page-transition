@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 
+import { Bounds, UpdateInfo, Mouse } from 'types';
+
 import { MouseMove } from './Singletons/MouseMove';
-import { Bounds, UpdateInfo, Mouse } from './types';
 import {
   InteractiveObject3D,
   ColliderName,
@@ -132,7 +133,7 @@ export class InteractiveScene extends THREE.Scene {
     this._performRaycast({
       x: mouse3DX,
       y: mouse3DY,
-      colliderName: 'cardItem',
+      colliderName: 'image3D',
       fnToCallIfHit: 'onClick',
     });
   };

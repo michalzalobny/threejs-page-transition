@@ -1,7 +1,7 @@
 import { EventDispatcher } from 'three';
 import * as THREE from 'three';
 
-import { TextureItems } from '../types';
+import { TextureItems } from 'types';
 
 export class Preloader extends EventDispatcher {
   _assetsLoaded = 0;

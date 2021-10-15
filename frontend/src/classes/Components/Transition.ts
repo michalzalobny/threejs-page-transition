@@ -1,7 +1,7 @@
 import TWEEN, { Tween } from '@tweenjs/tween.js';
 import Prefix from 'prefix';
 
-import { Bounds } from '../types';
+import { Bounds } from 'types';
 
 export class Transition {
   static animateParentRatio = 0.8; // value from 0 to 1, fires animating in elements;

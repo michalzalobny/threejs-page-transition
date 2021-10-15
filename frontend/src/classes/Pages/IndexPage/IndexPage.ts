@@ -1,7 +1,8 @@
+import { UpdateInfo, Bounds } from 'types';
+
 import { Page } from '../Page';
 import { IndexPageCanvas } from './Canvas/IndexPageCanvas';
 import { InteractiveScene } from '../../InteractiveScene';
-import { UpdateInfo, Bounds } from '../../types';
 
 interface Constructor {
   pageId: string;

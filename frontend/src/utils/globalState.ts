@@ -1,5 +1,5 @@
 import { CanvasApp } from 'classes/CanvasApp';
-import { TextureItems } from '../classes/types';
+import { TextureItems } from 'types';
 
 interface GlobalState {
   canvasApp: CanvasApp | null;

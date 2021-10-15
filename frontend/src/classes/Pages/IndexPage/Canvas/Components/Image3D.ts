@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import TWEEN, { Tween } from '@tweenjs/tween.js';
 
-import { UpdateInfo, ScrollValues, DomRectSSR } from '../../../../types';
+import { UpdateInfo, ScrollValues, DomRectSSR } from 'types';
+
 import { MediaObject3D } from './MediaObject3D';
 
 interface Constructor {

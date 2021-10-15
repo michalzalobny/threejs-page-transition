@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-import { Bounds, UpdateInfo } from '../types';
+import { Bounds, UpdateInfo } from 'types';
 import { globalState } from 'utils/globalState';
 
 import { Transition } from '../Components/Transition';

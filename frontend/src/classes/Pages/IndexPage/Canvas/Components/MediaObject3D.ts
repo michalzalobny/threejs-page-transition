@@ -1,9 +1,10 @@
 import * as THREE from 'three';
+
+import { InteractiveObject3D } from 'classes/Components/InteractiveObject3D';
+import { Bounds, TextureItem, UpdateInfo } from 'types';
+
 import fragmentShader from '../shaders/media/fragment.glsl';
 import vertexShader from '../shaders/media/vertex.glsl';
-
-import { InteractiveObject3D } from './InteractiveObject3D';
-import { Bounds, TextureItem, UpdateInfo } from '../../../../types';
 
 interface Constructor {
   geometry: THREE.PlaneGeometry;

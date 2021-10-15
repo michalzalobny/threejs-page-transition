@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import Prefix from 'prefix';
 
-import { Bounds, ScrollValues, UpdateInfo } from '../types';
+import { Bounds, ScrollValues, UpdateInfo } from 'types';
+
 import { Scroll } from '../Singletons/Scroll';
 import { Paragraph } from '../HTMLComponents/Paragraph';
 import { InteractiveScene } from '../InteractiveScene';

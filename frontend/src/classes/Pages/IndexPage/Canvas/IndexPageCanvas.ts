@@ -1,9 +1,9 @@
+import { Bounds, UpdateInfo } from 'types';
+import { globalState } from 'utils/globalState';
+
 import { PageCanvas } from '../../PageCanvas';
 import { InteractiveScene } from '../../../InteractiveScene';
 import { Image3D } from './Components/Image3D';
-import { Bounds, UpdateInfo } from '../../../types';
-
-import { globalState } from 'utils/globalState';
 
 interface Constructor {}
 
