@@ -2,13 +2,10 @@ import * as THREE from 'three';
 
 import { Bounds, UpdateInfo, Mouse } from 'types';
 
-import { MouseMove } from './Singletons/MouseMove';
-import {
-  InteractiveObject3D,
-  ColliderName,
-} from './Components/InteractiveObject3D';
-import { IntersectiveBackground3D } from './Components/IntersectiveBackground3D';
-import { lerp } from './utils/lerp';
+import { MouseMove } from '../Singletons/MouseMove';
+import { InteractiveObject3D, ColliderName } from './InteractiveObject3D';
+import { IntersectiveBackground3D } from './IntersectiveBackground3D';
+import { lerp } from '../utils/lerp';
 
 interface Constructor {
   camera: THREE.PerspectiveCamera;

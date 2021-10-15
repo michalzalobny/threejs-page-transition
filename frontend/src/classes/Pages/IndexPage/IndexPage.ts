@@ -2,7 +2,7 @@ import { UpdateInfo, Bounds } from 'types';
 
 import { Page } from '../Page';
 import { IndexPageCanvas } from './Canvas/IndexPageCanvas';
-import { InteractiveScene } from '../../InteractiveScene';
+import { InteractiveScene } from '../../Components/InteractiveScene';
 
 interface Constructor {
   pageId: string;

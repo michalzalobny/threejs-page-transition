@@ -7,7 +7,7 @@ import { Transition } from '../Components/Transition';
 import { DetailsPage } from './DetailsPage/DetailsPage';
 import { IndexPage } from './IndexPage/IndexPage';
 import { Page } from './Page';
-import { InteractiveScene } from '../InteractiveScene';
+import { InteractiveScene } from '../Components/InteractiveScene';
 
 export class PageManager extends THREE.EventDispatcher {
   _pagesArray: Page[] = [];

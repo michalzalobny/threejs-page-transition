@@ -5,7 +5,7 @@ import { Bounds, ScrollValues, UpdateInfo } from 'types';
 
 import { Scroll } from '../Singletons/Scroll';
 import { Paragraph } from '../HTMLComponents/Paragraph';
-import { InteractiveScene } from '../InteractiveScene';
+import { InteractiveScene } from '../Components/InteractiveScene';
 import { lerp } from '../utils/lerp';
 
 interface Constructor {

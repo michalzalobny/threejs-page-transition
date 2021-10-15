@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 import { Bounds, UpdateInfo, ScrollValues } from 'types';
 
-import { InteractiveScene } from '../InteractiveScene';
+import { InteractiveScene } from '../Components/InteractiveScene';
 
 interface Constructor {}
 

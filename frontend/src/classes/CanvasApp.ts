@@ -8,7 +8,7 @@ import { MouseMove } from './Singletons/MouseMove';
 import { Scroll } from './Singletons/Scroll';
 import { Preloader } from './Utility/Preloader';
 import { PageManager } from './Pages/PageManager';
-import { InteractiveScene } from './InteractiveScene';
+import { InteractiveScene } from './Components/InteractiveScene';
 
 export class CanvasApp extends THREE.EventDispatcher {
   static defaultFps = 60;
