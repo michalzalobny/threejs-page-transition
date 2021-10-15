@@ -130,7 +130,11 @@ export class Image3D extends MediaObject3D {
 
   onResize() {
     super.onResize();
-    this._updateBounds();
+
+    // Raf fixes css styles issue
+    window.requestAnimationFrame(() => {
+      this._updateBounds();
+    });
   }
 
   update(updateInfo: UpdateInfo) {

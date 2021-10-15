@@ -20,12 +20,22 @@ export class IndexPageCanvas extends PageCanvas {
     super.setInteractiveScene(scene);
   }
 
+  _destroyItems() {
+    this._anmImages3D.forEach((item) => {
+      item.destroy();
+    });
+    this._anmImages3D = [];
+    this._planeGeometry.dispose();
+  }
+
   onEnter(el: HTMLElement) {
     super.onEnter(el);
 
     if (!this._pageEl) {
       return;
     }
+
+    this._destroyItems();
 
     const medias = Array.from(
       this._pageEl.querySelectorAll(IndexPageCanvas.anmImage3D),
@@ -42,6 +52,8 @@ export class IndexPageCanvas extends PageCanvas {
         this._interactiveScene.add(el);
       }
     });
+
+    this.onAssetsLoaded();
   }
 
   setRendererBounds(bounds: Bounds) {
@@ -60,7 +72,9 @@ export class IndexPageCanvas extends PageCanvas {
     });
   }
 
-  onExit() {}
+  onExit() {
+    this._destroyItems();
+  }
 
   update(updateInfo: UpdateInfo) {
     super.update(updateInfo);
