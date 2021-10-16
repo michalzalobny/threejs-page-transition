@@ -158,12 +158,8 @@ export class CanvasApp extends THREE.EventDispatcher {
     this._preloader.destroy();
   }
 
-  handlePageEnter(pageEl: HTMLElement, skipTransition = false) {
-    this._pageManager.handlePageEnter(pageEl, skipTransition);
-  }
-
-  handlePageExit(pageEl: HTMLElement) {
-    this._pageManager.handlePageExit(pageEl);
+  handlePageEnter(pageEl: HTMLElement) {
+    this._pageManager.handlePageEnter(pageEl);
   }
 
   init() {
@@ -183,7 +179,7 @@ export class CanvasApp extends THREE.EventDispatcher {
     pageOverlay.classList.add('page__overlay--disabled');
 
     this._onResize();
-    this.handlePageEnter(page, true);
+    this.handlePageEnter(page);
     globalState.isCanvasAppInit = true;
   }
 

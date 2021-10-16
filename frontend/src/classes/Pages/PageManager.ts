@@ -21,61 +21,45 @@ export class PageManager extends THREE.EventDispatcher {
     this._transition = new Transition();
   }
 
-  handlePageEnter(pageEl: HTMLElement, skipTransition: boolean) {
-    const pageId = pageEl.dataset.pageid;
+  handlePageEnter(pageEl: HTMLElement) {
+    const newPageId = pageEl.dataset.pageid;
+    const oldPageId = globalState.currentPageId;
+    if (newPageId) globalState.currentPageId = newPageId;
 
-    const fromDetailsToIndex =
-      globalState.currentPageId === '/details' && pageId === '/';
+    let isEnterInitial = false;
+    if (newPageId === oldPageId) isEnterInitial = true;
 
-    const fromIndexToDetails =
-      globalState.currentPageId === '/' && pageId === '/details';
+    const fromDetailsToIndex = oldPageId === '/details' && newPageId === '/';
+    const fromIndexToDetails = oldPageId === '/' && newPageId === '/details';
 
-    if (pageId) globalState.currentPageId = pageId;
+    const newPage = this._pagesArray.find((page) => page.pageId === newPageId);
+    const oldPage = this._pagesArray.find((page) => page.pageId === oldPageId);
 
-    const page = this._pagesArray.find((page) => page.pageId === pageId);
-
-    if (page) page.onEnter(pageEl);
+    if (newPage) newPage.onEnter(pageEl);
 
     const parentFn = () => {
-      if (page) page.animateIn();
+      if (newPage) newPage.animateIn();
     };
 
-    if (!fromIndexToDetails && !fromDetailsToIndex) {
-      if (skipTransition) {
+    if (fromDetailsToIndex) {
+      if (oldPage) oldPage.onExit();
+      if (newPage) newPage.animateIn();
+    } else if (fromIndexToDetails) {
+      if (oldPage) (oldPage as IndexPage).onExitToDetails();
+      if (newPage) newPage.animateIn();
+    } else {
+      if (isEnterInitial) {
         // Raf fixes css styles issue (without Raf, they are being added at the same time as a class, and it removes the initial animation)
-        window.requestAnimationFrame(() => {
+        return window.requestAnimationFrame(() => {
           parentFn();
         });
-
-        return;
       }
+
+      if (oldPage) oldPage.onExit();
 
       this._transition.show('#ded4bd', parentFn);
     }
-  }
-
-  handlePageExit(pageEl: HTMLElement) {
-    const pageId = pageEl.dataset.pageid;
-    const page = this._pagesArray.find((page) => page.pageId === pageId);
-    const enterPage = this._pagesArray.find(
-      (page) => page.pageId === globalState.currentPageId,
-    );
-
-    const fromIndexToDetails =
-      globalState.currentPageId === '/details' && pageId === '/';
-
-    const fromDetailsToIndex =
-      globalState.currentPageId === '/' && pageId === '/details';
-
-    if (fromDetailsToIndex) {
-      if (page) page.onExit();
-      if (enterPage) enterPage.animateIn();
-    } else if (fromIndexToDetails) {
-      if (page) (page as IndexPage).onExitToDetails();
-      if (enterPage) enterPage.animateIn();
-    } else {
-      if (page) page.onExit();
-    }
+    return;
   }
 
   setRendererBounds(rendererBounds: Bounds) {

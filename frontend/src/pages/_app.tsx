@@ -40,13 +40,6 @@ export default function MyApp(props: AppProps) {
     if (globalState.canvasApp) globalState.canvasApp.handlePageEnter(el);
   };
 
-  const onPageExit = (el: HTMLElement) => {
-    //Makes the leave function always second
-    window.requestAnimationFrame(() => {
-      if (globalState.canvasApp) globalState.canvasApp.handlePageExit(el);
-    });
-  };
-
   useEffect(() => {
     const fontA = new FontFaceObserver('Suisse');
     const fontB = new FontFaceObserver('Open Sans');
@@ -86,7 +79,6 @@ export default function MyApp(props: AppProps) {
             classNames="page-transition"
             unmountOnExit
             onEnter={onPageEnter}
-            onExit={onPageExit}
           >
             <div data-pageid={router.pathname} className="page">
               <Component key={router.pathname} router={router} {...pageProps} />
