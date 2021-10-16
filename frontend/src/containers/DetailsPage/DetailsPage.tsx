@@ -7,6 +7,7 @@ export default function DetailsPage() {
   return (
     <>
       <div className="details__wrapper">
+        <div style={{ height: '10vh' }}></div>
         <figure
           data-transition="details"
           data-animation="image3d"
