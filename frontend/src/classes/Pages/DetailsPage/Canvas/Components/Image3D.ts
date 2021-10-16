@@ -18,7 +18,7 @@ interface AnimateOpacity {
 }
 
 export class Image3D extends MediaObject3D {
-  static transitionElId = '[data-transition="details"]';
+  static transitionElId = '[data-transition="index"]';
 
   _domEl: HTMLElement;
   _domElBounds: DomRectSSR = {

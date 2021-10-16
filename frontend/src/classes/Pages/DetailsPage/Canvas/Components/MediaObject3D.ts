@@ -97,10 +97,8 @@ export class MediaObject3D extends InteractiveObject3D {
   }
 
   set textureItem(textureItem: TextureItem) {
-    console.log(textureItem);
     this._textureItem = textureItem;
     this._updateTexture();
-    // this.onResize();
   }
 
   onResize() {}

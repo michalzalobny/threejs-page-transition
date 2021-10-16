@@ -26,6 +26,7 @@ export default function IndexPage() {
         <Link passHref href="/details">
           <a className="index__img-link">
             <figure
+              data-transition="index"
               data-animation="image3d"
               data-src={imageSrc.src}
               className="index__img-wrapper"
