@@ -31,6 +31,10 @@ export class Image3D extends MediaObject3D {
     x: 0,
     y: 0,
   };
+  _transitionElBounds = {
+    left: 0,
+    top: 0,
+  };
   _scrollValues: ScrollValues | null = null;
   _animateInTween: Tween<{
     x: number;
@@ -78,16 +82,17 @@ export class Image3D extends MediaObject3D {
   }
 
   _updateScale() {
-    if (this._mesh && this._domElBounds) {
+    if (this._mesh) {
       this._mesh.scale.x = this._domElBounds.width;
       this._mesh.scale.y = this._domElBounds.height;
     }
   }
 
   _updateX(x: number) {
-    if (this._mesh && this._domElBounds) {
+    if (this._mesh) {
       this._mesh.position.x =
         -x * (1 - this._transitionProgress) +
+        this._transitionElBounds.left * this._transitionProgress +
         this._domElBounds.left * (1 - this._transitionProgress) -
         this._rendererBounds.width / 2 +
         this._mesh.scale.x / 2;
@@ -95,10 +100,11 @@ export class Image3D extends MediaObject3D {
   }
 
   _updateY(y: number) {
-    if (this._mesh && this._domElBounds) {
+    if (this._mesh) {
       this._mesh.position.y =
         -y * (1 - this._transitionProgress) -
-        this._domElBounds.top * (1 - this._transitionProgress) +
+        this._domElBounds.top * (1 - this._transitionProgress) -
+        this._transitionElBounds.top * this._transitionProgress +
         this._rendererBounds.height / 2 -
         this._mesh.scale.y / 2;
     }
@@ -200,10 +206,15 @@ export class Image3D extends MediaObject3D {
       document.querySelectorAll(Image3D.transitionElId),
     )[0] as HTMLElement;
 
-    const bounds = transitionEl.getBoundingClientRect();
+    // Raf fixes css styles issue
+    window.requestAnimationFrame(() => {
+      const bounds = transitionEl.getBoundingClientRect();
+      this._transitionElBounds.top = bounds.top;
+      this._transitionElBounds.left = bounds.left;
 
-    this.animateScale(bounds.width, bounds.height, parentFn);
-    this.animateTransition({ destination: 1, duration: 1400 });
+      this.animateScale(bounds.width, bounds.height, parentFn);
+      this.animateTransition({ destination: 1, duration: 1400 });
+    });
   }
 
   onResize() {
