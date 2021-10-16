@@ -37,8 +37,10 @@ export class PageManager extends THREE.EventDispatcher {
 
     if (newPage) newPage.onEnter(pageEl);
 
+    globalState.isAppTransitioning = true;
     const parentFn = () => {
       if (newPage) newPage.animateIn();
+      globalState.isAppTransitioning = false;
     };
 
     if (fromDetailsToIndex) {

@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import Prefix from 'prefix';
 
 import { Bounds, ScrollValues, UpdateInfo } from 'types';
+import { globalState } from 'utils/globalState';
 
 import { Scroll } from '../Singletons/Scroll';
 import { Paragraph } from '../HTMLComponents/Paragraph';
@@ -83,7 +84,7 @@ export class Page extends THREE.EventDispatcher {
   }
 
   _applyScroll = (x: number, y: number) => {
-    if (!this._pageElBounds) {
+    if (!this._pageElBounds || globalState.isAppTransitioning) {
       return;
     }
 
