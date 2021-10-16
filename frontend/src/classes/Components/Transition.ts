@@ -14,7 +14,6 @@ export class Transition {
   _transformPrefix = Prefix('transform');
   _parentFn: (() => void) | null = null;
   _rendererBounds: Bounds = { height: 10, width: 100 };
-  _showCurtain = true;
 
   constructor() {
     this._canvas = document.createElement('canvas');
@@ -42,8 +41,6 @@ export class Transition {
       this._curtainProgressTween.stop();
     }
 
-    let canFireParentFn = true;
-
     this._curtainProgressTween = new TWEEN.Tween({
       progress: this._curtainProgress,
     })
@@ -51,19 +48,11 @@ export class Transition {
       .easing(TWEEN.Easing.Exponential.InOut)
       .onUpdate((obj) => {
         this._curtainProgress = obj.progress;
-        this._showCurtain && this._onUpdate();
-
-        if (
-          destination === 0 &&
-          this._curtainProgress < Transition.animateParentRatio &&
-          canFireParentFn
-        ) {
-          canFireParentFn = false;
-          if (this._parentFn) this._parentFn();
-        }
+        this._onUpdate();
       })
       .onComplete(() => {
         if (destination === 1) this._hide();
+        if (destination === 0 && this._parentFn) this._parentFn();
       });
 
     this._curtainProgressTween.start();
@@ -115,8 +104,7 @@ export class Transition {
     this._ctx.restore();
   }
 
-  show(color: string, parentFn: () => void, showCurtain = true) {
-    this._showCurtain = showCurtain;
+  show(color: string, parentFn: () => void) {
     this._color = color;
     this._canvas.style[this._transformPrefix] = 'rotate(180deg)';
     this._parentFn = parentFn;

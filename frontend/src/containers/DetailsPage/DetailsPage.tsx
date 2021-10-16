@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-import imageSrc from './images/1.jpg';
+import imageSrc from '../IndexPage/images/1.jpg';
 
 export default function DetailsPage() {
   return (

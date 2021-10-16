@@ -39,6 +39,11 @@ export class IndexPage extends Page {
     this._pageCanvas.onExit();
   }
 
+  animateIn() {
+    super.animateIn();
+    this._pageCanvas.animateIn();
+  }
+
   onExitToDetails(parentFn: () => void) {
     //It executes the functions that onExit() normally executes (WIP)
     this._animateOut();

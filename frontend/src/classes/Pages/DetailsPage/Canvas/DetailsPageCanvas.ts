@@ -7,7 +7,7 @@ import { Image3D } from './Components/Image3D';
 
 interface Constructor {}
 
-export class IndexPageCanvas extends PageCanvas {
+export class DetailsPageCanvas extends PageCanvas {
   static anmImage3D = '[data-animation="image3d"]';
 
   _anmImages3D: Image3D[] = [];
@@ -38,7 +38,7 @@ export class IndexPageCanvas extends PageCanvas {
     this._destroyItems();
 
     const medias = Array.from(
-      this._pageEl.querySelectorAll(IndexPageCanvas.anmImage3D),
+      this._pageEl.querySelectorAll(DetailsPageCanvas.anmImage3D),
     ) as HTMLElement[];
 
     this._anmImages3D = medias.map((el) => {
@@ -82,7 +82,7 @@ export class IndexPageCanvas extends PageCanvas {
     });
   }
 
-  onExitToDetails(parentFn: () => void) {
+  onExitToIndex(parentFn: () => void) {
     //WIP (we need to get the exact element to animate)
     this._anmImages3D.forEach((el, key) => {
       const endAnimationFn = () => {
@@ -90,7 +90,7 @@ export class IndexPageCanvas extends PageCanvas {
         parentFn();
       };
       if (key === 0) {
-        el.onExitToDetails(endAnimationFn);
+        el.onExitToIndex(endAnimationFn);
       }
     });
   }

@@ -42,8 +42,7 @@ export class PageManager extends THREE.EventDispatcher {
     };
 
     if (fromDetailsToIndex) {
-      if (oldPage) oldPage.onExit();
-      this._transition.show('#ded4bd', parentFn, false);
+      if (oldPage) (oldPage as DetailsPage).onExitToIndex(parentFn);
     } else if (fromIndexToDetails) {
       if (oldPage) (oldPage as IndexPage).onExitToDetails(parentFn);
     } else {

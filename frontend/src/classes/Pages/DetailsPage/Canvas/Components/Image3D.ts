@@ -201,7 +201,7 @@ export class Image3D extends MediaObject3D {
     this._scaleTween.start();
   }
 
-  onExitToDetails(parentFn: () => void) {
+  onExitToIndex(parentFn: () => void) {
     const transitionEl = Array.from(
       document.querySelectorAll(Image3D.transitionElId),
     )[0] as HTMLElement;
