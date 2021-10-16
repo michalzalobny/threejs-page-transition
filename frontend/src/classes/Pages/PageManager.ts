@@ -43,10 +43,9 @@ export class PageManager extends THREE.EventDispatcher {
 
     if (fromDetailsToIndex) {
       if (oldPage) oldPage.onExit();
-      if (newPage) newPage.animateIn();
+      this._transition.show('#ded4bd', parentFn, false);
     } else if (fromIndexToDetails) {
-      if (oldPage) (oldPage as IndexPage).onExitToDetails();
-      if (newPage) newPage.animateIn();
+      if (oldPage) (oldPage as IndexPage).onExitToDetails(parentFn);
     } else {
       if (isEnterInitial) {
         // Raf fixes css styles issue (without Raf, they are being added at the same time as a class, and it removes the initial animation)
@@ -56,7 +55,6 @@ export class PageManager extends THREE.EventDispatcher {
       }
 
       if (oldPage) oldPage.onExit();
-
       this._transition.show('#ded4bd', parentFn);
     }
     return;

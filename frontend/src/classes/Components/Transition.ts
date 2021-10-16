@@ -4,7 +4,7 @@ import Prefix from 'prefix';
 import { Bounds } from 'types';
 
 export class Transition {
-  static animateParentRatio = 0.8; // value from 0 to 1, fires animating in elements;
+  static animateParentRatio = 0.1; // value from 0 to 1, fires animating in elements;
 
   _canvas: HTMLCanvasElement;
   _ctx: CanvasRenderingContext2D | null;
@@ -14,6 +14,7 @@ export class Transition {
   _transformPrefix = Prefix('transform');
   _parentFn: (() => void) | null = null;
   _rendererBounds: Bounds = { height: 10, width: 100 };
+  _showCurtain = true;
 
   constructor() {
     this._canvas = document.createElement('canvas');
@@ -46,11 +47,11 @@ export class Transition {
     this._curtainProgressTween = new TWEEN.Tween({
       progress: this._curtainProgress,
     })
-      .to({ progress: destination }, 1200)
+      .to({ progress: destination }, 1400)
       .easing(TWEEN.Easing.Exponential.InOut)
       .onUpdate((obj) => {
         this._curtainProgress = obj.progress;
-        this._onUpdate();
+        this._showCurtain && this._onUpdate();
 
         if (
           destination === 0 &&
@@ -114,7 +115,8 @@ export class Transition {
     this._ctx.restore();
   }
 
-  show(color: string, parentFn: () => void) {
+  show(color: string, parentFn: () => void, showCurtain = true) {
+    this._showCurtain = showCurtain;
     this._color = color;
     this._canvas.style[this._transformPrefix] = 'rotate(180deg)';
     this._parentFn = parentFn;
