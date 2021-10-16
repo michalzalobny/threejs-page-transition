@@ -41,7 +41,10 @@ export default function MyApp(props: AppProps) {
   };
 
   const onPageExit = (el: HTMLElement) => {
-    if (globalState.canvasApp) globalState.canvasApp.handlePageExit(el);
+    //Makes the leave function always second
+    window.requestAnimationFrame(() => {
+      if (globalState.canvasApp) globalState.canvasApp.handlePageExit(el);
+    });
   };
 
   useEffect(() => {

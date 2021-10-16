@@ -83,7 +83,6 @@ export class IndexPageCanvas extends PageCanvas {
         el.onExitToDetails(this.onExit);
       }
     });
-    console.log('to details!');
   }
 
   update(updateInfo: UpdateInfo) {

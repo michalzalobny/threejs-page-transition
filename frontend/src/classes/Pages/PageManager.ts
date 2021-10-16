@@ -40,11 +40,7 @@ export class PageManager extends THREE.EventDispatcher {
       if (page) page.animateIn();
     };
 
-    if (fromDetailsToIndex) {
-      // parentFn();
-    } else if (fromIndexToDetails) {
-      // parentFn();
-    } else {
+    if (!fromIndexToDetails && !fromDetailsToIndex) {
       if (skipTransition) {
         // Raf fixes css styles issue (without Raf, they are being added at the same time as a class, and it removes the initial animation)
         window.requestAnimationFrame(() => {
@@ -75,9 +71,7 @@ export class PageManager extends THREE.EventDispatcher {
       if (page) page.onExit();
       if (enterPage) enterPage.animateIn();
     } else if (fromIndexToDetails) {
-      if (page) {
-        (page as IndexPage).onExitToDetails();
-      }
+      if (page) (page as IndexPage).onExitToDetails();
       if (enterPage) enterPage.animateIn();
     } else {
       if (page) page.onExit();

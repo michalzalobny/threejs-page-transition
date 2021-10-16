@@ -236,4 +236,11 @@ export class Image3D extends MediaObject3D {
         this._scrollValues.strength.current * 0.7 + 8;
     }
   }
+
+  destroy() {
+    super.destroy();
+    this._transitionTween && this._transitionTween.stop();
+    this._opacityTween && this._opacityTween.stop();
+    this._scaleTween && this._scaleTween.stop();
+  }
 }
