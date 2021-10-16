@@ -23,7 +23,15 @@ export class PageManager extends THREE.EventDispatcher {
 
   handlePageEnter(pageEl: HTMLElement, skipTransition: boolean) {
     const pageId = pageEl.dataset.pageid;
+
+    const fromDetailsToIndex =
+      globalState.currentPageId === '/details' && pageId === '/';
+
+    const fromIndexToDetails =
+      globalState.currentPageId === '/' && pageId === '/details';
+
     if (pageId) globalState.currentPageId = pageId;
+
     const page = this._pagesArray.find((page) => page.pageId === pageId);
 
     if (page) page.onEnter(pageEl);
@@ -32,23 +40,48 @@ export class PageManager extends THREE.EventDispatcher {
       if (page) page.animateIn();
     };
 
-    if (skipTransition) {
-      // Raf fixes css styles issue (without Raf, they are being added at the same time as a class, and it removes the initial animation)
-      window.requestAnimationFrame(() => {
-        parentFn();
-      });
+    if (fromDetailsToIndex) {
+      // parentFn();
+    } else if (fromIndexToDetails) {
+      // parentFn();
+    } else {
+      if (skipTransition) {
+        // Raf fixes css styles issue (without Raf, they are being added at the same time as a class, and it removes the initial animation)
+        window.requestAnimationFrame(() => {
+          parentFn();
+        });
 
-      return;
+        return;
+      }
+
+      this._transition.show('#ded4bd', parentFn);
     }
-
-    this._transition.show('#ded4bd', parentFn);
   }
 
   handlePageExit(pageEl: HTMLElement) {
     const pageId = pageEl.dataset.pageid;
     const page = this._pagesArray.find((page) => page.pageId === pageId);
+    const enterPage = this._pagesArray.find(
+      (page) => page.pageId === globalState.currentPageId,
+    );
 
-    if (page) page.onExit();
+    const fromIndexToDetails =
+      globalState.currentPageId === '/details' && pageId === '/';
+
+    const fromDetailsToIndex =
+      globalState.currentPageId === '/' && pageId === '/details';
+
+    if (fromDetailsToIndex) {
+      if (page) page.onExit();
+      if (enterPage) enterPage.animateIn();
+    } else if (fromIndexToDetails) {
+      if (page) {
+        (page as IndexPage).onExitToDetails();
+      }
+      if (enterPage) enterPage.animateIn();
+    } else {
+      if (page) page.onExit();
+    }
   }
 
   setRendererBounds(rendererBounds: Bounds) {

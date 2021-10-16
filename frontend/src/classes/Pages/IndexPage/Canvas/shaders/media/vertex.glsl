@@ -26,8 +26,8 @@ void main() {
   vec4 newPosition = modelViewMatrix * vec4(stablePosition, 1.0);
 
   //Barrel animation 
-  newPosition.z += sin(newPosition.y / uViewportSizes.y * PI + PI / 2.0) * -uStrength * 0.15;
-  newPosition.z += sin(newPosition.x / uViewportSizes.x * PI + PI / 2.0) * -uStrength * 0.15;
+  // newPosition.z += sin(newPosition.y / uViewportSizes.y * PI + PI / 2.0) * -uStrength * 2.5;
+  // newPosition.z += sin(newPosition.x / uViewportSizes.x * PI + PI / 2.0) * -uStrength * 2.5;
 
   gl_Position = projectionMatrix * newPosition;
 

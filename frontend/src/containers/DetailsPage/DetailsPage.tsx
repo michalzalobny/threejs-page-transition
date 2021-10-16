@@ -7,21 +7,18 @@ export default function DetailsPage() {
   return (
     <>
       <div className="details__wrapper">
-        <Link passHref href="/details">
-          <a className="details__img-link">
-            <figure
-              data-animation="image3d"
-              data-src={imageSrc.src}
-              className="details__img-wrapper"
-            >
-              <img
-                src={imageSrc.src}
-                className="details__img"
-                alt="Newcastle tyne river"
-              />
-            </figure>
-          </a>
-        </Link>
+        <figure
+          data-transition="details"
+          data-animation="image3d"
+          data-src={imageSrc.src}
+          className="details__img-wrapper"
+        >
+          <img
+            src={imageSrc.src}
+            className="details__img"
+            alt="Newcastle tyne river"
+          />
+        </figure>
 
         <div className="details__container">
           <h1 data-animation="paragraph" className="details__title">

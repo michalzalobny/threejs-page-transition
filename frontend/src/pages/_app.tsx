@@ -79,7 +79,7 @@ export default function MyApp(props: AppProps) {
         <TransitionGroup>
           <CSSTransition
             key={router.pathname}
-            timeout={1000}
+            timeout={2500}
             classNames="page-transition"
             unmountOnExit
             onEnter={onPageEnter}
