@@ -73,7 +73,10 @@ export class IndexPageCanvas extends PageCanvas {
   }
 
   onExit = () => {
-    this._destroyItems();
+    //RAF delays photo swap
+    window.requestAnimationFrame(() => {
+      this._destroyItems();
+    });
   };
 
   animateIn() {
