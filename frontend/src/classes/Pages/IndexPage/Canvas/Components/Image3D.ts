@@ -160,7 +160,7 @@ export class Image3D extends MediaObject3D {
     this.animateOpacity({ destination: 1, delay: 0, duration: 600 });
   }
 
-  animateScale(x: number, y: number) {
+  animateScale(x: number, y: number, parentFn: () => void) {
     if (this._scaleTween) {
       this._scaleTween.stop();
     }
@@ -173,7 +173,7 @@ export class Image3D extends MediaObject3D {
       x: this._mesh.scale.x,
       y: this._mesh.scale.y,
     })
-      .to({ x, y }, 1200)
+      .to({ x, y }, 1400)
       .easing(TWEEN.Easing.Exponential.InOut)
       .onUpdate((obj) => {
         if (this._mesh) {
@@ -188,22 +188,22 @@ export class Image3D extends MediaObject3D {
           }
         }
       })
-      .onComplete(() => {});
+      .onComplete(() => {
+        parentFn();
+      });
 
     this._scaleTween.start();
   }
 
-  onExitToDetails() {
+  onExitToDetails(parentFn: () => void) {
     const transitionEl = Array.from(
       document.querySelectorAll(Image3D.transitionElId),
     )[0] as HTMLElement;
 
     const bounds = transitionEl.getBoundingClientRect();
 
-    this.animateScale(bounds.width, bounds.height);
-    this.animateTransition({ destination: 1, duration: 1200 });
-
-    console.log(transitionEl);
+    this.animateScale(bounds.width, bounds.height, parentFn);
+    this.animateTransition({ destination: 1, duration: 1400 });
   }
 
   onResize() {

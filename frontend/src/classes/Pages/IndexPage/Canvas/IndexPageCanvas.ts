@@ -72,22 +72,18 @@ export class IndexPageCanvas extends PageCanvas {
     });
   }
 
-  onExit() {
+  onExit = () => {
     this._destroyItems();
-  }
+  };
 
   onExitToDetails() {
     //WIP (we need to get the exact element to animate)
     this._anmImages3D.forEach((el, key) => {
       if (key === 0) {
-        el.onExitToDetails();
+        el.onExitToDetails(this.onExit);
       }
     });
     console.log('to details!');
-
-    setTimeout(() => {
-      this.onExit();
-    }, 2500);
   }
 
   update(updateInfo: UpdateInfo) {
