@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@prismicio/client": "^5.1.0",
     "@tweenjs/tween.js": "^18.6.4",
     "fontfaceobserver": "^2.1.0",
     "intersection-observer": "^0.12.0",

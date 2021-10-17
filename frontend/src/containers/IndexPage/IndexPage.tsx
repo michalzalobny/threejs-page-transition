@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 
 import imageSrc from './images/1.jpg';
 
-export default function IndexPage() {
+export default function IndexPage(props: any) {
+  useEffect(() => {
+    console.log(props);
+  }, [props]);
+
   return (
     <>
       <div className="index__wrapper">
