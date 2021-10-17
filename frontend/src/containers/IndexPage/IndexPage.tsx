@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import Link from 'next/link';
 
+import { Props } from './data';
+
 import imageSrc from './images/1.jpg';
 
-export default function IndexPage(props: any) {
+export default function IndexPage(props: Props) {
   useEffect(() => {
-    console.log(props);
+    console.log(props.cardsCms);
   }, [props]);
 
   return (

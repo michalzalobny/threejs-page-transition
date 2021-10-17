@@ -1,56 +1,42 @@
 import { GetStaticProps } from 'next';
 import Prismic from '@prismicio/client';
-// import Prismic from 'prismic-javascript';
 
 import { client } from 'utils/prismic/client';
 
 import { ISR_TIMEOUT } from 'utils/prismic/isrTimeout';
 
-// interface PageData {
-//   head: HeadProps;
-//   name: string;
-// }
+interface Card {
+  uid: string;
+  imageSrc: string;
+  name: string;
+  description: string;
+}
 
-// export interface IndexPageProps {
-//   pageData: PageData;
-// }
-
-// async function getPageData(locale: string) {
-//   return cmsApiClient
-//     .query({
-//       query: gql`
-//       {
-//         indexPages(where: { language: { code: "${locale}" } }) {
-//           head {
-//             title,
-//             description,
-//             ogType,
-//             ogImage {
-//               url
-//             }
-//           },
-//           name
-//         }
-//       }
-//     `,
-//     })
-//     .then((response) => response.data.indexPages[0]);
-// }
+export interface Props {
+  cardsCms: Card[];
+}
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  // const pageData = await getPageData(locale);
-
-  const t = await client.query(
+  const layout = await client.query(
     Prismic.Predicates.at('document.type', 'layout'),
   );
 
-  const a = await client.query(Prismic.Predicates.at('document.type', 'card'));
+  const cards = await client.query(
+    Prismic.Predicates.at('document.type', 'card'),
+  );
+
+  const cardsCms: Card[] = cards.results.map((el) => {
+    return {
+      uid: el.uid as string,
+      description: el.data.description as string,
+      imageSrc: el.data.image.url as string,
+      name: el.data.name[0].text as string,
+    };
+  });
 
   return {
     props: {
-      t: t.results,
-      a: a.results,
-      // pageData,
+      cardsCms,
     },
     revalidate: ISR_TIMEOUT,
   };
