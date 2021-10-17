@@ -16,21 +16,14 @@ export default class MyDocument extends Document {
             rel="preload"
             as="font"
             type="font/woff2"
-            href="/fonts/suisse.woff2"
+            href="/fonts/nexaBlack.woff2"
             crossOrigin="anonymous"
           />
           <link
             rel="preload"
             as="font"
             type="font/woff2"
-            href="/fonts/opensans400.woff2"
-            crossOrigin="anonymous"
-          />
-          <link
-            rel="preload"
-            as="font"
-            type="font/woff2"
-            href="/fonts/opensans800.woff2"
+            href="/fonts/bonVoyage.woff2"
             crossOrigin="anonymous"
           />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />

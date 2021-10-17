@@ -1,21 +1,15 @@
 @font-face {
-  font-family: 'Suisse';
+  font-family: 'voyage';
+  font-style: normal;
+  font-weight: normal;
   font-display: swap;
-  src: url('/fonts/suisse.woff2') format('woff2');
+  src: url('/fonts/bonVoyage.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/opensans400.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
+  font-family: 'nexa';
   font-weight: 800;
+  font-style: normal;
   font-display: swap;
-  src: url('/fonts/opensans800.woff2') format('woff2');
+  src: url('/fonts/nexaBlack.woff2') format('woff2');
 }

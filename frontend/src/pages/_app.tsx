@@ -41,8 +41,8 @@ export default function MyApp(props: AppProps) {
   };
 
   useEffect(() => {
-    const fontA = new FontFaceObserver('Suisse');
-    const fontB = new FontFaceObserver('Open Sans');
+    const fontA = new FontFaceObserver('nexa');
+    const fontB = new FontFaceObserver('voyage');
 
     Promise.all([fontA.load(null, 2000), fontB.load()])
       .then(
