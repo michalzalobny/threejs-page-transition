@@ -11,6 +11,7 @@ interface Constructor {
 export class Curtain extends Animation {
   static topId = '[data-curtain="top"]';
   static bottomId = '[data-curtain="bottom"]';
+  static hoverTarget = '[data-curtain="hover"]';
 
   _curtainTop: HTMLElement;
   _curtainTopChild: HTMLElement;
@@ -18,9 +19,14 @@ export class Curtain extends Animation {
   _curtainBottomChild: HTMLElement;
   _hoverProgress = 0;
   _hoverTween: Tween<{ progress: number }> | null = null;
+  _hoverTargetEl: HTMLElement;
 
   constructor({ element }: Constructor) {
     super({ element, shouldObserve: false });
+
+    this._hoverTargetEl = Array.from(
+      this._element.querySelectorAll(Curtain.hoverTarget),
+    )[0] as HTMLElement;
 
     this._curtainTop = Array.from(
       this._element.querySelectorAll(Curtain.topId),
@@ -85,13 +91,13 @@ export class Curtain extends Animation {
   };
 
   _addListeners() {
-    this._element.addEventListener('mouseenter', this._onMouseEnter);
-    this._element.addEventListener('mouseleave', this._onMouseLeave);
+    this._hoverTargetEl.addEventListener('mouseenter', this._onMouseEnter);
+    this._hoverTargetEl.addEventListener('mouseleave', this._onMouseLeave);
   }
 
   removeListeners() {
-    this._element.removeEventListener('mouseenter', this._onMouseEnter);
-    this._element.removeEventListener('mouseleave', this._onMouseLeave);
+    this._hoverTargetEl.removeEventListener('mouseenter', this._onMouseEnter);
+    this._hoverTargetEl.removeEventListener('mouseleave', this._onMouseLeave);
   }
 
   animateIn() {

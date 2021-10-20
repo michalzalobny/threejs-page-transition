@@ -20,6 +20,7 @@ interface AnimateOpacity {
 
 export class Image3D extends MediaObject3D {
   static transitionElId = '[data-transition="details"]';
+  static hoverTarget = '[data-curtain="hover"]';
   static restScaleXMultiplier = 1.2;
 
   _parentDomEl: HTMLElement;
@@ -51,12 +52,17 @@ export class Image3D extends MediaObject3D {
     y: number;
   }> | null = null;
   _extraScaleTranslate = { x: 0, y: 0 };
+  _hoverTargetEl: HTMLElement;
 
   constructor({ parentDomEl, geometry, domEl }: Constructor) {
     super({ geometry });
 
     this._parentDomEl = parentDomEl;
     this._domEl = domEl;
+
+    this._hoverTargetEl = Array.from(
+      this._parentDomEl.querySelectorAll(Image3D.hoverTarget),
+    )[0] as HTMLElement;
 
     this.setColliderName('image3D');
     this._addListeners();
@@ -138,13 +144,13 @@ export class Image3D extends MediaObject3D {
   };
 
   _addListeners() {
-    this._parentDomEl.addEventListener('mouseenter', this._onMouseEnter);
-    this._parentDomEl.addEventListener('mouseleave', this._onMouseLeave);
+    this._hoverTargetEl.addEventListener('mouseenter', this._onMouseEnter);
+    this._hoverTargetEl.addEventListener('mouseleave', this._onMouseLeave);
   }
 
   removeListeners() {
-    this._parentDomEl.removeEventListener('mouseenter', this._onMouseEnter);
-    this._parentDomEl.removeEventListener('mouseleave', this._onMouseLeave);
+    this._hoverTargetEl.removeEventListener('mouseenter', this._onMouseEnter);
+    this._hoverTargetEl.removeEventListener('mouseleave', this._onMouseLeave);
   }
 
   setScrollValues(scrollValues: ScrollValues) {
