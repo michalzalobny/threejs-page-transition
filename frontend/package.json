@@ -14,6 +14,7 @@
     "fontfaceobserver": "^2.1.0",
     "intersection-observer": "^0.12.0",
     "lodash": "^4.17.21",
+    "markdown-to-jsx": "^7.1.3",
     "next": "11.1.2",
     "normalize-wheel": "^1.0.1",
     "prefix": "^1.0.0",

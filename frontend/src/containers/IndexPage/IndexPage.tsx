@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
 import Link from 'next/link';
 
-import { Props } from './data';
+import { CardPreview } from 'components/CardPreview/CardPreview';
 
+import { Props } from './data';
 import imageSrc from './images/1.jpg';
 
 export default function IndexPage(props: Props) {
+  const { cardsCms } = props;
+
   useEffect(() => {
     console.log(props.cardsCms);
   }, [props]);
@@ -13,6 +16,15 @@ export default function IndexPage(props: Props) {
   return (
     <>
       <div className="index__wrapper">
+        {cardsCms.map((el, key) => (
+          <CardPreview
+            key={el.uid}
+            title={el.name}
+            frontImgSrc={el.imageSrc}
+            moreLabel="more"
+            elIndex={(key + 1).toString()}
+          />
+        ))}
         <h1 data-animation="paragraph" className="index__title">
           Index page
         </h1>
