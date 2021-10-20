@@ -37,4 +37,39 @@
       }
     }
   }
+
+  &__curtains-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    &__ghost-color {
+      width: 100%;
+      z-index: -1;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    &__top {
+      overflow: hidden;
+
+      &__wrapper {
+        &__wrapper {
+          transform: translateY(50%);
+        }
+      }
+    }
+
+    &__bottom {
+      overflow: hidden;
+
+      &__wrapper {
+        &__wrapper {
+          transform: translateY(-50%);
+        }
+      }
+    }
+  }
 }

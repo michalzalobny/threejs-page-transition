@@ -5,7 +5,11 @@
     &__text {
       position: relative;
       font-size: 14rem;
-      color: white;
+      color: black;
+
+      &--white {
+        color: white;
+      }
 
       b {
         font-family: 'nexa';

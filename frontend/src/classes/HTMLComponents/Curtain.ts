@@ -13,7 +13,9 @@ export class Curtain extends Animation {
   static bottomId = '[data-curtain="bottom"]';
 
   _curtainTop: HTMLElement;
+  _curtainTopChild: HTMLElement;
   _curtainBottom: HTMLElement;
+  _curtainBottomChild: HTMLElement;
   _hoverProgress = 0;
   _hoverTween: Tween<{ progress: number }> | null = null;
 
@@ -24,18 +26,22 @@ export class Curtain extends Animation {
       this._element.querySelectorAll(Curtain.topId),
     )[0] as HTMLElement;
 
+    this._curtainTopChild = this._curtainTop.childNodes[0] as HTMLElement;
+
     this._curtainBottom = Array.from(
       this._element.querySelectorAll(Curtain.bottomId),
     )[0] as HTMLElement;
+
+    this._curtainBottomChild = this._curtainBottom.childNodes[0] as HTMLElement;
 
     this._addListeners();
   }
 
   _animateHover({
     destination,
-    duration = 800,
+    duration = 1500,
     delay = 0,
-    easing = TWEEN.Easing.Linear.None,
+    easing = TWEEN.Easing.Exponential.InOut,
   }: AnimateProps) {
     if (this._hoverTween) {
       this._hoverTween.stop();
@@ -48,12 +54,23 @@ export class Curtain extends Animation {
       .delay(delay)
       .easing(easing)
       .onUpdate((obj) => {
-        // this._hoverProgress = obj.progress;
-        // this._curtainTop.style.height = (1 - this._hoverProgress) * 50 + '%';
-        // this._curtainBottom.style.transform = `translateX(-50%) translateY(-${
-        //   this._hoverProgress * 100 + '%'
-        // })`;
-        // this._curtainBottom.style.height = (1 - this._hoverProgress) * 50 + '%';
+        this._hoverProgress = obj.progress;
+
+        this._curtainTop.style[this._transformPrefix] = `translateY(${
+          this._hoverProgress * -50 + '%'
+        })`;
+
+        this._curtainTopChild.style[this._transformPrefix] = `translateY(${
+          this._hoverProgress * 50 + '%'
+        })`;
+
+        this._curtainBottom.style[this._transformPrefix] = `translateY(${
+          this._hoverProgress * 50 + '%'
+        })`;
+
+        this._curtainBottomChild.style[this._transformPrefix] = `translateY(${
+          this._hoverProgress * -50 + '%'
+        })`;
       });
 
     this._hoverTween.start();
