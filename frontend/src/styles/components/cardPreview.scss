@@ -1,18 +1,56 @@
 .card-preview {
-  padding: 5rem 0;
+  padding: 13rem 0;
 
   &__container {
+    max-width: 55%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-start;
+
+    &--secondary {
+      justify-content: flex-end;
+    }
   }
 
   &__text-wrapper {
     position: relative;
 
     &__text {
-      font-size: 10rem;
-      color: black;
+      position: relative;
+      font-size: 14rem;
+      color: rgba(13, 255, 142, 0.281);
 
       b {
         font-family: 'nexa';
+      }
+
+      &__copy {
+        color: black;
+
+        &--top {
+        }
+
+        &--bottom {
+          transform: translateY(-50%);
+        }
+
+        &__wrapper {
+          width: 100%;
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+          overflow: hidden;
+
+          &--top {
+            top: 0;
+            height: 50%;
+          }
+
+          &--bottom {
+            bottom: 0;
+            height: 50%;
+          }
+        }
       }
     }
   }
@@ -28,9 +66,10 @@
     &__wrapper {
       position: absolute;
       top: 50%;
-      left: 0;
-      transform: translateY(-50%);
-      width: 20%;
+      left: 50%;
+      transform: translateY(-50%) translateX(-50%);
+      width: 30rem;
+      z-index: -1;
 
       &:before {
         content: '';

@@ -22,7 +22,7 @@ export default function IndexPage(props: Props) {
             title={el.name}
             frontImgSrc={el.imageSrc}
             moreLabel="more"
-            elIndex={(key + 1).toString()}
+            elIndex={key + 1}
           />
         ))}
         <h1 data-animation="paragraph" className="index__title">
