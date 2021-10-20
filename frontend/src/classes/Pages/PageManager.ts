@@ -17,7 +17,7 @@ export class PageManager extends THREE.EventDispatcher {
     super();
 
     this._pagesArray.push(new IndexPage({ pageId: '/' }));
-    this._pagesArray.push(new DetailsPage({ pageId: '/details' }));
+    this._pagesArray.push(new DetailsPage({ pageId: '/details/[id]' }));
     this._transition = new Transition();
   }
 

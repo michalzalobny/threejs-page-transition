@@ -14,6 +14,10 @@ export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
   const router = useRouter();
 
+  useEffect(() => {
+    globalState.router = router;
+  }, [router]);
+
   const initTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const rendererWrapperEl = useRef(null);
 

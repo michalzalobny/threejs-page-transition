@@ -21,6 +21,7 @@ export default function IndexPage(props: Props) {
       <div className="index__wrapper">
         {cardsCms.map((el, key) => (
           <CardPreview
+            cardUid={el.uid}
             key={el.uid}
             title={el.name}
             frontImgSrc={el.imageSrc}

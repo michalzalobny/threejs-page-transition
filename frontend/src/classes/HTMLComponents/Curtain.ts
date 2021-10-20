@@ -1,6 +1,7 @@
 import TWEEN, { Tween } from '@tweenjs/tween.js';
 
 import { AnimateProps } from 'types';
+import { globalState } from 'utils/globalState';
 
 import { Animation } from './Animation';
 
@@ -90,14 +91,24 @@ export class Curtain extends Animation {
     this._animateHover({ destination: 0 });
   };
 
+  _onClick = () => {
+    const elId = this._element.dataset.curtainUid;
+
+    if (globalState.router) {
+      globalState.router.push('/details/[id]', `/details/${elId}`);
+    }
+  };
+
   _addListeners() {
     this._hoverTargetEl.addEventListener('mouseenter', this._onMouseEnter);
     this._hoverTargetEl.addEventListener('mouseleave', this._onMouseLeave);
+    this._hoverTargetEl.addEventListener('click', this._onClick);
   }
 
   removeListeners() {
     this._hoverTargetEl.removeEventListener('mouseenter', this._onMouseEnter);
     this._hoverTargetEl.removeEventListener('mouseleave', this._onMouseLeave);
+    this._hoverTargetEl.removeEventListener('click', this._onClick);
   }
 
   animateIn() {

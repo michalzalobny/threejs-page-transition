@@ -1,58 +1,47 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
-export default function DetailsPage() {
+import { RichText } from 'components/RichText/RichText';
+import { globalState } from 'utils/globalState';
+
+import { Props } from './data';
+
+export default function DetailsPage(props: Props) {
+  const { card, cardsCms } = props;
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const imagesToPreload = cardsCms.map((card) => card.imageSrc);
+    window.requestAnimationFrame(() => {
+      if (globalState.canvasApp)
+        globalState.canvasApp.imagesToPreload = imagesToPreload;
+    });
+  }, [cardsCms]);
+
   return (
     <>
       <div className="details__wrapper">
-        {/* <Link passHref href="/">
-          <a className="details__img-link">
-            <figure
-              data-transition="details"
-              data-animation="image3d"
-              data-src={imageSrc.src}
-              className="details__img-wrapper"
-            >
-              <img
-                src={imageSrc.src}
-                className="details__img"
-                alt="Newcastle tyne river"
-              />
-            </figure>
-          </a>
-        </Link> */}
-
+        <button
+          style={{ position: 'absolute', top: 0, right: 0, fontSize: '20px' }}
+          onClick={() => router.push('/')}
+        >
+          Go back
+        </button>
+        <h1 className="details__title">
+          <RichText text={card.name} />
+        </h1>
+        <figure
+          data-transition="details"
+          data-animation="image3d"
+          data-src={card.imageSrc}
+          className="details__img__wrapper"
+        >
+          <img src={card.imageSrc} className="details__img" alt={card.name} />
+        </figure>
         <div className="details__container">
-          <h1 data-animation="paragraph" className="details__title">
-            Details page
-          </h1>
-
-          {/* <Link passHref href="/">
-            <a className="details__button">Go to index</a>
-          </Link> */}
-          <div className="details__spacer" />
           <p data-animation="paragraph" className="details__p">
-            Details page Lorem ipsum dolor sit amet consectetur, adipisicing
-            elit. Quaerat, dolores excepturi repellendus voluptate nemo, fugiat,
-            a sint cumque quos minima numquam quam recusandae odio facilis optio
-            impedit vero et dolorem?
-          </p>
-
-          <p data-animation="paragraph" className="details__p">
-            Details page Lorem ipsum dolor sit amet consectetur, adipisicing
-            elit. Quaerat, dolores excepturi repellendus voluptate nemo, fugiat,
-            a sint cumque.
-          </p>
-
-          <p data-animation="paragraph" className="details__p">
-            Details page Lorem ipsum dolor sit amet consectetur, adipisicing
-            elit. Quaerat, dolores excepturi repellendus voluptate nemo, fugiat,
-            a sint cumque.
-          </p>
-
-          <p data-animation="paragraph" className="details__p">
-            Details page Lorem ipsum dolor sit amet consectetur, adipisicing
-            elit. Quaerat, dolores excepturi repellendus voluptate nemo, fugiat,
-            a sint cumque.
+            {card.description}
           </p>
         </div>
       </div>

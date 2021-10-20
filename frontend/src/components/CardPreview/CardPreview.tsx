@@ -7,12 +7,17 @@ export interface Props {
   title: string;
   frontImgSrc: string;
   elIndex: number;
+  cardUid: string;
 }
 
 export const CardPreview = (props: Props) => {
-  const { elIndex, frontImgSrc, moreLabel, title } = props;
+  const { cardUid, elIndex, frontImgSrc, moreLabel, title } = props;
   return (
-    <div data-curtain="wrapper" className="card-preview">
+    <div
+      data-curtain-uid={cardUid}
+      data-curtain="wrapper"
+      className="card-preview"
+    >
       <div
         className={`card-preview__container ${
           elIndex % 2 === 0 && 'card-preview__container--secondary'

@@ -1,4 +1,5 @@
 import { CanvasApp } from 'classes/CanvasApp';
+import { NextRouter } from 'next/router';
 import { TextureItems } from 'types';
 
 interface GlobalState {
@@ -7,6 +8,7 @@ interface GlobalState {
   currentPageId: string | null;
   textureItems: TextureItems;
   isAppTransitioning: boolean;
+  router: NextRouter | null;
 }
 
 export const globalState: GlobalState = {
@@ -15,4 +17,5 @@ export const globalState: GlobalState = {
   currentPageId: null,
   textureItems: {},
   isAppTransitioning: false,
+  router: null,
 };
