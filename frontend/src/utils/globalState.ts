@@ -6,6 +6,7 @@ interface GlobalState {
   canvasApp: CanvasApp | null;
   isCanvasAppInit: boolean;
   currentPageId: string | null;
+  currentQueryId: string | null;
   textureItems: TextureItems;
   isAppTransitioning: boolean;
   router: NextRouter | null;
@@ -15,6 +16,7 @@ export const globalState: GlobalState = {
   canvasApp: null,
   isCanvasAppInit: false,
   currentPageId: null,
+  currentQueryId: null,
   textureItems: {},
   isAppTransitioning: false,
   router: null,

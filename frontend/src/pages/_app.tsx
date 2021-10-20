@@ -27,7 +27,9 @@ export default function MyApp(props: AppProps) {
     if (rendererWrapperEl.current) {
       const el = document.querySelectorAll('.page')[0] as HTMLElement;
       const pageId = el.dataset.pageid;
+      const queryId = el.dataset.queryid;
       if (pageId) globalState.currentPageId = pageId;
+      if (queryId) globalState.currentQueryId = queryId;
 
       globalState.canvasApp = CanvasApp.getInstance();
       globalState.canvasApp.rendererWrapperEl = rendererWrapperEl.current;
@@ -83,7 +85,7 @@ export default function MyApp(props: AppProps) {
             onEnter={onPageEnter}
           >
             <div
-              data-queryid={router.query.id}
+              data-queryid={router.query.id || ''}
               data-pageid={router.pathname}
               className="page"
             >

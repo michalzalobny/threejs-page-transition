@@ -22,11 +22,14 @@ export class PageManager extends THREE.EventDispatcher {
   }
 
   handlePageEnter(pageEl: HTMLElement) {
-    const newPageId = pageEl.dataset.pageid;
     const oldPageId = globalState.currentPageId;
-    const queryId = pageEl.dataset.queryid as string;
+    const oldQueryId = globalState.currentQueryId as string;
+
+    const newPageId = pageEl.dataset.pageid;
+    const newQueryId = pageEl.dataset.queryid as string;
 
     if (newPageId) globalState.currentPageId = newPageId;
+    if (newQueryId) globalState.currentQueryId = newQueryId;
 
     let isEnterInitial = false;
     if (newPageId === oldPageId) isEnterInitial = true;
@@ -48,9 +51,9 @@ export class PageManager extends THREE.EventDispatcher {
     };
 
     if (fromDetailsToIndex) {
-      if (oldPage) (oldPage as DetailsPage).onExitToIndex(parentFn);
+      if (oldPage) (oldPage as DetailsPage).onExitToIndex(parentFn, oldQueryId);
     } else if (fromIndexToDetails) {
-      if (oldPage) (oldPage as IndexPage).onExitToDetails(parentFn, queryId);
+      if (oldPage) (oldPage as IndexPage).onExitToDetails(parentFn, newQueryId);
     } else {
       if (isEnterInitial) {
         // Raf fixes css styles issue (without Raf, they are being added at the same time as a class, and it removes the initial animation)

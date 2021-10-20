@@ -44,11 +44,11 @@ export class DetailsPage extends Page {
     this._pageCanvas.animateIn();
   }
 
-  onExitToIndex(parentFn: () => void) {
+  onExitToIndex(parentFn: () => void, detailId: string) {
     //It executes the functions that onExit() normally executes (WIP)
     this._animateOut();
     this._removeListeners();
-    this._pageCanvas.onExitToIndex(parentFn);
+    this._pageCanvas.onExitToIndex(parentFn, detailId);
   }
 
   setInteractiveScene(scene: InteractiveScene) {

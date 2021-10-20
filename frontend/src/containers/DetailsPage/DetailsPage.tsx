@@ -32,6 +32,7 @@ export default function DetailsPage(props: Props) {
           <RichText text={card.name} />
         </h1>
         <figure
+          data-curtain-uid={card.uid}
           data-transition="details"
           data-animation="image3d"
           data-src={card.imageSrc}
