@@ -70,6 +70,14 @@ export class IndexPage extends Page {
     this._pageCanvas.setInteractiveScene(scene);
   }
 
+  _removeListeners() {
+    super._removeListeners();
+
+    this._anmCurtains.forEach((el) => {
+      el.removeListeners();
+    });
+  }
+
   update(updateInfo: UpdateInfo) {
     super.update(updateInfo);
     this._pageCanvas.update(updateInfo);
