@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { RichText } from 'components/RichText/RichText';
+import { CardContent } from 'components/CardContent/CardContent';
 
 export interface Props {
   moreLabel: string;
@@ -18,27 +18,12 @@ export const CardPreview = (props: Props) => {
           elIndex % 2 === 0 && 'card-preview__container--secondary'
         }`}
       >
-        <div className="card-preview__text-wrapper">
-          <figure data-src={frontImgSrc} className="card-preview__img__wrapper">
-            <img className="card-preview__img" src={frontImgSrc} alt={title} />
-          </figure>
-          <h2 className="card-preview__text-wrapper__text">
-            <RichText text={title} />
-          </h2>
-
-          <span className="card-preview__text-wrapper__text card-preview__text-wrapper__text__copy__wrapper card-preview__text-wrapper__text__copy__wrapper--top">
-            <h2 className="card-preview__text-wrapper__text card-preview__text-wrapper__text__copy card-preview__text-wrapper__text__copy--top">
-              <RichText text={title} />
-            </h2>
-          </span>
-
-          <span className="card-preview__text-wrapper__text card-preview__text-wrapper__text__copy__wrapper card-preview__text-wrapper__text__copy__wrapper--bottom">
-            <h2 className="card-preview__text-wrapper__text card-preview__text-wrapper__text__copy card-preview__text-wrapper__text__copy--bottom">
-              <RichText text={title} />
-            </h2>
-          </span>
-        </div>
+        <CardContent title={title} moreLabel={moreLabel} />
       </div>
+
+      <figure data-src={frontImgSrc} className="card-preview__img__wrapper">
+        <img className="card-preview__img" src={frontImgSrc} alt={title} />
+      </figure>
     </div>
   );
 };

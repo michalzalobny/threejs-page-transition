@@ -3,13 +3,17 @@ import { UpdateInfo, Bounds } from 'types';
 import { Page } from '../Page';
 import { IndexPageCanvas } from './Canvas/IndexPageCanvas';
 import { InteractiveScene } from '../../Components/InteractiveScene';
+import { Curtain } from '../../HTMLComponents/Curtain';
 
 interface Constructor {
   pageId: string;
 }
 
 export class IndexPage extends Page {
+  static anmCurtain = '[data-curtain="wrapper"]';
+
   _pageCanvas: IndexPageCanvas;
+  _anmCurtains: Curtain[] = [];
 
   constructor({ pageId }: Constructor) {
     super({ pageId });
@@ -26,6 +30,17 @@ export class IndexPage extends Page {
 
   onEnter(el: HTMLElement) {
     super.onEnter(el);
+
+    if (!this._pageEl) return;
+
+    const curtains = Array.from(
+      this._pageEl.querySelectorAll(IndexPage.anmCurtain),
+    ) as HTMLElement[];
+
+    this._anmCurtains = curtains.map((el) => {
+      return new Curtain({ element: el });
+    });
+
     this._pageCanvas.onEnter(el);
   }
 

@@ -1,5 +1,6 @@
 .rich-text {
   position: relative;
+  display: inline-block;
 
   & > * {
     margin: revert;

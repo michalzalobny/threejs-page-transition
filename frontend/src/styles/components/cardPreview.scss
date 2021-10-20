@@ -1,5 +1,6 @@
 .card-preview {
   padding: 13rem 0;
+  position: relative;
 
   &__container {
     max-width: 55%;
@@ -9,49 +10,6 @@
 
     &--secondary {
       justify-content: flex-end;
-    }
-  }
-
-  &__text-wrapper {
-    position: relative;
-
-    &__text {
-      position: relative;
-      font-size: 14rem;
-      color: rgba(13, 255, 142, 0.281);
-
-      b {
-        font-family: 'nexa';
-      }
-
-      &__copy {
-        color: black;
-
-        &--top {
-        }
-
-        &--bottom {
-          transform: translateY(-50%);
-        }
-
-        &__wrapper {
-          width: 100%;
-          position: absolute;
-          left: 50%;
-          transform: translateX(-50%);
-          overflow: hidden;
-
-          &--top {
-            top: 0;
-            height: 50%;
-          }
-
-          &--bottom {
-            bottom: 0;
-            height: 50%;
-          }
-        }
-      }
     }
   }
 

@@ -2,6 +2,7 @@ import Prefix from 'prefix';
 
 interface Constructor {
   element: HTMLElement;
+  shouldObserve?: boolean;
 }
 
 export class Animation {
@@ -9,9 +10,11 @@ export class Animation {
   _transformPrefix = Prefix('transform');
   _observer: IntersectionObserver;
   _triggerOnce = true;
+  _shouldObserve: boolean;
 
-  constructor({ element }: Constructor) {
+  constructor({ shouldObserve = true, element }: Constructor) {
     this._element = element;
+    this._shouldObserve = shouldObserve;
     this._observer = new IntersectionObserver(this._handleIntersection);
   }
 
@@ -19,6 +22,8 @@ export class Animation {
     entries: IntersectionObserverEntry[],
     observer: IntersectionObserver,
   ) => {
+    if (!this._shouldObserve) return;
+
     entries.forEach((entry) => {
       if (entry.intersectionRatio > 0) {
         this.animateIn();

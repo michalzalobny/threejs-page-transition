@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
 
 import { CardPreview } from 'components/CardPreview/CardPreview';
@@ -8,10 +8,6 @@ import imageSrc from './images/1.jpg';
 
 export default function IndexPage(props: Props) {
   const { cardsCms } = props;
-
-  useEffect(() => {
-    console.log(props.cardsCms);
-  }, [props]);
 
   return (
     <>

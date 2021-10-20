@@ -1,0 +1,15 @@
+.card-content {
+  &__text-wrapper {
+    position: relative;
+
+    &__text {
+      position: relative;
+      font-size: 14rem;
+      color: white;
+
+      b {
+        font-family: 'nexa';
+      }
+    }
+  }
+}
