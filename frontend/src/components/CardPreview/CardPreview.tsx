@@ -46,7 +46,11 @@ export const CardPreview = (props: Props) => {
         </div>
       </div>
 
-      <figure data-src={frontImgSrc} className="card-preview__img__wrapper">
+      <figure
+        data-animation="image3d-landing"
+        data-src={frontImgSrc}
+        className="card-preview__img__wrapper"
+      >
         <img className="card-preview__img" src={frontImgSrc} alt={title} />
       </figure>
     </div>

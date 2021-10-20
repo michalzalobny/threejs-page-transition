@@ -7,7 +7,6 @@ import 'intersection-observer';
 
 import { globalState } from 'utils/globalState';
 import { CanvasApp } from 'classes/CanvasApp';
-import imgSrc from '../containers/IndexPage/images/1.jpg';
 
 import '../styles/index.scss';
 
@@ -27,7 +26,6 @@ export default function MyApp(props: AppProps) {
       if (pageId) globalState.currentPageId = pageId;
 
       globalState.canvasApp = CanvasApp.getInstance();
-      globalState.canvasApp.imagesToPreload = [imgSrc.src];
       globalState.canvasApp.rendererWrapperEl = rendererWrapperEl.current;
     }
 

@@ -1,13 +1,10 @@
 import React from 'react';
-import Link from 'next/link';
-
-import imageSrc from '../IndexPage/images/1.jpg';
 
 export default function DetailsPage() {
   return (
     <>
       <div className="details__wrapper">
-        <Link passHref href="/">
+        {/* <Link passHref href="/">
           <a className="details__img-link">
             <figure
               data-transition="details"
@@ -22,7 +19,7 @@ export default function DetailsPage() {
               />
             </figure>
           </a>
-        </Link>
+        </Link> */}
 
         <div className="details__container">
           <h1 data-animation="paragraph" className="details__title">

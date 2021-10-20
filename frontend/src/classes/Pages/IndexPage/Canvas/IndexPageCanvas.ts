@@ -8,7 +8,7 @@ import { Image3D } from './Components/Image3D';
 interface Constructor {}
 
 export class IndexPageCanvas extends PageCanvas {
-  static anmImage3D = '[data-animation="image3d"]';
+  static anmImage3D = '[data-animation="image3d-landing"]';
 
   _anmImages3D: Image3D[] = [];
 
