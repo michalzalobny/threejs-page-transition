@@ -46,7 +46,7 @@ export class Curtain extends Animation {
 
   _animateHover({
     destination,
-    duration = 1200,
+    duration = 1400,
     delay = 0,
     easing = TWEEN.Easing.Exponential.InOut,
   }: AnimateProps) {

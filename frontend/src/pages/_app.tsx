@@ -82,7 +82,11 @@ export default function MyApp(props: AppProps) {
             unmountOnExit
             onEnter={onPageEnter}
           >
-            <div data-pageid={router.pathname} className="page">
+            <div
+              data-queryid={router.query.id}
+              data-pageid={router.pathname}
+              className="page"
+            >
               <Component key={router.pathname} router={router} {...pageProps} />
             </div>
           </CSSTransition>

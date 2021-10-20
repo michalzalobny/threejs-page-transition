@@ -23,6 +23,8 @@ export class Image3D extends MediaObject3D {
   static hoverTarget = '[data-curtain="hover"]';
   static restScaleXMultiplier = 1.2;
 
+  elId: string;
+  _isTransitioning = false;
   _parentDomEl: HTMLElement;
   _domEl: HTMLElement;
   _domElBounds: DomRectSSR = {
@@ -66,6 +68,8 @@ export class Image3D extends MediaObject3D {
 
     this.setColliderName('image3D');
     this._addListeners();
+
+    this.elId = this._domEl.dataset.curtainUid as string;
   }
 
   _updateBounds() {
@@ -107,7 +111,7 @@ export class Image3D extends MediaObject3D {
         -x * (1 - this._transitionProgress) +
         this._transitionElBounds.left * this._transitionProgress +
         this._domElBounds.left * (1 - this._transitionProgress) -
-        this._extraScaleTranslate.x -
+        this._extraScaleTranslate.x * (1 - this._transitionProgress) -
         this._rendererBounds.width / 2 +
         this._mesh.scale.x / 2;
     }
@@ -118,7 +122,7 @@ export class Image3D extends MediaObject3D {
       this._mesh.position.y =
         -y * (1 - this._transitionProgress) -
         this._domElBounds.top * (1 - this._transitionProgress) -
-        this._extraScaleTranslate.y -
+        this._extraScaleTranslate.y * (1 - this._transitionProgress) -
         this._transitionElBounds.top * this._transitionProgress +
         this._rendererBounds.height / 2 -
         this._mesh.scale.y / 2;
@@ -126,6 +130,9 @@ export class Image3D extends MediaObject3D {
   }
 
   _onMouseEnter = () => {
+    if (this._isTransitioning) {
+      return;
+    }
     this.animateScale(
       this._domElBounds.width,
       this._domElBounds.height,
@@ -135,13 +142,21 @@ export class Image3D extends MediaObject3D {
   };
 
   _onMouseLeave = () => {
+    if (this._isTransitioning) {
+      return;
+    }
+
+    this.hideBanner();
+  };
+
+  hideBanner() {
     this.animateScale(
       this._domElBounds.width * Image3D.restScaleXMultiplier,
       0,
       () => {},
       true,
     );
-  };
+  }
 
   _addListeners() {
     this._hoverTargetEl.addEventListener('mouseenter', this._onMouseEnter);
@@ -227,7 +242,7 @@ export class Image3D extends MediaObject3D {
       x: this._mesh.scale.x,
       y: this._mesh.scale.y,
     })
-      .to({ x, y }, 1200)
+      .to({ x, y }, 1400)
       .easing(TWEEN.Easing.Exponential.InOut)
       .onUpdate((obj) => {
         if (this._mesh) {
@@ -295,5 +310,9 @@ export class Image3D extends MediaObject3D {
     this._transitionTween && this._transitionTween.stop();
     this._opacityTween && this._opacityTween.stop();
     this._scaleTween && this._scaleTween.stop();
+  }
+
+  set isTransitioning(value: boolean) {
+    this._isTransitioning = value;
   }
 }

@@ -90,15 +90,20 @@ export class IndexPageCanvas extends PageCanvas {
     });
   }
 
-  onExitToDetails(parentFn: () => void) {
+  onExitToDetails(parentFn: () => void, detailId: string) {
     //WIP (we need to get the exact element to animate)
     this._anmImages3D.forEach((el, key) => {
+      el.isTransitioning = true;
+
       const endAnimationFn = () => {
         this.onExit();
         parentFn();
       };
-      if (key === 0) {
+
+      if (el.elId === detailId) {
         el.onExitToDetails(endAnimationFn);
+      } else {
+        el.hideBanner();
       }
     });
   }

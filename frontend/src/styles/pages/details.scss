@@ -38,14 +38,15 @@
 
     &__wrapper {
       opacity: 0;
-      width: 100%;
+      margin: 0 auto;
+      width: 60%;
       position: relative;
 
       &:before {
         content: '';
         display: block;
         width: 100%;
-        padding-bottom: 60vh;
+        padding-bottom: 42.5%;
       }
     }
   }

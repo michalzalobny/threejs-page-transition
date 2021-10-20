@@ -53,6 +53,7 @@ export const CardPreview = (props: Props) => {
       </div>
 
       <figure
+        data-curtain-uid={cardUid}
         data-animation="image3d-landing"
         data-src={frontImgSrc}
         className="card-preview__img__wrapper"
