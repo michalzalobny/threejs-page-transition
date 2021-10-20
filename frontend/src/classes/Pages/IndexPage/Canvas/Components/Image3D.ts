@@ -8,6 +8,7 @@ import { MediaObject3D } from './MediaObject3D';
 interface Constructor {
   geometry: THREE.PlaneGeometry;
   domEl: HTMLElement;
+  parentDomEl: HTMLElement;
 }
 
 interface AnimateOpacity {
@@ -19,7 +20,9 @@ interface AnimateOpacity {
 
 export class Image3D extends MediaObject3D {
   static transitionElId = '[data-transition="details"]';
+  static restScaleXMultiplier = 1.2;
 
+  _parentDomEl: HTMLElement;
   _domEl: HTMLElement;
   _domElBounds: DomRectSSR = {
     bottom: 0,
@@ -47,13 +50,16 @@ export class Image3D extends MediaObject3D {
     x: number;
     y: number;
   }> | null = null;
+  _extraScaleTranslate = { x: 0, y: 0 };
 
-  constructor({ geometry, domEl }: Constructor) {
+  constructor({ parentDomEl, geometry, domEl }: Constructor) {
     super({ geometry });
 
+    this._parentDomEl = parentDomEl;
     this._domEl = domEl;
 
     this.setColliderName('image3D');
+    this._addListeners();
   }
 
   _updateBounds() {
@@ -83,8 +89,9 @@ export class Image3D extends MediaObject3D {
 
   _updateScale() {
     if (this._mesh) {
-      this._mesh.scale.x = this._domElBounds.width;
-      this._mesh.scale.y = this._domElBounds.height;
+      this._mesh.scale.x =
+        this._domElBounds.width * Image3D.restScaleXMultiplier;
+      this._mesh.scale.y = 0; //this._domElBounds.height -> this should be normally, but our default state is 0
     }
   }
 
@@ -94,6 +101,7 @@ export class Image3D extends MediaObject3D {
         -x * (1 - this._transitionProgress) +
         this._transitionElBounds.left * this._transitionProgress +
         this._domElBounds.left * (1 - this._transitionProgress) -
+        this._extraScaleTranslate.x -
         this._rendererBounds.width / 2 +
         this._mesh.scale.x / 2;
     }
@@ -104,10 +112,39 @@ export class Image3D extends MediaObject3D {
       this._mesh.position.y =
         -y * (1 - this._transitionProgress) -
         this._domElBounds.top * (1 - this._transitionProgress) -
+        this._extraScaleTranslate.y -
         this._transitionElBounds.top * this._transitionProgress +
         this._rendererBounds.height / 2 -
         this._mesh.scale.y / 2;
     }
+  }
+
+  _onMouseEnter = () => {
+    this.animateScale(
+      this._domElBounds.width,
+      this._domElBounds.height,
+      () => {},
+      true,
+    );
+  };
+
+  _onMouseLeave = () => {
+    this.animateScale(
+      this._domElBounds.width * Image3D.restScaleXMultiplier,
+      0,
+      () => {},
+      true,
+    );
+  };
+
+  _addListeners() {
+    this._parentDomEl.addEventListener('mouseenter', this._onMouseEnter);
+    this._parentDomEl.addEventListener('mouseleave', this._onMouseLeave);
+  }
+
+  removeListeners() {
+    this._parentDomEl.removeEventListener('mouseenter', this._onMouseEnter);
+    this._parentDomEl.removeEventListener('mouseleave', this._onMouseLeave);
   }
 
   setScrollValues(scrollValues: ScrollValues) {
@@ -166,7 +203,12 @@ export class Image3D extends MediaObject3D {
     this.animateOpacity({ destination: 1, delay: 0, duration: 0 });
   }
 
-  animateScale(x: number, y: number, parentFn: () => void) {
+  animateScale(
+    x: number,
+    y: number,
+    parentFn: () => void,
+    addTranslate = false,
+  ) {
     if (this._scaleTween) {
       this._scaleTween.stop();
     }
@@ -179,19 +221,24 @@ export class Image3D extends MediaObject3D {
       x: this._mesh.scale.x,
       y: this._mesh.scale.y,
     })
-      .to({ x, y }, 1400)
+      .to({ x, y }, 1200)
       .easing(TWEEN.Easing.Exponential.InOut)
       .onUpdate((obj) => {
         if (this._mesh) {
+          if (addTranslate) {
+            this._extraScaleTranslate.x =
+              -(this._domElBounds.width - obj.x) / 2;
+            this._extraScaleTranslate.y =
+              (this._domElBounds.height - obj.y) / 2;
+          }
+
           this._mesh.scale.x = obj.x;
           this._mesh.scale.y = obj.y;
 
-          if (this._mesh) {
-            this._mesh.material.uniforms.uPlaneSizes.value = [
-              this._mesh.scale.x,
-              this._mesh.scale.y,
-            ];
-          }
+          this._mesh.material.uniforms.uPlaneSizes.value = [
+            this._mesh.scale.x,
+            this._mesh.scale.y,
+          ];
         }
       })
       .onComplete(() => {

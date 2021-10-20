@@ -18,28 +18,29 @@ export const CardPreview = (props: Props) => {
           elIndex % 2 === 0 && 'card-preview__container--secondary'
         }`}
       >
-        <div className="card-preview__curtains-wrapper">
-          <div className="card-preview__curtains-wrapper__ghost-color">
-            <CardContent whiteColor title={title} moreLabel={moreLabel} />
-          </div>
-          <div
-            data-curtain="top"
-            className="card-preview__curtains-wrapper__top"
-          >
-            <div className="card-preview__curtains-wrapper__top__wrapper">
-              <div className="card-preview__curtains-wrapper__top__wrapper__wrapper">
-                <CardContent title={title} moreLabel={moreLabel} />
+        <div className="card-preview__placeholder">
+          <CardContent whiteColor title={title} moreLabel={moreLabel} />
+
+          <div className="card-preview__curtains-wrapper">
+            <div
+              data-curtain="top"
+              className="card-preview__curtains-wrapper__top"
+            >
+              <div className="card-preview__curtains-wrapper__top__wrapper">
+                <div className="card-preview__curtains-wrapper__top__wrapper__wrapper">
+                  <CardContent title={title} moreLabel={moreLabel} />
+                </div>
               </div>
             </div>
-          </div>
 
-          <div
-            data-curtain="bottom"
-            className="card-preview__curtains-wrapper__bottom"
-          >
-            <div className="card-preview__curtains-wrapper__bottom__wrapper">
-              <div className="card-preview__curtains-wrapper__bottom__wrapper__wrapper">
-                <CardContent title={title} moreLabel={moreLabel} />
+            <div
+              data-curtain="bottom"
+              className="card-preview__curtains-wrapper__bottom"
+            >
+              <div className="card-preview__curtains-wrapper__bottom__wrapper">
+                <div className="card-preview__curtains-wrapper__bottom__wrapper__wrapper">
+                  <CardContent title={title} moreLabel={moreLabel} />
+                </div>
               </div>
             </div>
           </div>

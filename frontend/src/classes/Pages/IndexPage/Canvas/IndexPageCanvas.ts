@@ -42,7 +42,12 @@ export class IndexPageCanvas extends PageCanvas {
     ) as HTMLElement[];
 
     this._anmImages3D = medias.map((el) => {
-      return new Image3D({ geometry: this._planeGeometry, domEl: el });
+      const parentDomEl = el.parentNode as HTMLElement;
+      return new Image3D({
+        geometry: this._planeGeometry,
+        domEl: el,
+        parentDomEl,
+      });
     });
 
     this._anmImages3D.forEach((el) => {

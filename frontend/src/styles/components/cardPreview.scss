@@ -1,5 +1,4 @@
 .card-preview {
-  padding: 8rem 0;
   position: relative;
 
   &__container {
@@ -22,35 +21,29 @@
     object-fit: cover;
 
     &__wrapper {
+      opacity: 0;
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       z-index: -2;
-
-      &:before {
-        content: '';
-        display: block;
-        width: 100%;
-        padding-bottom: 62.5%;
-      }
     }
   }
 
-  &__curtains-wrapper {
+  &__placeholder {
+    overflow: hidden;
     position: relative;
+  }
+
+  &__curtains-wrapper {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
-
-    &__ghost-color {
-      width: 100%;
-      z-index: -1;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
 
     &__top {
       overflow: hidden;
