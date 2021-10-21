@@ -6,7 +6,7 @@
   &-enter-active {
     opacity: 1;
     transition: opacity 0ms ease-in;
-    transition-delay: 1400ms;
+    transition-delay: var(--transition-duration);
   }
 
   &-exit {
@@ -16,7 +16,7 @@
   &-exit-active {
     opacity: 0;
     transition: opacity 0ms ease-in;
-    transition-delay: 1400ms;
+    transition-delay: var(--transition-duration);
   }
 }
 

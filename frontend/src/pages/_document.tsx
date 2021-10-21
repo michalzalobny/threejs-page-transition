@@ -1,5 +1,7 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 
+import { setCssVariables, VARIABLES } from 'utils/setCssVariables';
+
 import type { DocumentContext } from 'next/document';
 
 export default class MyDocument extends Document {
@@ -27,6 +29,14 @@ export default class MyDocument extends Document {
             crossOrigin="anonymous"
           />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `(${setCssVariables.toString()})({variables:${JSON.stringify(
+                VARIABLES,
+              )}})`,
+            }}
+          />
         </Head>
         <body>
           <Main />

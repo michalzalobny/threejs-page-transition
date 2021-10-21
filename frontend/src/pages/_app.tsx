@@ -7,6 +7,7 @@ import 'intersection-observer';
 
 import { globalState } from 'utils/globalState';
 import { CanvasApp } from 'classes/CanvasApp';
+import { pageTransitionDuration } from 'variables';
 
 import '../styles/index.scss';
 
@@ -80,7 +81,7 @@ export default function MyApp(props: AppProps) {
         <TransitionGroup>
           <CSSTransition
             key={router.pathname}
-            timeout={1400}
+            timeout={pageTransitionDuration}
             classNames="page-transition"
             unmountOnExit
             onEnter={onPageEnter}

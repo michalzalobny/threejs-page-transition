@@ -2,6 +2,7 @@ import TWEEN, { Tween } from '@tweenjs/tween.js';
 
 import { AnimateProps } from 'types';
 import { globalState } from 'utils/globalState';
+import { pageTransitionDuration } from 'variables';
 
 import { Animation } from './Animation';
 
@@ -46,7 +47,7 @@ export class Curtain extends Animation {
 
   _animateHover({
     destination,
-    duration = 1400,
+    duration = pageTransitionDuration,
     delay = 0,
     easing = TWEEN.Easing.Exponential.InOut,
   }: AnimateProps) {

@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import TWEEN, { Tween } from '@tweenjs/tween.js';
 
 import { UpdateInfo, ScrollValues, DomRectSSR, AnimateProps } from 'types';
+import { pageTransitionDuration } from 'variables';
 
 import { MediaObject3D } from './MediaObject3D';
 
@@ -188,7 +189,7 @@ export class Image3D extends MediaObject3D {
       x: this._mesh.scale.x,
       y: this._mesh.scale.y,
     })
-      .to({ x, y }, 1400)
+      .to({ x, y }, pageTransitionDuration)
       .easing(TWEEN.Easing.Exponential.InOut)
       .onUpdate((obj) => {
         if (this._mesh) {
@@ -227,7 +228,10 @@ export class Image3D extends MediaObject3D {
       console.log(bounds.height);
 
       this.animateScale(bounds.width, bounds.height * 0, parentFn, true);
-      this.animateTransition({ destination: 1, duration: 1400 });
+      this.animateTransition({
+        destination: 1,
+        duration: pageTransitionDuration,
+      });
     });
   }
 

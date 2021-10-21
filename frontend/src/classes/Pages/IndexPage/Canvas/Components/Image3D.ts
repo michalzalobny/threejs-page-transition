@@ -8,6 +8,7 @@ import {
   AnimateProps,
   AnimateScale,
 } from 'types';
+import { pageTransitionDuration } from 'variables';
 
 import { MediaObject3D } from './MediaObject3D';
 
@@ -193,7 +194,12 @@ export class Image3D extends MediaObject3D {
     this._opacityTween.start();
   }
 
-  _animateScale({ xScale, yScale, parentFn, duration = 1400 }: AnimateScale) {
+  _animateScale({
+    xScale,
+    yScale,
+    parentFn,
+    duration = pageTransitionDuration,
+  }: AnimateScale) {
     if (this._scaleTween) {
       this._scaleTween.stop();
     }
@@ -206,7 +212,7 @@ export class Image3D extends MediaObject3D {
       x: this._mesh.scale.x,
       y: this._mesh.scale.y,
     })
-      .to({ x: xScale, y: yScale }, 1400)
+      .to({ x: xScale, y: yScale }, duration)
       .easing(TWEEN.Easing.Exponential.InOut)
       .onUpdate((obj) => {
         if (this._mesh) {
@@ -256,7 +262,10 @@ export class Image3D extends MediaObject3D {
         yScale: bounds.height,
         parentFn,
       });
-      this._animateTransition({ destination: 1, duration: 1400 });
+      this._animateTransition({
+        destination: 1,
+        duration: pageTransitionDuration,
+      });
     });
   }
 
