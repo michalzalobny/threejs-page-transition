@@ -17,13 +17,6 @@ interface Constructor {
   parentDomEl: HTMLElement;
 }
 
-interface AnimateOpacity {
-  duration: number;
-  delay: number;
-  destination: number;
-  easing?: (amount: number) => number;
-}
-
 export class Image3D extends MediaObject3D {
   static transitionElId = '[data-transition="details"]';
   static hoverTarget = '[data-curtain="hover"]';
@@ -194,9 +187,9 @@ export class Image3D extends MediaObject3D {
   animateOpacity({
     destination,
     duration,
-    delay,
+    delay = 0,
     easing = TWEEN.Easing.Linear.None,
-  }: AnimateOpacity) {
+  }: AnimateProps) {
     if (this._opacityTween) {
       this._opacityTween.stop();
     }
