@@ -67,3 +67,10 @@ export interface DomRectSSR {
   x: number;
   y: number;
 }
+
+export interface AnimateScale {
+  xScale: number;
+  yScale: number;
+  duration?: number;
+  parentFn?: () => void;
+}

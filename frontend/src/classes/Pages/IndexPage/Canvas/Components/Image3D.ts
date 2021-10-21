@@ -1,7 +1,13 @@
 import * as THREE from 'three';
 import TWEEN, { Tween } from '@tweenjs/tween.js';
 
-import { UpdateInfo, ScrollValues, DomRectSSR, AnimateProps } from 'types';
+import {
+  UpdateInfo,
+  ScrollValues,
+  DomRectSSR,
+  AnimateProps,
+  AnimateScale,
+} from 'types';
 
 import { MediaObject3D } from './MediaObject3D';
 
@@ -21,7 +27,6 @@ interface AnimateOpacity {
 export class Image3D extends MediaObject3D {
   static transitionElId = '[data-transition="details"]';
   static hoverTarget = '[data-curtain="hover"]';
-  static restScaleXMultiplier = 3;
 
   elId: string;
   _isTransitioning = false;
@@ -53,7 +58,7 @@ export class Image3D extends MediaObject3D {
     x: number;
     y: number;
   }> | null = null;
-  _extraScaleTranslate = { y: 0, x: 0 };
+  _extraScaleTranslate = { y: 0 };
   _hoverTargetEl: HTMLElement;
 
   constructor({ parentDomEl, geometry, domEl }: Constructor) {
@@ -99,8 +104,7 @@ export class Image3D extends MediaObject3D {
 
   _updateScale() {
     if (this._mesh) {
-      this._mesh.scale.x =
-        this._domElBounds.width * Image3D.restScaleXMultiplier;
+      this._mesh.scale.x = this._domElBounds.width;
       this._mesh.scale.y = 0; //this._domElBounds.height -> this should be normally, but our default state is 0
     }
   }
@@ -109,7 +113,6 @@ export class Image3D extends MediaObject3D {
     if (this._mesh) {
       this._mesh.position.x =
         -x * (1 - this._transitionProgress) +
-        this._extraScaleTranslate.x * (1 - this._transitionProgress) +
         this._transitionElBounds.left * this._transitionProgress +
         this._domElBounds.left * (1 - this._transitionProgress) -
         this._rendererBounds.width / 2 +
@@ -133,13 +136,10 @@ export class Image3D extends MediaObject3D {
     if (this._isTransitioning) {
       return;
     }
-    this.animateScale(
-      this._domElBounds.width,
-      this._domElBounds.height,
-      () => {},
-      true,
-      true,
-    );
+    this.animateScale({
+      xScale: this._domElBounds.width,
+      yScale: this._domElBounds.height,
+    });
   };
 
   _onMouseLeave = () => {
@@ -151,13 +151,7 @@ export class Image3D extends MediaObject3D {
   };
 
   hideBanner() {
-    this.animateScale(
-      this._domElBounds.width * Image3D.restScaleXMultiplier,
-      0,
-      () => {},
-      true,
-      true,
-    );
+    this.animateScale({ xScale: this._domElBounds.width, yScale: 0 });
   }
 
   _addListeners() {
@@ -226,13 +220,7 @@ export class Image3D extends MediaObject3D {
     this.animateOpacity({ destination: 1, delay: 0, duration: 0 });
   }
 
-  animateScale(
-    x: number,
-    y: number,
-    parentFn: () => void,
-    addTranslate = false,
-    addTranslateX = false,
-  ) {
+  animateScale({ xScale, yScale, parentFn, duration = 1400 }: AnimateScale) {
     if (this._scaleTween) {
       this._scaleTween.stop();
     }
@@ -245,17 +233,11 @@ export class Image3D extends MediaObject3D {
       x: this._mesh.scale.x,
       y: this._mesh.scale.y,
     })
-      .to({ x, y }, 1400)
+      .to({ x: xScale, y: yScale }, 1400)
       .easing(TWEEN.Easing.Exponential.InOut)
       .onUpdate((obj) => {
         if (this._mesh) {
-          if (addTranslate) {
-            this._extraScaleTranslate.y =
-              (this._domElBounds.height - obj.y) / 2;
-          }
-
-          if (addTranslateX)
-            this._extraScaleTranslate.x = (this._domElBounds.width - obj.x) / 2;
+          this._extraScaleTranslate.y = (this._domElBounds.height - obj.y) / 2;
 
           this._mesh.scale.x = obj.x;
           this._mesh.scale.y = obj.y;
@@ -267,7 +249,7 @@ export class Image3D extends MediaObject3D {
         }
       })
       .onComplete(() => {
-        parentFn();
+        parentFn && parentFn();
       });
 
     this._scaleTween.start();
@@ -284,7 +266,11 @@ export class Image3D extends MediaObject3D {
       this._transitionElBounds.top = bounds.top;
       this._transitionElBounds.left = bounds.left;
 
-      this.animateScale(bounds.width, bounds.height, parentFn, true);
+      this.animateScale({
+        xScale: bounds.width,
+        yScale: bounds.height,
+        parentFn,
+      });
       this.animateTransition({ destination: 1, duration: 1400 });
     });
   }
