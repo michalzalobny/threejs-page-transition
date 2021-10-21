@@ -184,9 +184,7 @@ export class Image3D extends MediaObject3D {
       .delay(delay)
       .easing(easing)
       .onUpdate((obj) => {
-        if (!this._mesh) {
-          return;
-        }
+        if (!this._mesh) return;
 
         this._tweenOpacity = obj.progress;
       });
@@ -204,9 +202,7 @@ export class Image3D extends MediaObject3D {
       this._scaleTween.stop();
     }
 
-    if (!this._mesh) {
-      return;
-    }
+    if (!this._mesh) return;
 
     this._scaleTween = new TWEEN.Tween({
       x: this._mesh.scale.x,

@@ -31,9 +31,7 @@ export class DetailsPageCanvas extends PageCanvas {
   onEnter(el: HTMLElement) {
     super.onEnter(el);
 
-    if (!this._pageEl) {
-      return;
-    }
+    if (!this._pageEl) return;
 
     this._destroyItems();
 

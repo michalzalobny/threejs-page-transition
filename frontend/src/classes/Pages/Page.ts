@@ -84,9 +84,7 @@ export class Page extends THREE.EventDispatcher {
   }
 
   _applyScroll = (x: number, y: number) => {
-    if (!this._pageElBounds || globalState.isAppTransitioning) {
-      return;
-    }
+    if (!this._pageElBounds || globalState.isAppTransitioning) return;
 
     let newY = this._scrollValues.scroll.target + y;
 

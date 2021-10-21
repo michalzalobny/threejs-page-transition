@@ -1,7 +1,13 @@
 import * as THREE from 'three';
 import TWEEN, { Tween } from '@tweenjs/tween.js';
 
-import { UpdateInfo, ScrollValues, DomRectSSR, AnimateProps } from 'types';
+import {
+  UpdateInfo,
+  ScrollValues,
+  DomRectSSR,
+  AnimateProps,
+  AnimateScale,
+} from 'types';
 import { pageTransitionDuration } from 'variables';
 
 import { MediaObject3D } from './MediaObject3D';
@@ -9,13 +15,6 @@ import { MediaObject3D } from './MediaObject3D';
 interface Constructor {
   geometry: THREE.PlaneGeometry;
   domEl: HTMLElement;
-}
-
-interface AnimateOpacity {
-  duration: number;
-  delay: number;
-  destination: number;
-  easing?: (amount: number) => number;
 }
 
 export class Image3D extends MediaObject3D {
@@ -38,10 +37,6 @@ export class Image3D extends MediaObject3D {
     height: 0,
   };
   _scrollValues: ScrollValues | null = null;
-  _animateInTween: Tween<{
-    x: number;
-    y: number;
-  }> | null = null;
   _opacityTween: Tween<{ progress: number }> | null = null;
   _transitionTween: Tween<{ progress: number }> | null = null;
   _transitionProgress = 0;
@@ -54,9 +49,7 @@ export class Image3D extends MediaObject3D {
     super({ geometry });
 
     this._domEl = domEl;
-
     this.setColliderName('image3D');
-
     this.elId = this._domEl.dataset.curtainUid as string;
   }
 
@@ -145,9 +138,9 @@ export class Image3D extends MediaObject3D {
   animateOpacity({
     destination,
     duration,
-    delay,
+    delay = 0,
     easing = TWEEN.Easing.Linear.None,
-  }: AnimateOpacity) {
+  }: AnimateProps) {
     if (this._opacityTween) {
       this._opacityTween.stop();
     }
@@ -157,10 +150,6 @@ export class Image3D extends MediaObject3D {
       .delay(delay)
       .easing(easing)
       .onUpdate((obj) => {
-        if (!this._mesh) {
-          return;
-        }
-
         this._tweenOpacity = obj.progress;
       });
 
@@ -171,32 +160,28 @@ export class Image3D extends MediaObject3D {
     this.animateOpacity({ destination: 1, delay: 0, duration: 0 });
   }
 
-  animateScale(
-    x: number,
-    y: number,
-    parentFn: () => void,
-    addTranslate = false,
-  ) {
+  _animateScale({
+    xScale,
+    yScale,
+    parentFn,
+    duration = pageTransitionDuration,
+  }: AnimateScale) {
     if (this._scaleTween) {
       this._scaleTween.stop();
     }
 
-    if (!this._mesh) {
-      return;
-    }
+    if (!this._mesh) return;
 
     this._scaleTween = new TWEEN.Tween({
       x: this._mesh.scale.x,
       y: this._mesh.scale.y,
     })
-      .to({ x, y }, pageTransitionDuration)
+      .to({ x: xScale, y: yScale }, duration)
       .easing(TWEEN.Easing.Exponential.InOut)
       .onUpdate((obj) => {
         if (this._mesh) {
-          if (addTranslate) {
-            this._extraScaleTranslate.y =
-              (this._transitionElBounds.height - obj.y) / 2;
-          }
+          this._extraScaleTranslate.y =
+            (this._transitionElBounds.height - obj.y) / 2;
 
           this._mesh.scale.x = obj.x;
           this._mesh.scale.y = obj.y;
@@ -208,7 +193,7 @@ export class Image3D extends MediaObject3D {
         }
       })
       .onComplete(() => {
-        parentFn();
+        parentFn && parentFn();
       });
 
     this._scaleTween.start();
@@ -225,9 +210,9 @@ export class Image3D extends MediaObject3D {
       this._transitionElBounds.top = bounds.top;
       this._transitionElBounds.left = bounds.left;
       this._transitionElBounds.height = bounds.height;
-      console.log(bounds.height);
 
-      this.animateScale(bounds.width, bounds.height * 0, parentFn, true);
+      this._animateScale({ xScale: bounds.width, yScale: 0, parentFn });
+
       this.animateTransition({
         destination: 1,
         duration: pageTransitionDuration,
