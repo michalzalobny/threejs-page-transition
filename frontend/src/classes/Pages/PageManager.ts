@@ -23,10 +23,10 @@ export class PageManager extends THREE.EventDispatcher {
 
   handlePageEnter(pageEl: HTMLElement) {
     const oldPageId = globalState.currentPageId;
-    const oldQueryId = globalState.currentQueryId as string;
-
     const newPageId = pageEl.dataset.pageid;
-    const newQueryId = pageEl.dataset.queryid as string;
+
+    const oldQueryId = globalState.currentQueryId || '';
+    const newQueryId = pageEl.dataset.queryid || '';
 
     if (newPageId) globalState.currentPageId = newPageId;
     if (newQueryId) globalState.currentQueryId = newQueryId;
