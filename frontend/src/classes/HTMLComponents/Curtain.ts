@@ -22,6 +22,7 @@ export class Curtain extends Animation {
   _hoverProgress = 0;
   _hoverTween: Tween<{ progress: number }> | null = null;
   _hoverTargetEl: HTMLElement;
+  _canInteract = true;
 
   constructor({ element }: Constructor) {
     super({ element, shouldObserve: false });
@@ -85,10 +86,12 @@ export class Curtain extends Animation {
   }
 
   _onMouseEnter = () => {
+    if (!this._canInteract) return;
     this._animateHover({ destination: 1 });
   };
 
   _onMouseLeave = () => {
+    if (!this._canInteract) return;
     this._animateHover({ destination: 0 });
   };
 
@@ -104,6 +107,11 @@ export class Curtain extends Animation {
     this._hoverTargetEl.addEventListener('mouseenter', this._onMouseEnter);
     this._hoverTargetEl.addEventListener('mouseleave', this._onMouseLeave);
     this._hoverTargetEl.addEventListener('click', this._onClick);
+  }
+
+  closeCurtains() {
+    this._animateHover({ destination: 0 });
+    this._canInteract = false;
   }
 
   removeListeners() {

@@ -64,6 +64,10 @@ export class IndexPage extends Page {
     this._animateOut();
     this._removeListeners();
     this._pageCanvas.onExitToDetails(props);
+
+    this._anmCurtains.forEach((el) => {
+      el.closeCurtains();
+    });
   }
 
   setInteractiveScene(scene: InteractiveScene) {
