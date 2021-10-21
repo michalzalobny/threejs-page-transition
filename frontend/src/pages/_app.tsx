@@ -15,6 +15,7 @@ export default function MyApp(props: AppProps) {
   const router = useRouter();
 
   useEffect(() => {
+    //Used just to navigate in canvasApp
     globalState.router = router;
   }, [router]);
 
