@@ -40,10 +40,6 @@ export class Image3D extends MediaObject3D {
     top: 0,
   };
   _scrollValues: ScrollValues | null = null;
-  _animateInTween: Tween<{
-    x: number;
-    y: number;
-  }> | null = null;
   _opacityTween: Tween<{ progress: number }> | null = null;
   _transitionTween: Tween<{ progress: number }> | null = null;
   _transitionProgress = 0;
@@ -83,7 +79,7 @@ export class Image3D extends MediaObject3D {
     this._domElBounds.y = rect.y;
 
     if (this._scrollValues)
-      this._domElBounds.top -= this._scrollValues.scroll.current;
+      this._domElBounds.top -= this._scrollValues.scroll.current; //Fixes scroll issues
 
     this._updateScale();
 
@@ -126,42 +122,30 @@ export class Image3D extends MediaObject3D {
   }
 
   _onMouseEnter = () => {
-    if (this._isTransitioning) {
-      return;
-    }
-    this.animateScale({
+    if (this._isTransitioning) return;
+
+    this._animateScale({
       xScale: this._domElBounds.width,
       yScale: this._domElBounds.height,
     });
   };
 
   _onMouseLeave = () => {
-    if (this._isTransitioning) {
-      return;
-    }
-
+    if (this._isTransitioning) return;
     this.hideBanner();
   };
-
-  hideBanner() {
-    this.animateScale({ xScale: this._domElBounds.width, yScale: 0 });
-  }
 
   _addListeners() {
     this._hoverTargetEl.addEventListener('mouseenter', this._onMouseEnter);
     this._hoverTargetEl.addEventListener('mouseleave', this._onMouseLeave);
   }
 
-  removeListeners() {
+  _removeListeners() {
     this._hoverTargetEl.removeEventListener('mouseenter', this._onMouseEnter);
     this._hoverTargetEl.removeEventListener('mouseleave', this._onMouseLeave);
   }
 
-  setScrollValues(scrollValues: ScrollValues) {
-    this._scrollValues = scrollValues;
-  }
-
-  animateTransition({
+  _animateTransition({
     destination,
     duration,
     delay = 0,
@@ -184,7 +168,7 @@ export class Image3D extends MediaObject3D {
     this._transitionTween.start();
   }
 
-  animateOpacity({
+  _animateOpacity({
     destination,
     duration,
     delay = 0,
@@ -209,11 +193,7 @@ export class Image3D extends MediaObject3D {
     this._opacityTween.start();
   }
 
-  animateIn() {
-    this.animateOpacity({ destination: 1, delay: 0, duration: 0 });
-  }
-
-  animateScale({ xScale, yScale, parentFn, duration = 1400 }: AnimateScale) {
+  _animateScale({ xScale, yScale, parentFn, duration = 1400 }: AnimateScale) {
     if (this._scaleTween) {
       this._scaleTween.stop();
     }
@@ -248,6 +228,18 @@ export class Image3D extends MediaObject3D {
     this._scaleTween.start();
   }
 
+  setScrollValues(scrollValues: ScrollValues) {
+    this._scrollValues = scrollValues;
+  }
+
+  hideBanner() {
+    this._animateScale({ xScale: this._domElBounds.width, yScale: 0 });
+  }
+
+  animateIn() {
+    this._animateOpacity({ destination: 1, delay: 0, duration: 0 });
+  }
+
   onExitToDetails(parentFn: () => void) {
     const transitionEl = Array.from(
       document.querySelectorAll(Image3D.transitionElId),
@@ -259,12 +251,12 @@ export class Image3D extends MediaObject3D {
       this._transitionElBounds.top = bounds.top;
       this._transitionElBounds.left = bounds.left;
 
-      this.animateScale({
+      this._animateScale({
         xScale: bounds.width,
         yScale: bounds.height,
         parentFn,
       });
-      this.animateTransition({ destination: 1, duration: 1400 });
+      this._animateTransition({ destination: 1, duration: 1400 });
     });
   }
 
@@ -293,6 +285,7 @@ export class Image3D extends MediaObject3D {
     this._transitionTween && this._transitionTween.stop();
     this._opacityTween && this._opacityTween.stop();
     this._scaleTween && this._scaleTween.stop();
+    this._removeListeners();
   }
 
   set isTransitioning(value: boolean) {
