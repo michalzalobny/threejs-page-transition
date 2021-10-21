@@ -1,1 +1,1 @@
-export const pageTransitionDuration = 500;
+export const pageTransitionDuration = 900;
