@@ -21,7 +21,7 @@ interface AnimateOpacity {
 export class Image3D extends MediaObject3D {
   static transitionElId = '[data-transition="details"]';
   static hoverTarget = '[data-curtain="hover"]';
-  static restScaleXMultiplier = 1.2;
+  static restScaleXMultiplier = 3;
 
   elId: string;
   _isTransitioning = false;
@@ -53,7 +53,7 @@ export class Image3D extends MediaObject3D {
     x: number;
     y: number;
   }> | null = null;
-  _extraScaleTranslate = { x: 0, y: 0 };
+  _extraScaleTranslate = { y: 0, x: 0 };
   _hoverTargetEl: HTMLElement;
 
   constructor({ parentDomEl, geometry, domEl }: Constructor) {
@@ -109,9 +109,9 @@ export class Image3D extends MediaObject3D {
     if (this._mesh) {
       this._mesh.position.x =
         -x * (1 - this._transitionProgress) +
+        this._extraScaleTranslate.x * (1 - this._transitionProgress) +
         this._transitionElBounds.left * this._transitionProgress +
         this._domElBounds.left * (1 - this._transitionProgress) -
-        this._extraScaleTranslate.x * (1 - this._transitionProgress) -
         this._rendererBounds.width / 2 +
         this._mesh.scale.x / 2;
     }
@@ -138,6 +138,7 @@ export class Image3D extends MediaObject3D {
       this._domElBounds.height,
       () => {},
       true,
+      true,
     );
   };
 
@@ -154,6 +155,7 @@ export class Image3D extends MediaObject3D {
       this._domElBounds.width * Image3D.restScaleXMultiplier,
       0,
       () => {},
+      true,
       true,
     );
   }
@@ -229,6 +231,7 @@ export class Image3D extends MediaObject3D {
     y: number,
     parentFn: () => void,
     addTranslate = false,
+    addTranslateX = false,
   ) {
     if (this._scaleTween) {
       this._scaleTween.stop();
@@ -247,11 +250,12 @@ export class Image3D extends MediaObject3D {
       .onUpdate((obj) => {
         if (this._mesh) {
           if (addTranslate) {
-            this._extraScaleTranslate.x =
-              -(this._domElBounds.width - obj.x) / 2;
             this._extraScaleTranslate.y =
               (this._domElBounds.height - obj.y) / 2;
           }
+
+          if (addTranslateX)
+            this._extraScaleTranslate.x = (this._domElBounds.width - obj.x) / 2;
 
           this._mesh.scale.x = obj.x;
           this._mesh.scale.y = obj.y;
@@ -280,7 +284,7 @@ export class Image3D extends MediaObject3D {
       this._transitionElBounds.top = bounds.top;
       this._transitionElBounds.left = bounds.left;
 
-      this.animateScale(bounds.width, bounds.height, parentFn);
+      this.animateScale(bounds.width, bounds.height, parentFn, true);
       this.animateTransition({ destination: 1, duration: 1400 });
     });
   }

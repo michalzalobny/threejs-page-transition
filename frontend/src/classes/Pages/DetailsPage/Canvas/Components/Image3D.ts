@@ -30,10 +30,11 @@ export class Image3D extends MediaObject3D {
     x: 0,
     y: 0,
   };
-  _extraScaleTranslate = { x: 0, y: 0 };
+  _extraScaleTranslate = { y: 0 };
   _transitionElBounds = {
     left: 0,
     top: 0,
+    height: 0,
   };
   _scrollValues: ScrollValues | null = null;
   _animateInTween: Tween<{
@@ -96,7 +97,6 @@ export class Image3D extends MediaObject3D {
         -x * (1 - this._transitionProgress) +
         this._transitionElBounds.left * this._transitionProgress +
         this._domElBounds.left * (1 - this._transitionProgress) -
-        this._extraScaleTranslate.x -
         this._rendererBounds.width / 2 +
         this._mesh.scale.x / 2;
     }
@@ -107,7 +107,7 @@ export class Image3D extends MediaObject3D {
       this._mesh.position.y =
         -y * (1 - this._transitionProgress) -
         this._domElBounds.top * (1 - this._transitionProgress) -
-        this._extraScaleTranslate.y -
+        this._extraScaleTranslate.y * this._transitionProgress -
         this._transitionElBounds.top * this._transitionProgress +
         this._rendererBounds.height / 2 -
         this._mesh.scale.y / 2;
@@ -193,10 +193,8 @@ export class Image3D extends MediaObject3D {
       .onUpdate((obj) => {
         if (this._mesh) {
           if (addTranslate) {
-            // this._extraScaleTranslate.x =
-            //   -(this._domElBounds.width - obj.x) / 2;
             this._extraScaleTranslate.y =
-              (this._domElBounds.height - obj.y) / 2;
+              (this._transitionElBounds.height - obj.y) / 2;
           }
 
           this._mesh.scale.x = obj.x;
@@ -225,6 +223,8 @@ export class Image3D extends MediaObject3D {
       const bounds = transitionEl.getBoundingClientRect();
       this._transitionElBounds.top = bounds.top;
       this._transitionElBounds.left = bounds.left;
+      this._transitionElBounds.height = bounds.height;
+      console.log(bounds.height);
 
       this.animateScale(bounds.width, bounds.height * 0, parentFn, true);
       this.animateTransition({ destination: 1, duration: 1400 });
