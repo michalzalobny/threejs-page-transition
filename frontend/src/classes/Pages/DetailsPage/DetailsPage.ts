@@ -45,10 +45,18 @@ export class DetailsPage extends Page {
   }
 
   onExitToIndex(props: ExitFn) {
+    const { parentFn, targetId } = props;
     //It executes the functions that onExit() normally executes (WIP)
     this._animateOut();
+
     this._removeListeners();
-    this._pageCanvas.onExitToIndex(props);
+
+    const updatedParentFn = () => {
+      parentFn();
+      this._resetScrollValues();
+    };
+
+    this._pageCanvas.onExitToIndex({ parentFn: updatedParentFn, targetId });
   }
 
   setInteractiveScene(scene: InteractiveScene) {

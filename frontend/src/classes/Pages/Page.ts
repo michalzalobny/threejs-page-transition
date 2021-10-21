@@ -45,6 +45,17 @@ export class Page extends THREE.EventDispatcher {
     this.pageId = pageId;
   }
 
+  _resetScrollValues() {
+    this._scrollValues.direction = 'down';
+
+    this._scrollValues.scroll.current = 0;
+    this._scrollValues.scroll.target = 0;
+    this._scrollValues.scroll.last = 0;
+
+    this._scrollValues.strength.current = 0;
+    this._scrollValues.strength.target = 0;
+  }
+
   _animateOut() {
     this._anmParagraphs.forEach((el) => {
       el.animateOut();
