@@ -74,3 +74,8 @@ export interface AnimateScale {
   duration?: number;
   parentFn?: () => void;
 }
+
+export interface ExitFn {
+  targetId: string;
+  parentFn: () => void;
+}

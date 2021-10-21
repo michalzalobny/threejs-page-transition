@@ -1,4 +1,4 @@
-import { Bounds, UpdateInfo } from 'types';
+import { Bounds, UpdateInfo, ExitFn } from 'types';
 import { globalState } from 'utils/globalState';
 
 import { PageCanvas } from '../../PageCanvas';
@@ -88,7 +88,7 @@ export class IndexPageCanvas extends PageCanvas {
     });
   }
 
-  onExitToDetails(parentFn: () => void, detailId: string) {
+  onExitToDetails({ targetId, parentFn }: ExitFn) {
     //WIP (we need to get the exact element to animate)
     this._anmImages3D.forEach((el, key) => {
       el.isTransitioning = true;
@@ -98,7 +98,7 @@ export class IndexPageCanvas extends PageCanvas {
         parentFn();
       };
 
-      if (el.elId === detailId) {
+      if (el.elId === targetId) {
         el.onExitToDetails(endAnimationFn);
       } else {
         el.hideBanner();
