@@ -50,6 +50,7 @@ export class Image3D extends MediaObject3D {
   }> | null = null;
   _extraScaleTranslate = { y: 0 };
   _hoverTargetEl: HTMLElement;
+  _zoomTween: Tween<{ progress: number }> | null = null;
 
   constructor({ parentDomEl, geometry, domEl }: Constructor) {
     super({ geometry });
@@ -129,6 +130,10 @@ export class Image3D extends MediaObject3D {
       xScale: this._domElBounds.width,
       yScale: this._domElBounds.height,
     });
+
+    this._animateZoom({
+      destination: 0,
+    });
   };
 
   _onMouseLeave = () => {
@@ -184,12 +189,34 @@ export class Image3D extends MediaObject3D {
       .delay(delay)
       .easing(easing)
       .onUpdate((obj) => {
-        if (!this._mesh) return;
-
         this._tweenOpacity = obj.progress;
       });
 
     this._opacityTween.start();
+  }
+
+  _animateZoom({
+    destination,
+    duration = pageTransitionDuration,
+    delay = 0,
+    easing = TWEEN.Easing.Exponential.InOut,
+  }: AnimateProps) {
+    if (this._zoomTween) {
+      this._zoomTween.stop();
+    }
+
+    this._zoomTween = new TWEEN.Tween({ progress: this._zoomProgress })
+      .to({ progress: destination }, duration)
+      .delay(delay)
+      .easing(easing)
+      .onUpdate((obj) => {
+        if (!this._mesh) return;
+        this._zoomProgress = obj.progress;
+
+        this._mesh.material.uniforms.uZoomProgress.value = this._zoomProgress;
+      });
+
+    this._zoomTween.start();
   }
 
   _animateScale({
@@ -236,6 +263,10 @@ export class Image3D extends MediaObject3D {
 
   hideBanner() {
     this._animateScale({ xScale: this._domElBounds.width, yScale: 0 });
+
+    this._animateZoom({
+      destination: 1,
+    });
   }
 
   animateIn() {
@@ -261,6 +292,9 @@ export class Image3D extends MediaObject3D {
       this._animateTransition({
         destination: 1,
         duration: pageTransitionDuration,
+      });
+      this._animateZoom({
+        destination: 0,
       });
     });
   }

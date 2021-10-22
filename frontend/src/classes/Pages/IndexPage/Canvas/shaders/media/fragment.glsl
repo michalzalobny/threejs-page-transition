@@ -5,6 +5,7 @@ uniform vec2 uPlaneSizes;
 uniform sampler2D tMap;
 uniform float uOpacity;
 uniform float uZoom;
+uniform float uZoomProgress;
 
 varying vec2 vUv;
 
@@ -14,11 +15,18 @@ void main() {
     min((uPlaneSizes.y / uPlaneSizes.x) / (uImageSizes.y / uImageSizes.x), 1.0)
   );
 
-  vec2 newUv = vUv;
+  float zoomStateX = (1. - uZoom) * 0.5 + uZoom * vUv.x * ratio.x;
+  float zoomStateY = (1. - uZoom) * 0.25 + uZoom * vUv.y * ratio.y;
+
+  float normalStateX = vUv.x * ratio.x;
+  float normalStateY = vUv.y * ratio.y;
+
+  float finalStateX = mix(normalStateX, zoomStateX, uZoomProgress);
+  float finalStateY = mix(normalStateY, zoomStateY, uZoomProgress);
 
   vec2 uv = vec2(
-    (1. - uZoom) * 0.5 + uZoom * newUv.x * ratio.x + (1.0 - ratio.x) * 0.5,
-    (1. - uZoom) * 0.25 + uZoom * newUv.y * ratio.y + (1.0 - ratio.y) * 0.5
+    finalStateX + (1.0 - ratio.x) * 0.5,
+    finalStateY + (1.0 - ratio.y) * 0.5
   );
 
   gl_FragColor.rgb = texture2D(tMap, uv).rgb;
