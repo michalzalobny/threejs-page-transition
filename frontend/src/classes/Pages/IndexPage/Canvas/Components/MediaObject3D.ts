@@ -41,7 +41,7 @@ export class MediaObject3D extends InteractiveObject3D {
         uImageSizes: { value: [0, 0] },
         uTime: { value: 0 },
         uHovered: { value: 0 },
-        uZoom: { value: 0.75 },
+        uZoom: { value: 0.82 },
         uZoomProgress: { value: this._zoomProgress },
         uMouse3D: { value: new THREE.Vector3(0, 0, 0) },
         uViewportSizes: {
