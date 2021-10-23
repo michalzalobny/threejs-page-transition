@@ -8,7 +8,7 @@ import {
   AnimateProps,
   AnimateScale,
 } from 'types';
-import { pageTransitionDuration } from 'variables';
+import { indexCurtainDuration, pageTransitionDuration } from 'variables';
 
 import { MediaObject3D } from './MediaObject3D';
 
@@ -129,6 +129,7 @@ export class Image3D extends MediaObject3D {
     this._animateScale({
       xScale: this._domElBounds.width,
       yScale: this._domElBounds.height,
+      duration: indexCurtainDuration,
     });
 
     this._animateZoom({
@@ -197,7 +198,7 @@ export class Image3D extends MediaObject3D {
 
   _animateZoom({
     destination,
-    duration = pageTransitionDuration,
+    duration = indexCurtainDuration,
     delay = 0,
     easing = TWEEN.Easing.Exponential.InOut,
   }: AnimateProps) {
@@ -262,7 +263,11 @@ export class Image3D extends MediaObject3D {
   }
 
   hideBanner() {
-    this._animateScale({ xScale: this._domElBounds.width, yScale: 0 });
+    this._animateScale({
+      xScale: this._domElBounds.width,
+      yScale: 0,
+      duration: indexCurtainDuration,
+    });
 
     this._animateZoom({
       destination: 1,
