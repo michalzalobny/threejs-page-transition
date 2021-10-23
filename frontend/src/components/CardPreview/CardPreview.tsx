@@ -16,6 +16,7 @@ export const CardPreview = (props: Props) => {
     <div
       data-curtain-uid={cardUid}
       data-curtain="wrapper"
+      data-observer="none"
       className="card-preview"
     >
       <div

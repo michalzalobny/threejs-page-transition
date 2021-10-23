@@ -24,7 +24,7 @@ export class Curtain extends Animation {
   _hoverTargetEl: HTMLElement;
 
   constructor({ element }: Constructor) {
-    super({ element, shouldObserve: false });
+    super({ element });
 
     this._hoverTargetEl = Array.from(
       this._element.querySelectorAll(Curtain.hoverTarget),
