@@ -10,6 +10,7 @@ interface GlobalState {
   textureItems: TextureItems;
   isAppTransitioning: boolean;
   router: NextRouter | null;
+  globalOpacity: number;
 }
 
 export const globalState: GlobalState = {
@@ -20,4 +21,5 @@ export const globalState: GlobalState = {
   textureItems: {},
   isAppTransitioning: false,
   router: null,
+  globalOpacity: 0,
 };

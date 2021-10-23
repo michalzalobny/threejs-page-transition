@@ -2,6 +2,7 @@ import * as THREE from 'three';
 
 import { InteractiveObject3D } from 'classes/Components/InteractiveObject3D';
 import { Bounds, TextureItem, UpdateInfo } from 'types';
+import { globalState } from 'utils/globalState';
 
 import fragmentShader from '../shaders/media/fragment.glsl';
 import vertexShader from '../shaders/media/vertex.glsl';
@@ -72,7 +73,9 @@ export class MediaObject3D extends InteractiveObject3D {
   _updateOpacity() {
     if (this._mesh) {
       const computedOpacity =
-        Math.min(this._masterOpacity, 1) * this._tweenOpacity;
+        Math.min(this._masterOpacity, 1) *
+        this._tweenOpacity *
+        globalState.globalOpacity;
 
       this._mesh.material.uniforms.uOpacity.value = computedOpacity;
       this._isVisible = computedOpacity > 0;

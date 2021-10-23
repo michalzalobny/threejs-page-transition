@@ -1,4 +1,4 @@
-import TWEEN from '@tweenjs/tween.js';
+import TWEEN, { Tween } from '@tweenjs/tween.js';
 import * as THREE from 'three';
 import debounce from 'lodash/debounce';
 
@@ -38,6 +38,7 @@ export class CanvasApp extends THREE.EventDispatcher {
   _preloader = new Preloader();
   _pageManager = new PageManager();
   _interactiveScene: InteractiveScene | null = null;
+  _opacityTween: Tween<{ progress: number }> | null = null;
 
   constructor() {
     super();
@@ -83,8 +84,27 @@ export class CanvasApp extends THREE.EventDispatcher {
     }
   };
 
+  _animateGlobalOpacity() {
+    if (this._opacityTween) {
+      this._opacityTween.stop();
+    }
+
+    this._opacityTween = new TWEEN.Tween({
+      progress: globalState.globalOpacity,
+    })
+      .to({ progress: 1 }, 600)
+
+      .easing(TWEEN.Easing.Linear.None)
+      .onUpdate((obj) => {
+        globalState.globalOpacity = obj.progress;
+      });
+
+    this._opacityTween.start();
+  }
+
   _onAssetsLoaded = (e: THREE.Event) => {
     globalState.textureItems = (e.target as Preloader).textureItems;
+    this._animateGlobalOpacity();
     this._pageManager.onAssetsLoaded();
   };
 
