@@ -1,3 +1,5 @@
+import { pageTransitionDuration } from 'variables';
+
 import { Animation } from './Animation';
 import { wrapEl } from '../utils/wrapEl';
 
@@ -30,15 +32,15 @@ export class BottomHide extends Animation {
     super.animateIn();
 
     this._innerWrapper.classList.add('bottom-hide__inner--active');
-    this._innerWrapper.style.transition =
-      'transform 1.5s  cubic-bezier(0.77, 0, 0.175, 1)';
+    this._innerWrapper.style.transition = `transform ${pageTransitionDuration}ms  cubic-bezier(0.77, 0, 0.175, 1)`;
   }
 
   animateOut() {
     super.animateOut();
     this._innerWrapper.classList.remove('bottom-hide__inner--active');
-    this._innerWrapper.style.transition =
-      'transform 0.8s  cubic-bezier(0.77, 0, 0.175, 1)';
+    this._innerWrapper.style.transition = `transform ${
+      pageTransitionDuration * 0.5
+    }ms  cubic-bezier(0.77, 0, 0.175, 1)`;
   }
 
   onResize() {
