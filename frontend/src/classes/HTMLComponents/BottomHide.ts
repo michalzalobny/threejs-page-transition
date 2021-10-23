@@ -34,15 +34,15 @@ export class BottomHide extends Animation {
     super.animateIn();
 
     this._innerWrapper.classList.add('bottom-hide__inner--active');
-    this._innerWrapper.style.transition = `transform ${pageTransitionDuration}ms  cubic-bezier(0.77, 0, 0.175, 1)`;
+    this._innerWrapper.style.transition = `transform ${
+      pageTransitionDuration * 0.8
+    }ms  cubic-bezier(0.77, 0, 0.175, 1)`;
   }
 
   animateOut() {
     super.animateOut();
     this._innerWrapper.classList.remove('bottom-hide__inner--active');
-    this._innerWrapper.style.transition = `transform ${
-      pageTransitionDuration * 0.7
-    }ms  cubic-bezier(0.77, 0, 0.175, 1)`;
+    this._innerWrapper.style.transition = `transform ${pageTransitionDuration}ms  cubic-bezier(0.77, 0, 0.175, 1)`;
   }
 
   onResize() {
