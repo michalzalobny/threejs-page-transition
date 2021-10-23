@@ -3,7 +3,6 @@ import Prefix from 'prefix';
 interface Constructor {
   observerElement?: HTMLElement | null;
   element: HTMLElement;
-  shouldObserve?: boolean;
 }
 
 export class Animation {
@@ -14,8 +13,9 @@ export class Animation {
   _triggerOnce = true;
   _shouldObserve: boolean;
 
-  constructor({ observerElement, shouldObserve = true, element }: Constructor) {
+  constructor({ observerElement, element }: Constructor) {
     this._element = element;
+    const shouldObserve = this._element.dataset.observer !== 'none';
 
     if (observerElement) this._observerElement = observerElement;
     else this._observerElement = this._element;
@@ -28,7 +28,7 @@ export class Animation {
     entries: IntersectionObserverEntry[],
     observer: IntersectionObserver,
   ) => {
-    if (!this._shouldObserve) return;
+    if (!this._shouldObserve) return this.animateIn();
 
     entries.forEach((entry) => {
       if (entry.intersectionRatio > 0) {
