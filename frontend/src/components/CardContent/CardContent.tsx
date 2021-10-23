@@ -14,6 +14,7 @@ export const CardContent = (props: Props) => {
     <div className="card-content">
       <div className="card-content__text-wrapper">
         <h2
+          data-animation="bottomhide"
           className={`card-content__text-wrapper__text ${
             whiteColor && 'card-content__text-wrapper__text--white'
           }`}

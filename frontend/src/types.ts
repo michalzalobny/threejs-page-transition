@@ -79,3 +79,8 @@ export interface ExitFn {
   targetId: string;
   parentFn: () => void;
 }
+
+export interface WrapEl {
+  el: HTMLElement | null;
+  wrapperClass: string;
+}

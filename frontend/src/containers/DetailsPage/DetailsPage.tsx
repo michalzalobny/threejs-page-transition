@@ -28,9 +28,12 @@ export default function DetailsPage(props: Props) {
         >
           Go back
         </button>
-        <h1 className="details__title">
-          <RichText text={card.name} />
-        </h1>
+        <span className="details__title__wrapper">
+          <h1 data-animation="bottomhide" className="details__title">
+            <RichText text={card.name} />
+          </h1>
+        </span>
+
         <figure
           data-curtain-uid={card.uid}
           data-transition="details"

@@ -1,7 +1,5 @@
 .details {
   &__title {
-    padding: 5rem;
-    transform: translateY(50%);
     position: relative;
     font-size: 14rem;
     color: white;
@@ -9,6 +7,12 @@
     text-align: center;
     b {
       font-family: 'nexa';
+    }
+
+    &__wrapper {
+      display: block;
+      padding: 5rem;
+      transform: translateY(50%);
     }
   }
 

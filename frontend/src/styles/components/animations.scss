@@ -16,3 +16,18 @@
     }
   }
 }
+
+.bottom-hide {
+  &__outer {
+    overflow: hidden;
+    display: block;
+  }
+  &__inner {
+    transition: all 2s;
+    display: block;
+    transform: translateY(100%);
+    &--active {
+      transform: translateY(0);
+    }
+  }
+}

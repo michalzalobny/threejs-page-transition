@@ -16,6 +16,7 @@ export class Paragraph extends Animation {
       tagName: 'span',
       types: 'lines,words',
     });
+
     this._element.style.opacity = '1';
   }
 
