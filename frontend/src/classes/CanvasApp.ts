@@ -92,9 +92,9 @@ export class CanvasApp extends THREE.EventDispatcher {
     this._opacityTween = new TWEEN.Tween({
       progress: globalState.globalOpacity,
     })
-      .to({ progress: 1 }, 600)
+      .to({ progress: 1 }, 1300)
 
-      .easing(TWEEN.Easing.Linear.None)
+      .easing(TWEEN.Easing.Exponential.InOut)
       .onUpdate((obj) => {
         globalState.globalOpacity = obj.progress;
       });
