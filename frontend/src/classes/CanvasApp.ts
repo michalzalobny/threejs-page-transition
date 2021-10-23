@@ -9,6 +9,7 @@ import { Scroll } from './Singletons/Scroll';
 import { Preloader } from './Utility/Preloader';
 import { PageManager } from './Pages/PageManager';
 import { InteractiveScene } from './Components/InteractiveScene';
+import { Circle2D } from './Components/Circle2D';
 
 export class CanvasApp extends THREE.EventDispatcher {
   static defaultFps = 60;
@@ -39,6 +40,7 @@ export class CanvasApp extends THREE.EventDispatcher {
   _pageManager = new PageManager();
   _interactiveScene: InteractiveScene | null = null;
   _opacityTween: Tween<{ progress: number }> | null = null;
+  circle2D = new Circle2D();
 
   constructor() {
     super();
@@ -74,6 +76,8 @@ export class CanvasApp extends THREE.EventDispatcher {
     this._interactiveScene &&
       this._interactiveScene.setRendererBounds(rendererBounds);
     this._pageManager.setRendererBounds(rendererBounds);
+
+    this.circle2D.setRendererBounds(rendererBounds);
   }
 
   _onVisibilityChange = () => {
@@ -156,6 +160,7 @@ export class CanvasApp extends THREE.EventDispatcher {
 
     this._interactiveScene.update({ delta, slowDownFactor, time });
     this._pageManager.update({ delta, slowDownFactor, time });
+    this.circle2D.update({ delta, slowDownFactor, time });
     this._renderer.render(this._interactiveScene, this._camera);
   };
 
@@ -172,9 +177,9 @@ export class CanvasApp extends THREE.EventDispatcher {
     this._stopAppFrame();
     this._removeListeners();
 
-    this._interactiveScene && this._interactiveScene.destroy();
+    this.circle2D.destroy();
 
-    //Destroy all pages
+    this._interactiveScene && this._interactiveScene.destroy();
     this._preloader.destroy();
   }
 

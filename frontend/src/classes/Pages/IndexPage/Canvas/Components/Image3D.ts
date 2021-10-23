@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import TWEEN, { Tween } from '@tweenjs/tween.js';
 
+import { globalState } from 'utils/globalState';
+
 import {
   UpdateInfo,
   ScrollValues,
@@ -126,6 +128,8 @@ export class Image3D extends MediaObject3D {
   _onMouseEnter = () => {
     if (this._isTransitioning) return;
 
+    globalState.canvasApp?.circle2D.zoomIn();
+
     this._animateScale({
       xScale: this._domElBounds.width,
       yScale: this._domElBounds.height,
@@ -140,6 +144,7 @@ export class Image3D extends MediaObject3D {
   _onMouseLeave = () => {
     if (this._isTransitioning) return;
     this.hideBanner();
+    globalState.canvasApp?.circle2D.zoomOut();
   };
 
   _addListeners() {
@@ -301,6 +306,7 @@ export class Image3D extends MediaObject3D {
       this._animateZoom({
         destination: 0,
       });
+      globalState.canvasApp?.circle2D.zoomOut();
     });
   }
 
