@@ -17,20 +17,27 @@ export class PageManager extends THREE.EventDispatcher {
     super();
 
     this._pagesArray.push(new IndexPage({ pageId: '/' }));
-    this._pagesArray.push(new DetailsPage({ pageId: '/details' }));
+    this._pagesArray.push(new DetailsPage({ pageId: '/details/[id]' }));
     this._transition = new Transition();
   }
 
   handlePageEnter(pageEl: HTMLElement) {
-    const newPageId = pageEl.dataset.pageid;
     const oldPageId = globalState.currentPageId;
+    const newPageId = pageEl.dataset.pageid;
+
+    const oldQueryId = globalState.currentQueryId || '';
+    const newQueryId = pageEl.dataset.queryid || '';
+
     if (newPageId) globalState.currentPageId = newPageId;
+    if (newQueryId) globalState.currentQueryId = newQueryId;
 
     let isEnterInitial = false;
     if (newPageId === oldPageId) isEnterInitial = true;
 
-    const fromDetailsToIndex = oldPageId === '/details' && newPageId === '/';
-    const fromIndexToDetails = oldPageId === '/' && newPageId === '/details';
+    const fromDetailsToIndex =
+      oldPageId === '/details/[id]' && newPageId === '/';
+    const fromIndexToDetails =
+      oldPageId === '/' && newPageId === '/details/[id]';
 
     const newPage = this._pagesArray.find((page) => page.pageId === newPageId);
     const oldPage = this._pagesArray.find((page) => page.pageId === oldPageId);
@@ -38,15 +45,24 @@ export class PageManager extends THREE.EventDispatcher {
     if (newPage) newPage.onEnter(pageEl);
 
     globalState.isAppTransitioning = true;
+
     const parentFn = () => {
       if (newPage) newPage.animateIn();
       globalState.isAppTransitioning = false;
     };
 
     if (fromDetailsToIndex) {
-      if (oldPage) (oldPage as DetailsPage).onExitToIndex(parentFn);
+      if (oldPage)
+        (oldPage as DetailsPage).onExitToIndex({
+          parentFn,
+          targetId: oldQueryId,
+        });
     } else if (fromIndexToDetails) {
-      if (oldPage) (oldPage as IndexPage).onExitToDetails(parentFn);
+      if (oldPage)
+        (oldPage as IndexPage).onExitToDetails({
+          parentFn,
+          targetId: newQueryId,
+        });
     } else {
       if (isEnterInitial) {
         // Raf fixes css styles issue (without Raf, they are being added at the same time as a class, and it removes the initial animation)

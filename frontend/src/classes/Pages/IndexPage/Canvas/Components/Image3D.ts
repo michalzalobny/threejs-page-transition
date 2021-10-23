@@ -1,25 +1,30 @@
 import * as THREE from 'three';
 import TWEEN, { Tween } from '@tweenjs/tween.js';
 
-import { UpdateInfo, ScrollValues, DomRectSSR, AnimateProps } from 'types';
+import {
+  UpdateInfo,
+  ScrollValues,
+  DomRectSSR,
+  AnimateProps,
+  AnimateScale,
+} from 'types';
+import { indexCurtainDuration, pageTransitionDuration } from 'variables';
 
 import { MediaObject3D } from './MediaObject3D';
 
 interface Constructor {
   geometry: THREE.PlaneGeometry;
   domEl: HTMLElement;
-}
-
-interface AnimateOpacity {
-  duration: number;
-  delay: number;
-  destination: number;
-  easing?: (amount: number) => number;
+  parentDomEl: HTMLElement;
 }
 
 export class Image3D extends MediaObject3D {
   static transitionElId = '[data-transition="details"]';
+  static hoverTarget = '[data-curtain="hover"]';
 
+  elId: string;
+  _isTransitioning = false;
+  _parentDomEl: HTMLElement;
   _domEl: HTMLElement;
   _domElBounds: DomRectSSR = {
     bottom: 0,
@@ -36,10 +41,6 @@ export class Image3D extends MediaObject3D {
     top: 0,
   };
   _scrollValues: ScrollValues | null = null;
-  _animateInTween: Tween<{
-    x: number;
-    y: number;
-  }> | null = null;
   _opacityTween: Tween<{ progress: number }> | null = null;
   _transitionTween: Tween<{ progress: number }> | null = null;
   _transitionProgress = 0;
@@ -47,13 +48,24 @@ export class Image3D extends MediaObject3D {
     x: number;
     y: number;
   }> | null = null;
+  _extraScaleTranslate = { y: 0 };
+  _hoverTargetEl: HTMLElement;
+  _zoomTween: Tween<{ progress: number }> | null = null;
 
-  constructor({ geometry, domEl }: Constructor) {
+  constructor({ parentDomEl, geometry, domEl }: Constructor) {
     super({ geometry });
 
+    this._parentDomEl = parentDomEl;
     this._domEl = domEl;
 
+    this._hoverTargetEl = Array.from(
+      this._parentDomEl.querySelectorAll(Image3D.hoverTarget),
+    )[0] as HTMLElement;
+
     this.setColliderName('image3D');
+    this._addListeners();
+
+    this.elId = this._domEl.dataset.curtainUid as string;
   }
 
   _updateBounds() {
@@ -69,7 +81,7 @@ export class Image3D extends MediaObject3D {
     this._domElBounds.y = rect.y;
 
     if (this._scrollValues)
-      this._domElBounds.top -= this._scrollValues.scroll.current;
+      this._domElBounds.top -= this._scrollValues.scroll.current; //Fixes scroll issues
 
     this._updateScale();
 
@@ -84,7 +96,7 @@ export class Image3D extends MediaObject3D {
   _updateScale() {
     if (this._mesh) {
       this._mesh.scale.x = this._domElBounds.width;
-      this._mesh.scale.y = this._domElBounds.height;
+      this._mesh.scale.y = 0; //this._domElBounds.height -> this should be normally, but our default state is 0
     }
   }
 
@@ -104,17 +116,43 @@ export class Image3D extends MediaObject3D {
       this._mesh.position.y =
         -y * (1 - this._transitionProgress) -
         this._domElBounds.top * (1 - this._transitionProgress) -
+        this._extraScaleTranslate.y * (1 - this._transitionProgress) -
         this._transitionElBounds.top * this._transitionProgress +
         this._rendererBounds.height / 2 -
         this._mesh.scale.y / 2;
     }
   }
 
-  setScrollValues(scrollValues: ScrollValues) {
-    this._scrollValues = scrollValues;
+  _onMouseEnter = () => {
+    if (this._isTransitioning) return;
+
+    this._animateScale({
+      xScale: this._domElBounds.width,
+      yScale: this._domElBounds.height,
+      duration: indexCurtainDuration,
+    });
+
+    this._animateZoom({
+      destination: 0,
+    });
+  };
+
+  _onMouseLeave = () => {
+    if (this._isTransitioning) return;
+    this.hideBanner();
+  };
+
+  _addListeners() {
+    this._hoverTargetEl.addEventListener('mouseenter', this._onMouseEnter);
+    this._hoverTargetEl.addEventListener('mouseleave', this._onMouseLeave);
   }
 
-  animateTransition({
+  _removeListeners() {
+    this._hoverTargetEl.removeEventListener('mouseenter', this._onMouseEnter);
+    this._hoverTargetEl.removeEventListener('mouseleave', this._onMouseLeave);
+  }
+
+  _animateTransition({
     destination,
     duration,
     delay = 0,
@@ -137,12 +175,12 @@ export class Image3D extends MediaObject3D {
     this._transitionTween.start();
   }
 
-  animateOpacity({
+  _animateOpacity({
     destination,
     duration,
-    delay,
+    delay = 0,
     easing = TWEEN.Easing.Linear.None,
-  }: AnimateOpacity) {
+  }: AnimateProps) {
     if (this._opacityTween) {
       this._opacityTween.stop();
     }
@@ -152,53 +190,92 @@ export class Image3D extends MediaObject3D {
       .delay(delay)
       .easing(easing)
       .onUpdate((obj) => {
-        if (!this._mesh) {
-          return;
-        }
-
         this._tweenOpacity = obj.progress;
       });
 
     this._opacityTween.start();
   }
 
-  animateIn() {
-    this.animateOpacity({ destination: 1, delay: 0, duration: 0 });
+  _animateZoom({
+    destination,
+    duration = indexCurtainDuration,
+    delay = 0,
+    easing = TWEEN.Easing.Exponential.InOut,
+  }: AnimateProps) {
+    if (this._zoomTween) {
+      this._zoomTween.stop();
+    }
+
+    this._zoomTween = new TWEEN.Tween({ progress: this._zoomProgress })
+      .to({ progress: destination }, duration)
+      .delay(delay)
+      .easing(easing)
+      .onUpdate((obj) => {
+        if (!this._mesh) return;
+        this._zoomProgress = obj.progress;
+
+        this._mesh.material.uniforms.uZoomProgress.value = this._zoomProgress;
+      });
+
+    this._zoomTween.start();
   }
 
-  animateScale(x: number, y: number, parentFn: () => void) {
+  _animateScale({
+    xScale,
+    yScale,
+    parentFn,
+    duration = pageTransitionDuration,
+  }: AnimateScale) {
     if (this._scaleTween) {
       this._scaleTween.stop();
     }
 
-    if (!this._mesh) {
-      return;
-    }
+    if (!this._mesh) return;
 
     this._scaleTween = new TWEEN.Tween({
       x: this._mesh.scale.x,
       y: this._mesh.scale.y,
     })
-      .to({ x, y }, 1400)
+      .to({ x: xScale, y: yScale }, duration)
       .easing(TWEEN.Easing.Exponential.InOut)
       .onUpdate((obj) => {
         if (this._mesh) {
+          this._extraScaleTranslate.y = (this._domElBounds.height - obj.y) / 2;
+
           this._mesh.scale.x = obj.x;
           this._mesh.scale.y = obj.y;
 
-          if (this._mesh) {
-            this._mesh.material.uniforms.uPlaneSizes.value = [
-              this._mesh.scale.x,
-              this._mesh.scale.y,
-            ];
-          }
+          this._mesh.material.uniforms.uPlaneSizes.value = [
+            this._mesh.scale.x,
+            this._mesh.scale.y,
+          ];
         }
       })
       .onComplete(() => {
-        parentFn();
+        parentFn && parentFn();
       });
 
     this._scaleTween.start();
+  }
+
+  setScrollValues(scrollValues: ScrollValues) {
+    this._scrollValues = scrollValues;
+  }
+
+  hideBanner() {
+    this._animateScale({
+      xScale: this._domElBounds.width,
+      yScale: 0,
+      duration: indexCurtainDuration,
+    });
+
+    this._animateZoom({
+      destination: 1,
+    });
+  }
+
+  animateIn() {
+    this._animateOpacity({ destination: 1, delay: 0, duration: 0 });
   }
 
   onExitToDetails(parentFn: () => void) {
@@ -212,8 +289,18 @@ export class Image3D extends MediaObject3D {
       this._transitionElBounds.top = bounds.top;
       this._transitionElBounds.left = bounds.left;
 
-      this.animateScale(bounds.width, bounds.height, parentFn);
-      this.animateTransition({ destination: 1, duration: 1400 });
+      this._animateScale({
+        xScale: bounds.width,
+        yScale: bounds.height,
+        parentFn,
+      });
+      this._animateTransition({
+        destination: 1,
+        duration: pageTransitionDuration,
+      });
+      this._animateZoom({
+        destination: 0,
+      });
     });
   }
 
@@ -242,5 +329,10 @@ export class Image3D extends MediaObject3D {
     this._transitionTween && this._transitionTween.stop();
     this._opacityTween && this._opacityTween.stop();
     this._scaleTween && this._scaleTween.stop();
+    this._removeListeners();
+  }
+
+  set isTransitioning(value: boolean) {
+    this._isTransitioning = value;
   }
 }

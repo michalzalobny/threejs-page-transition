@@ -1,7 +1,14 @@
 import * as THREE from 'three';
 import TWEEN, { Tween } from '@tweenjs/tween.js';
 
-import { UpdateInfo, ScrollValues, DomRectSSR, AnimateProps } from 'types';
+import {
+  UpdateInfo,
+  ScrollValues,
+  DomRectSSR,
+  AnimateProps,
+  AnimateScale,
+} from 'types';
+import { pageTransitionDuration } from 'variables';
 
 import { MediaObject3D } from './MediaObject3D';
 
@@ -10,16 +17,8 @@ interface Constructor {
   domEl: HTMLElement;
 }
 
-interface AnimateOpacity {
-  duration: number;
-  delay: number;
-  destination: number;
-  easing?: (amount: number) => number;
-}
-
 export class Image3D extends MediaObject3D {
-  static transitionElId = '[data-transition="index"]';
-
+  elId: string;
   _domEl: HTMLElement;
   _domElBounds: DomRectSSR = {
     bottom: 0,
@@ -31,15 +30,13 @@ export class Image3D extends MediaObject3D {
     x: 0,
     y: 0,
   };
+  _extraScaleTranslate = { y: 0 };
   _transitionElBounds = {
     left: 0,
     top: 0,
+    height: 0,
   };
   _scrollValues: ScrollValues | null = null;
-  _animateInTween: Tween<{
-    x: number;
-    y: number;
-  }> | null = null;
   _opacityTween: Tween<{ progress: number }> | null = null;
   _transitionTween: Tween<{ progress: number }> | null = null;
   _transitionProgress = 0;
@@ -52,8 +49,8 @@ export class Image3D extends MediaObject3D {
     super({ geometry });
 
     this._domEl = domEl;
-
     this.setColliderName('image3D');
+    this.elId = this._domEl.dataset.curtainUid as string;
   }
 
   _updateBounds() {
@@ -104,6 +101,7 @@ export class Image3D extends MediaObject3D {
       this._mesh.position.y =
         -y * (1 - this._transitionProgress) -
         this._domElBounds.top * (1 - this._transitionProgress) -
+        this._extraScaleTranslate.y * this._transitionProgress -
         this._transitionElBounds.top * this._transitionProgress +
         this._rendererBounds.height / 2 -
         this._mesh.scale.y / 2;
@@ -140,9 +138,9 @@ export class Image3D extends MediaObject3D {
   animateOpacity({
     destination,
     duration,
-    delay,
+    delay = 0,
     easing = TWEEN.Easing.Linear.None,
-  }: AnimateOpacity) {
+  }: AnimateProps) {
     if (this._opacityTween) {
       this._opacityTween.stop();
     }
@@ -152,10 +150,6 @@ export class Image3D extends MediaObject3D {
       .delay(delay)
       .easing(easing)
       .onUpdate((obj) => {
-        if (!this._mesh) {
-          return;
-        }
-
         this._tweenOpacity = obj.progress;
       });
 
@@ -166,36 +160,40 @@ export class Image3D extends MediaObject3D {
     this.animateOpacity({ destination: 1, delay: 0, duration: 0 });
   }
 
-  animateScale(x: number, y: number, parentFn: () => void) {
+  _animateScale({
+    xScale,
+    yScale,
+    parentFn,
+    duration = pageTransitionDuration,
+  }: AnimateScale) {
     if (this._scaleTween) {
       this._scaleTween.stop();
     }
 
-    if (!this._mesh) {
-      return;
-    }
+    if (!this._mesh) return;
 
     this._scaleTween = new TWEEN.Tween({
       x: this._mesh.scale.x,
       y: this._mesh.scale.y,
     })
-      .to({ x, y }, 1400)
+      .to({ x: xScale, y: yScale }, duration)
       .easing(TWEEN.Easing.Exponential.InOut)
       .onUpdate((obj) => {
         if (this._mesh) {
+          this._extraScaleTranslate.y =
+            (this._transitionElBounds.height - obj.y) / 2;
+
           this._mesh.scale.x = obj.x;
           this._mesh.scale.y = obj.y;
 
-          if (this._mesh) {
-            this._mesh.material.uniforms.uPlaneSizes.value = [
-              this._mesh.scale.x,
-              this._mesh.scale.y,
-            ];
-          }
+          this._mesh.material.uniforms.uPlaneSizes.value = [
+            this._mesh.scale.x,
+            this._mesh.scale.y,
+          ];
         }
       })
       .onComplete(() => {
-        parentFn();
+        parentFn && parentFn();
       });
 
     this._scaleTween.start();
@@ -203,7 +201,7 @@ export class Image3D extends MediaObject3D {
 
   onExitToIndex(parentFn: () => void) {
     const transitionEl = Array.from(
-      document.querySelectorAll(Image3D.transitionElId),
+      document.querySelectorAll(`[data-transition="${this.elId}"]`),
     )[0] as HTMLElement;
 
     // Raf fixes css styles issue
@@ -211,9 +209,14 @@ export class Image3D extends MediaObject3D {
       const bounds = transitionEl.getBoundingClientRect();
       this._transitionElBounds.top = bounds.top;
       this._transitionElBounds.left = bounds.left;
+      this._transitionElBounds.height = bounds.height;
 
-      this.animateScale(bounds.width, bounds.height, parentFn);
-      this.animateTransition({ destination: 1, duration: 1400 });
+      this._animateScale({ xScale: bounds.width, yScale: 0, parentFn });
+
+      this.animateTransition({
+        destination: 1,
+        duration: pageTransitionDuration,
+      });
     });
   }
 

@@ -1,19 +1,25 @@
 import Prefix from 'prefix';
 
 interface Constructor {
+  observerElement?: HTMLElement | null;
   element: HTMLElement;
-  shouldObserve?: boolean;
 }
 
 export class Animation {
+  _observerElement: HTMLElement;
   _element: HTMLElement;
   _transformPrefix = Prefix('transform');
   _observer: IntersectionObserver;
   _triggerOnce = true;
   _shouldObserve: boolean;
 
-  constructor({ shouldObserve = true, element }: Constructor) {
+  constructor({ observerElement, element }: Constructor) {
     this._element = element;
+    const shouldObserve = this._element.dataset.observer !== 'none';
+
+    if (observerElement) this._observerElement = observerElement;
+    else this._observerElement = this._element;
+
     this._shouldObserve = shouldObserve;
     this._observer = new IntersectionObserver(this._handleIntersection);
   }
@@ -22,7 +28,7 @@ export class Animation {
     entries: IntersectionObserverEntry[],
     observer: IntersectionObserver,
   ) => {
-    if (!this._shouldObserve) return;
+    if (!this._shouldObserve) return this.animateIn();
 
     entries.forEach((entry) => {
       if (entry.intersectionRatio > 0) {
@@ -35,8 +41,8 @@ export class Animation {
   };
 
   initObserver() {
-    this._observer.unobserve(this._element);
-    this._observer.observe(this._element);
+    this._observer.unobserve(this._observerElement);
+    this._observer.observe(this._observerElement);
   }
 
   animateIn() {}

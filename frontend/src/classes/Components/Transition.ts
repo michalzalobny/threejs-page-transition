@@ -1,6 +1,7 @@
 import TWEEN, { Tween } from '@tweenjs/tween.js';
 import Prefix from 'prefix';
 
+import { pageTransitionDuration } from 'variables';
 import { Bounds } from 'types';
 
 export class Transition {
@@ -44,7 +45,7 @@ export class Transition {
     this._curtainProgressTween = new TWEEN.Tween({
       progress: this._curtainProgress,
     })
-      .to({ progress: destination }, 1400)
+      .to({ progress: destination }, pageTransitionDuration)
       .easing(TWEEN.Easing.Exponential.InOut)
       .onUpdate((obj) => {
         this._curtainProgress = obj.progress;

@@ -20,6 +20,7 @@ export class MediaObject3D extends InteractiveObject3D {
   _masterOpacity = 1;
   _tweenOpacity = 0;
   _isVisible = false;
+  _zoomProgress = 1; //by default the images are zoomed in
 
   constructor({ geometry }: Constructor) {
     super();
@@ -39,6 +40,8 @@ export class MediaObject3D extends InteractiveObject3D {
         uImageSizes: { value: [0, 0] },
         uTime: { value: 0 },
         uHovered: { value: 0 },
+        uZoom: { value: 0.75 },
+        uZoomProgress: { value: this._zoomProgress },
         uMouse3D: { value: new THREE.Vector3(0, 0, 0) },
         uViewportSizes: {
           value: [this._rendererBounds.width, this._rendererBounds.height],

@@ -1,4 +1,4 @@
-import { UpdateInfo, Bounds } from 'types';
+import { UpdateInfo, Bounds, ExitFn } from 'types';
 
 import { Page } from '../Page';
 import { IndexPageCanvas } from './Canvas/IndexPageCanvas';
@@ -59,11 +59,12 @@ export class IndexPage extends Page {
     this._pageCanvas.animateIn();
   }
 
-  onExitToDetails(parentFn: () => void) {
+  onExitToDetails(props: ExitFn) {
     //It executes the functions that onExit() normally executes (WIP)
     this._animateOut();
     this._removeListeners();
-    this._pageCanvas.onExitToDetails(parentFn);
+
+    this._pageCanvas.onExitToDetails(props);
   }
 
   setInteractiveScene(scene: InteractiveScene) {

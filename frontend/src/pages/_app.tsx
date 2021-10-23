@@ -7,13 +7,18 @@ import 'intersection-observer';
 
 import { globalState } from 'utils/globalState';
 import { CanvasApp } from 'classes/CanvasApp';
-import imgSrc from '../containers/IndexPage/images/1.jpg';
+import { pageTransitionDuration } from 'variables';
 
 import '../styles/index.scss';
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
   const router = useRouter();
+
+  useEffect(() => {
+    //Used just to navigate in canvasApp
+    globalState.router = router;
+  }, [router]);
 
   const initTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const rendererWrapperEl = useRef(null);
@@ -24,10 +29,11 @@ export default function MyApp(props: AppProps) {
     if (rendererWrapperEl.current) {
       const el = document.querySelectorAll('.page')[0] as HTMLElement;
       const pageId = el.dataset.pageid;
+      const queryId = el.dataset.queryid;
       if (pageId) globalState.currentPageId = pageId;
+      if (queryId) globalState.currentQueryId = queryId;
 
       globalState.canvasApp = CanvasApp.getInstance();
-      globalState.canvasApp.imagesToPreload = [imgSrc.src];
       globalState.canvasApp.rendererWrapperEl = rendererWrapperEl.current;
     }
 
@@ -75,12 +81,16 @@ export default function MyApp(props: AppProps) {
         <TransitionGroup>
           <CSSTransition
             key={router.pathname}
-            timeout={1400}
+            timeout={pageTransitionDuration}
             classNames="page-transition"
             unmountOnExit
             onEnter={onPageEnter}
           >
-            <div data-pageid={router.pathname} className="page">
+            <div
+              data-queryid={router.query.id || ''}
+              data-pageid={router.pathname}
+              className="page"
+            >
               <Component key={router.pathname} router={router} {...pageProps} />
             </div>
           </CSSTransition>

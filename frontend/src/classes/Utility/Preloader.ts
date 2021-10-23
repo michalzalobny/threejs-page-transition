@@ -46,6 +46,8 @@ export class Preloader extends EventDispatcher {
   }
 
   set images(images: string[]) {
+    //Does not load the images twice for the whole app
+    if (this._images.length !== 0) return;
     this._images = images;
     this._preloadTextures();
   }

@@ -1,6 +1,8 @@
 import TWEEN, { Tween } from '@tweenjs/tween.js';
 
 import { AnimateProps } from 'types';
+import { globalState } from 'utils/globalState';
+import { indexCurtainDuration } from 'variables';
 
 import { Animation } from './Animation';
 
@@ -11,6 +13,7 @@ interface Constructor {
 export class Curtain extends Animation {
   static topId = '[data-curtain="top"]';
   static bottomId = '[data-curtain="bottom"]';
+  static hoverTarget = '[data-curtain="hover"]';
 
   _curtainTop: HTMLElement;
   _curtainTopChild: HTMLElement;
@@ -18,9 +21,14 @@ export class Curtain extends Animation {
   _curtainBottomChild: HTMLElement;
   _hoverProgress = 0;
   _hoverTween: Tween<{ progress: number }> | null = null;
+  _hoverTargetEl: HTMLElement;
 
   constructor({ element }: Constructor) {
-    super({ element, shouldObserve: false });
+    super({ element });
+
+    this._hoverTargetEl = Array.from(
+      this._element.querySelectorAll(Curtain.hoverTarget),
+    )[0] as HTMLElement;
 
     this._curtainTop = Array.from(
       this._element.querySelectorAll(Curtain.topId),
@@ -39,7 +47,7 @@ export class Curtain extends Animation {
 
   _animateHover({
     destination,
-    duration = 1500,
+    duration = indexCurtainDuration,
     delay = 0,
     easing = TWEEN.Easing.Exponential.InOut,
   }: AnimateProps) {
@@ -84,14 +92,28 @@ export class Curtain extends Animation {
     this._animateHover({ destination: 0 });
   };
 
+  _onClick = () => {
+    const elId = this._element.dataset.curtainUid;
+
+    if (globalState.router) {
+      globalState.router.push('/details/[id]', `/details/${elId}`);
+    }
+  };
+
   _addListeners() {
-    this._element.addEventListener('mouseenter', this._onMouseEnter);
-    this._element.addEventListener('mouseleave', this._onMouseLeave);
+    this._hoverTargetEl.addEventListener('mouseenter', this._onMouseEnter);
+    this._hoverTargetEl.addEventListener('mouseleave', this._onMouseLeave);
+    this._hoverTargetEl.addEventListener('click', this._onClick);
+  }
+
+  closeCurtains() {
+    this._animateHover({ destination: 0 });
   }
 
   removeListeners() {
-    this._element.removeEventListener('mouseenter', this._onMouseEnter);
-    this._element.removeEventListener('mouseleave', this._onMouseLeave);
+    this._hoverTargetEl.removeEventListener('mouseenter', this._onMouseEnter);
+    this._hoverTargetEl.removeEventListener('mouseleave', this._onMouseLeave);
+    this._hoverTargetEl.removeEventListener('click', this._onClick);
   }
 
   animateIn() {

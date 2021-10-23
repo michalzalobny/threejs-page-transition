@@ -1,4 +1,4 @@
-import { Bounds, UpdateInfo } from 'types';
+import { Bounds, UpdateInfo, ExitFn } from 'types';
 import { globalState } from 'utils/globalState';
 
 import { PageCanvas } from '../../PageCanvas';
@@ -31,9 +31,7 @@ export class DetailsPageCanvas extends PageCanvas {
   onEnter(el: HTMLElement) {
     super.onEnter(el);
 
-    if (!this._pageEl) {
-      return;
-    }
+    if (!this._pageEl) return;
 
     this._destroyItems();
 
@@ -85,14 +83,15 @@ export class DetailsPageCanvas extends PageCanvas {
     });
   }
 
-  onExitToIndex(parentFn: () => void) {
+  onExitToIndex({ targetId, parentFn }: ExitFn) {
     //WIP (we need to get the exact element to animate)
     this._anmImages3D.forEach((el, key) => {
       const endAnimationFn = () => {
         this.onExit();
         parentFn();
       };
-      if (key === 0) {
+
+      if (el.elId === targetId) {
         el.onExitToIndex(endAnimationFn);
       }
     });

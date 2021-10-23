@@ -67,3 +67,20 @@ export interface DomRectSSR {
   x: number;
   y: number;
 }
+
+export interface AnimateScale {
+  xScale: number;
+  yScale: number;
+  duration?: number;
+  parentFn?: () => void;
+}
+
+export interface ExitFn {
+  targetId: string;
+  parentFn: () => void;
+}
+
+export interface WrapEl {
+  el: HTMLElement | null;
+  wrapperClass: string;
+}

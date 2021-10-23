@@ -1,4 +1,4 @@
-import { Bounds, UpdateInfo } from 'types';
+import { Bounds, UpdateInfo, ExitFn } from 'types';
 import { globalState } from 'utils/globalState';
 
 import { PageCanvas } from '../../PageCanvas';
@@ -8,7 +8,7 @@ import { Image3D } from './Components/Image3D';
 interface Constructor {}
 
 export class IndexPageCanvas extends PageCanvas {
-  static anmImage3D = '[data-animation="image3d"]';
+  static anmImage3D = '[data-animation="image3d-landing"]';
 
   _anmImages3D: Image3D[] = [];
 
@@ -31,9 +31,7 @@ export class IndexPageCanvas extends PageCanvas {
   onEnter(el: HTMLElement) {
     super.onEnter(el);
 
-    if (!this._pageEl) {
-      return;
-    }
+    if (!this._pageEl) return;
 
     this._destroyItems();
 
@@ -42,7 +40,12 @@ export class IndexPageCanvas extends PageCanvas {
     ) as HTMLElement[];
 
     this._anmImages3D = medias.map((el) => {
-      return new Image3D({ geometry: this._planeGeometry, domEl: el });
+      const parentDomEl = el.parentNode as HTMLElement;
+      return new Image3D({
+        geometry: this._planeGeometry,
+        domEl: el,
+        parentDomEl,
+      });
     });
 
     this._anmImages3D.forEach((el) => {
@@ -85,15 +88,20 @@ export class IndexPageCanvas extends PageCanvas {
     });
   }
 
-  onExitToDetails(parentFn: () => void) {
+  onExitToDetails({ targetId, parentFn }: ExitFn) {
     //WIP (we need to get the exact element to animate)
     this._anmImages3D.forEach((el, key) => {
+      el.isTransitioning = true;
+
       const endAnimationFn = () => {
         this.onExit();
         parentFn();
       };
-      if (key === 0) {
+
+      if (el.elId === targetId) {
         el.onExitToDetails(endAnimationFn);
+      } else {
+        el.hideBanner();
       }
     });
   }

@@ -8,6 +8,7 @@ import { Scroll } from '../Singletons/Scroll';
 import { Paragraph } from '../HTMLComponents/Paragraph';
 import { InteractiveScene } from '../Components/InteractiveScene';
 import { lerp } from '../utils/lerp';
+import { BottomHide } from '../HTMLComponents/BottomHide';
 
 interface Constructor {
   pageId: string;
@@ -19,9 +20,11 @@ export class Page extends THREE.EventDispatcher {
   static mouseMultiplier = 2;
   static touchMultiplier = 1;
   static anmParagraph = '[data-animation="paragraph"]';
+  static anmBottomHide = '[data-animation="bottomhide"]';
 
   pageId: string;
   _anmParagraphs: Paragraph[] = [];
+  _anmBottomHide: BottomHide[] = [];
   _scroll = Scroll.getInstance();
   _pageEl: HTMLElement | null = null;
   _rendererBounds: Bounds = { height: 10, width: 100 };
@@ -45,12 +48,29 @@ export class Page extends THREE.EventDispatcher {
     this.pageId = pageId;
   }
 
+  _resetScrollValues() {
+    this._scrollValues.direction = 'down';
+
+    this._scrollValues.scroll.current = 0;
+    this._scrollValues.scroll.target = 0;
+    this._scrollValues.scroll.last = 0;
+
+    this._scrollValues.strength.current = 0;
+    this._scrollValues.strength.target = 0;
+  }
+
   _animateOut() {
     this._anmParagraphs.forEach((el) => {
       el.animateOut();
     });
 
     this._anmParagraphs = [];
+
+    this._anmBottomHide.forEach((el) => {
+      el.animateOut();
+    });
+
+    this._anmBottomHide = [];
   }
 
   _updateScrollValues(updateInfo: UpdateInfo) {
@@ -84,9 +104,7 @@ export class Page extends THREE.EventDispatcher {
   }
 
   _applyScroll = (x: number, y: number) => {
-    if (!this._pageElBounds || globalState.isAppTransitioning) {
-      return;
-    }
+    if (!this._pageElBounds || globalState.isAppTransitioning) return;
 
     let newY = this._scrollValues.scroll.target + y;
 
@@ -137,6 +155,10 @@ export class Page extends THREE.EventDispatcher {
     this._anmParagraphs.forEach((el) => {
       el.initObserver();
     });
+
+    this._anmBottomHide.forEach((el) => {
+      el.initObserver();
+    });
   }
 
   onEnter(el: HTMLElement) {
@@ -150,6 +172,15 @@ export class Page extends THREE.EventDispatcher {
     this._anmParagraphs = paragraphs.map((el) => {
       return new Paragraph({ element: el });
     });
+
+    const bottomHides = Array.from(
+      this._pageEl.querySelectorAll(Page.anmBottomHide),
+    ) as HTMLElement[];
+
+    this._anmBottomHide = bottomHides.map((el) => {
+      return new BottomHide({ element: el });
+    });
+
     this._addListeners();
   }
 
@@ -166,6 +197,10 @@ export class Page extends THREE.EventDispatcher {
     this._rendererBounds = bounds;
 
     this._anmParagraphs.forEach((el) => {
+      el.onResize();
+    });
+
+    this._anmBottomHide.forEach((el) => {
       el.onResize();
     });
 
