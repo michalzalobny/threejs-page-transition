@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 
 import { globalState } from 'utils/globalState';
 import { CardPreview } from 'components/CardPreview/CardPreview';
+import { Head } from 'seo/Head/Head';
 
 import { Props } from './data';
 
 export default function IndexPage(props: Props) {
-  const { cardsCms } = props;
+  const { head, cardsCms } = props;
 
   useEffect(() => {
     const imagesToPreload = cardsCms.map((card) => card.imageSrc);
@@ -18,6 +19,7 @@ export default function IndexPage(props: Props) {
 
   return (
     <>
+      <Head {...head} />
       <div className="index__wrapper">
         {cardsCms.map((el, key) => (
           <CardPreview

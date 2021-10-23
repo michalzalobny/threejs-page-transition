@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 
 import { RichText } from 'components/RichText/RichText';
 import { globalState } from 'utils/globalState';
+import { Head } from 'seo/Head/Head';
 
 import { Props } from './data';
 
@@ -21,6 +22,12 @@ export default function DetailsPage(props: Props) {
 
   return (
     <>
+      <Head
+        description={card.description}
+        ogImageSrc={card.imageSrc}
+        title={card.name}
+        ogType="website"
+      />
       <div className="details__wrapper">
         <button
           style={{ position: 'absolute', top: 0, right: 0, fontSize: '20px' }}
