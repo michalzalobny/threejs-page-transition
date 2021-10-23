@@ -115,6 +115,11 @@ html {
   overscroll-behavior: none;
 }
 
+img {
+  user-select: none;
+  pointer-events: none;
+}
+
 *,
 *:before,
 *:after {
