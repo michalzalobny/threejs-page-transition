@@ -74,12 +74,31 @@ export class Circle2D {
     this._mouse.y.target = (e.target as MouseMove).mouse.y;
   };
 
+  _onMouseOut = (event: MouseEvent) => {
+    if (
+      event.clientY <= 0 ||
+      event.clientX <= 0 ||
+      event.clientX >= this._rendererBounds.width ||
+      event.clientY >= this._rendererBounds.height
+    ) {
+      console.log("I'm out");
+    }
+  };
+
+  _onMouseEnter = () => {
+    console.log('enter');
+  };
+
   _addListeners() {
     this._mouseMove.addEventListener('mousemove', this._onMouseMove);
+    document.addEventListener('mouseenter', this._onMouseEnter);
+    document.addEventListener('mouseleave', this._onMouseOut);
   }
 
   _removeListeners() {
     this._mouseMove.removeEventListener('mousemove', this._onMouseMove);
+    document.removeEventListener('mouseenter', this._onMouseEnter);
+    document.removeEventListener('mouseleave', this._onMouseOut);
   }
 
   _draw() {
