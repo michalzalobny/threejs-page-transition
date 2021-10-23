@@ -1,12 +1,20 @@
 .card-content {
   &__text-wrapper {
-    padding: 12rem 0;
+    padding: 5rem 0;
     position: relative;
+
+    @include media('>phone') {
+      padding: 10rem 0;
+    }
 
     &__text {
       position: relative;
-      font-size: 14rem;
+      font-size: 7rem;
       color: black;
+
+      @include media('>phone') {
+        font-size: 15rem;
+      }
 
       &--white {
         color: white;

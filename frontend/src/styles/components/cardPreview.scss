@@ -2,10 +2,14 @@
   position: relative;
 
   &__container {
-    max-width: 55%;
+    max-width: 80%;
     margin: 0 auto;
     display: flex;
     justify-content: flex-start;
+
+    @include media('>phone') {
+      max-width: 55%;
+    }
 
     &--secondary {
       justify-content: flex-end;
