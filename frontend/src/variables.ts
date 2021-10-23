@@ -1,3 +1,3 @@
-export const pageTransitionDuration = 1400;
+export const pageTransitionDuration = 1200;
 
-export const indexCurtainDuration = pageTransitionDuration * 0.7;
+export const indexCurtainDuration = pageTransitionDuration * 0.8;

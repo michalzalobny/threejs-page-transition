@@ -106,10 +106,6 @@ export class Curtain extends Animation {
     this._hoverTargetEl.addEventListener('click', this._onClick);
   }
 
-  closeCurtains() {
-    this._animateHover({ destination: 0 });
-  }
-
   removeListeners() {
     this._hoverTargetEl.removeEventListener('mouseenter', this._onMouseEnter);
     this._hoverTargetEl.removeEventListener('mouseleave', this._onMouseLeave);

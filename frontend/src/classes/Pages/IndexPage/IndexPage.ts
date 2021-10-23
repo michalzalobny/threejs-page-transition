@@ -60,7 +60,7 @@ export class IndexPage extends Page {
   }
 
   onExitToDetails(props: ExitFn) {
-    //It executes the functions that onExit() normally executes (WIP)
+    //It executes the functions that onExit() normally executes
     this._animateOut();
     this._removeListeners();
 
