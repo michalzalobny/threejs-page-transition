@@ -2,7 +2,7 @@
   &__title {
     position: relative;
     font-size: 7rem;
-    color: white;
+    color: var(--white);
     text-align: center;
 
     @include media('>phone') {

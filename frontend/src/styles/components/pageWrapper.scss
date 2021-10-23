@@ -35,6 +35,16 @@
   top: 0;
   left: 0;
 
+  &__background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--grey);
+    z-index: -5;
+  }
+
   &__overlay {
     position: fixed;
     width: 100%;

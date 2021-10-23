@@ -10,14 +10,14 @@
     &__text {
       position: relative;
       font-size: 7rem;
-      color: black;
+      color: var(--black);
 
       @include media('>phone') {
         font-size: 15rem;
       }
 
       &--white {
-        color: white;
+        color: var(--white);
       }
 
       b {

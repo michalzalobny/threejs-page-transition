@@ -7,7 +7,7 @@ import { MouseMove } from '../Singletons/MouseMove';
 import { lerp } from '../utils/lerp';
 
 export class Circle2D {
-  static mouseLerp = 0.3;
+  static mouseLerp = 0.25;
 
   _mouseMove = MouseMove.getInstance();
   _canvas: HTMLCanvasElement;
@@ -26,7 +26,7 @@ export class Circle2D {
       current: 0,
     },
   };
-  _radius = 40;
+  _radius = 35;
   _extraRadius = 15;
 
   constructor() {
