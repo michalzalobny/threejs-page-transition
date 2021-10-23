@@ -41,7 +41,7 @@ export class BottomHide extends Animation {
     super.animateOut();
     this._innerWrapper.classList.remove('bottom-hide__inner--active');
     this._innerWrapper.style.transition = `transform ${
-      pageTransitionDuration * 0.5
+      pageTransitionDuration * 0.7
     }ms  cubic-bezier(0.77, 0, 0.175, 1)`;
   }
 
