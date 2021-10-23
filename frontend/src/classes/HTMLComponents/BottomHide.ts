@@ -12,14 +12,16 @@ export class BottomHide extends Animation {
   _outerWrapper: HTMLElement;
 
   constructor({ element }: Constructor) {
-    wrapEl({ el: element, wrapperClass: 'bottom-hide__inner' });
-    wrapEl({
-      el: element.parentElement,
-      wrapperClass: 'bottom-hide__outer',
-    });
+    if (!element.dataset.wrapped) {
+      wrapEl({ el: element, wrapperClass: 'bottom-hide__inner' });
+      wrapEl({
+        el: element.parentElement,
+        wrapperClass: 'bottom-hide__outer',
+      });
+      element.dataset.wrapped = 'wrapped';
+    }
 
     const innerWrapper = element.parentElement as HTMLElement;
-
     const outerWrapper = innerWrapper.parentElement as HTMLElement;
 
     super({ element, observerElement: outerWrapper });
