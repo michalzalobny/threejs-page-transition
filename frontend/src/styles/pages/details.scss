@@ -1,17 +1,20 @@
 .details {
   &__title {
     position: relative;
-    font-size: 14rem;
+    font-size: 7rem;
     color: white;
-
     text-align: center;
+
+    @include media('>phone') {
+      font-size: 15rem;
+    }
+
     b {
       font-family: 'nexa';
     }
 
     &__wrapper {
       display: block;
-      padding: 5rem;
       transform: translateY(50%);
     }
   }
@@ -21,15 +24,24 @@
   }
 
   &__container {
-    max-width: 80rem;
+    max-width: 80%;
     margin: 0 auto;
+
+    @include media('>phone') {
+      max-width: 100rem;
+    }
   }
 
   &__p {
-    font-size: 3rem;
+    font-size: 2rem;
     line-height: 1.8;
     color: black;
-    padding: 12rem 0;
+    padding: 4rem 0;
+
+    @include media('>phone') {
+      font-size: 2.5rem;
+      padding: 12rem 0;
+    }
   }
 
   &__img {
@@ -43,14 +55,22 @@
     &__wrapper {
       opacity: 0;
       margin: 0 auto;
-      width: 60%;
+      width: 80%;
       position: relative;
+
+      @include media('>phone') {
+        width: 70%;
+      }
 
       &:before {
         content: '';
         display: block;
         width: 100%;
-        padding-bottom: 42.5%;
+        padding-bottom: 56.25%;
+
+        @include media('>phone') {
+          padding-bottom: 56.25%;
+        }
       }
     }
   }
