@@ -63,9 +63,7 @@ export class IndexPage extends Page {
     //It executes the functions that onExit() normally executes (WIP)
     this._animateOut();
     this._removeListeners();
-    this._anmCurtains.forEach((el) => {
-      el.closeCurtains();
-    });
+
     this._pageCanvas.onExitToDetails(props);
   }
 
