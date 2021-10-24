@@ -1,11 +1,12 @@
 .card-content {
-  &__text-wrapper {
-    padding: 5rem 0;
-    position: relative;
+  padding: 5rem 0;
 
-    @include media('>phone') {
-      padding: 10rem 0;
-    }
+  @include media('>phone') {
+    padding: 10rem 0;
+  }
+
+  &__text-wrapper {
+    position: relative;
 
     &__text {
       position: relative;
