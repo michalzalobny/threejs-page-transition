@@ -30,6 +30,7 @@ export class Circle2D {
   _extraRadius = 15;
   _showProgress = 0;
   _showProgressTween: Tween<{ progress: number }> | null = null;
+  _isCircleInit = false;
 
   constructor() {
     this._canvas = document.createElement('canvas');
@@ -62,7 +63,7 @@ export class Circle2D {
     this._showProgressTween = new TWEEN.Tween({
       progress: this._showProgress,
     })
-      .to({ progress: destination }, indexCurtainDuration * 0.8)
+      .to({ progress: destination }, indexCurtainDuration)
       .easing(TWEEN.Easing.Exponential.InOut)
       .onUpdate((obj) => {
         this._showProgress = obj.progress;
@@ -93,6 +94,13 @@ export class Circle2D {
     this._mouse.y.target = (e.target as MouseMove).mouse.y;
   };
 
+  _onMouseMoveInternal = () => {
+    if (!this._isCircleInit) {
+      this._isCircleInit = true;
+      this._animateShow(1);
+    }
+  };
+
   _onMouseOut = (event: MouseEvent) => {
     if (
       event.clientY <= 0 ||
@@ -112,12 +120,14 @@ export class Circle2D {
     this._mouseMove.addEventListener('mousemove', this._onMouseMove);
     document.addEventListener('mouseenter', this._onMouseEnter);
     document.addEventListener('mouseleave', this._onMouseOut);
+    document.addEventListener('mousemove', this._onMouseMoveInternal);
   }
 
   _removeListeners() {
     this._mouseMove.removeEventListener('mousemove', this._onMouseMove);
     document.removeEventListener('mouseenter', this._onMouseEnter);
     document.removeEventListener('mouseleave', this._onMouseOut);
+    document.removeEventListener('mousemove', this._onMouseMoveInternal);
   }
 
   _draw() {
