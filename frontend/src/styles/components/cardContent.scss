@@ -1,10 +1,10 @@
 .card-content {
-  padding: 5rem 0;
+  padding: 3rem 0;
   display: flex;
   flex-direction: column;
 
   @include media('>phone') {
-    padding: 10rem 0;
+    padding: 6rem 0;
   }
 
   &__more-label {
@@ -17,8 +17,13 @@
     }
 
     &__number {
-      font-size: 20px;
-      padding-right: 20px;
+      font-size: 14px;
+      padding-right: 7px;
+
+      @include media('>phone') {
+        font-size: 20px;
+        padding-right: 20px;
+      }
 
       &--white {
         color: var(--white);
@@ -42,9 +47,14 @@
     }
 
     &__more {
-      font-size: 20px;
-      padding-left: 20px;
+      font-size: 14px;
+      padding-left: 7px;
       transform: translateX(-10rem); //Its half of the line width
+
+      @include media('>phone') {
+        font-size: 20px;
+        padding-left: 20px;
+      }
 
       &--white {
         color: var(--white);
