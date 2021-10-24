@@ -1,4 +1,26 @@
 .details {
+  &__back-btn {
+    position: absolute;
+    z-index: 1;
+    top: 20px;
+    right: 15px;
+
+    @include media('>phone') {
+      top: 30px;
+      right: 35px;
+    }
+
+    &__label {
+      cursor: pointer;
+      font-size: 15px;
+      font-family: 'nexa';
+      color: var(--black);
+
+      @include media('>phone') {
+        font-size: 22px;
+      }
+    }
+  }
   &__title {
     position: relative;
     font-size: 7rem;

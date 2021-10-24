@@ -21,6 +21,8 @@ export class Page extends THREE.EventDispatcher {
   static touchMultiplier = 1;
   static anmParagraph = '[data-animation="paragraph"]';
   static anmBottomHide = '[data-animation="bottomhide"]';
+  static scrollContainer = '[data-scroll="page"]';
+  static pageContainer = '[data-page="wrapper"]';
 
   pageId: string;
   _anmParagraphs: Paragraph[] = [];
@@ -28,7 +30,8 @@ export class Page extends THREE.EventDispatcher {
   _scroll = Scroll.getInstance();
   _pageEl: HTMLElement | null = null;
   _rendererBounds: Bounds = { height: 10, width: 100 };
-  _pageElBounds: DOMRect | null = null;
+  _pageElScroll: HTMLElement | null = null;
+  _pageElScrollBounds: DOMRect | null = null;
   _transformPrefix = Prefix('transform');
   _scrollValues: ScrollValues = {
     scroll: {
@@ -104,12 +107,13 @@ export class Page extends THREE.EventDispatcher {
   }
 
   _applyScroll = (x: number, y: number) => {
-    if (!this._pageElBounds || globalState.isAppTransitioning) return;
+    if (!this._pageElScrollBounds || globalState.isAppTransitioning) return;
 
     let newY = this._scrollValues.scroll.target + y;
 
     const bottomBound = 0;
-    let topBound = this._pageElBounds.height - this._rendererBounds.height;
+    let topBound =
+      this._pageElScrollBounds.height - this._rendererBounds.height;
     if (topBound < 0) topBound = 0;
 
     if (-newY <= bottomBound) {
@@ -144,8 +148,8 @@ export class Page extends THREE.EventDispatcher {
   }
 
   _updateCss() {
-    if (this._pageEl) {
-      this._pageEl.style[
+    if (this._pageElScroll) {
+      this._pageElScroll.style[
         this._transformPrefix
       ] = `translate3d(0,${this._scrollValues.scroll.current}px,0)`;
     }
@@ -162,8 +166,15 @@ export class Page extends THREE.EventDispatcher {
   }
 
   onEnter(el: HTMLElement) {
-    this._pageEl = Array.from(el.children)[0] as HTMLElement;
-    this._pageElBounds = this._pageEl.getBoundingClientRect();
+    this._pageEl = Array.from(
+      el.querySelectorAll(Page.pageContainer),
+    )[0] as HTMLElement;
+
+    this._pageElScroll = Array.from(
+      el.querySelectorAll(Page.scrollContainer),
+    )[0] as HTMLElement;
+
+    this._pageElScrollBounds = this._pageElScroll.getBoundingClientRect();
 
     const paragraphs = Array.from(
       this._pageEl.querySelectorAll(Page.anmParagraph),
@@ -204,7 +215,8 @@ export class Page extends THREE.EventDispatcher {
       el.onResize();
     });
 
-    if (this._pageEl) this._pageElBounds = this._pageEl.getBoundingClientRect();
+    if (this._pageElScroll)
+      this._pageElScrollBounds = this._pageElScroll.getBoundingClientRect();
   }
 
   update(updateInfo: UpdateInfo) {

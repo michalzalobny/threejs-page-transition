@@ -20,7 +20,7 @@ export default function IndexPage(props: Props) {
   return (
     <>
       <Head {...head} />
-      <div className="index__wrapper">
+      <div data-page="wrapper" data-scroll="page" className="index__wrapper">
         {cardsCms.map((el, key) => (
           <CardPreview
             cardUid={el.uid}
