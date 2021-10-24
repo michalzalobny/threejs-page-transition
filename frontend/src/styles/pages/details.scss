@@ -33,13 +33,15 @@
   }
 
   &__p {
-    font-size: 2rem;
-    line-height: 1.8;
+    font-family: 'opensans';
+    font-size: 1.8rem;
+    line-height: 2;
     color: black;
     padding: 4rem 0;
 
     @include media('>phone') {
-      font-size: 2.5rem;
+      line-height: 2.5;
+      font-size: 2rem;
       padding: 12rem 0;
     }
   }

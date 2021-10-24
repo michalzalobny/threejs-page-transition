@@ -49,8 +49,9 @@ export default function MyApp(props: AppProps) {
   useEffect(() => {
     const fontA = new FontFaceObserver('nexa');
     const fontB = new FontFaceObserver('voyage');
+    const fontC = new FontFaceObserver('opensans');
 
-    Promise.all([fontA.load(null, 2000), fontB.load()])
+    Promise.all([fontA.load(null, 2000), fontB.load(), fontC.load()])
       .then(
         () => {
           if (globalState.canvasApp) globalState.canvasApp.init();

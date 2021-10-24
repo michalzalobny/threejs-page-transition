@@ -28,6 +28,14 @@ export default class MyDocument extends Document {
             href="/fonts/bonVoyage.woff2"
             crossOrigin="anonymous"
           />
+          <link
+            rel="preload"
+            as="font"
+            type="font/woff2"
+            href="/fonts/openSans400.woff2"
+            crossOrigin="anonymous"
+          />
+
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
 
           <script
