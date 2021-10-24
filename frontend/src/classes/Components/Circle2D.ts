@@ -28,6 +28,8 @@ export class Circle2D {
   };
   _radius = 35;
   _extraRadius = 15;
+  _showProgress = 0;
+  _showProgressTween: Tween<{ progress: number }> | null = null;
 
   constructor() {
     this._canvas = document.createElement('canvas');
@@ -50,6 +52,23 @@ export class Circle2D {
       this._canvas.style.height = h + 'px';
       this._ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
     }
+  }
+
+  _animateShow(destination: number) {
+    if (this._showProgressTween) {
+      this._showProgressTween.stop();
+    }
+
+    this._showProgressTween = new TWEEN.Tween({
+      progress: this._showProgress,
+    })
+      .to({ progress: destination }, indexCurtainDuration * 0.8)
+      .easing(TWEEN.Easing.Exponential.InOut)
+      .onUpdate((obj) => {
+        this._showProgress = obj.progress;
+      });
+
+    this._showProgressTween.start();
   }
 
   _animateHover(destination: number) {
@@ -81,12 +100,12 @@ export class Circle2D {
       event.clientX >= this._rendererBounds.width ||
       event.clientY >= this._rendererBounds.height
     ) {
-      console.log("I'm out");
+      this._animateShow(0);
     }
   };
 
   _onMouseEnter = () => {
-    console.log('enter');
+    this._animateShow(1);
   };
 
   _addListeners() {
@@ -108,7 +127,8 @@ export class Circle2D {
     this._ctx.arc(
       this._mouse.x.current,
       this._mouse.y.current,
-      this._radius + this._extraRadius * this._hoverProgress,
+      (this._radius + this._extraRadius * this._hoverProgress) *
+        this._showProgress,
       0,
       2 * Math.PI,
     );
