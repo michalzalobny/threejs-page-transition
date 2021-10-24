@@ -7,7 +7,7 @@ import { Head } from 'seo/Head/Head';
 import { Props } from './data';
 
 export default function IndexPage(props: Props) {
-  const { head, cardsCms } = props;
+  const { layout, head, cardsCms } = props;
 
   useEffect(() => {
     const imagesToPreload = cardsCms.map((card) => card.imageSrc);
@@ -27,7 +27,7 @@ export default function IndexPage(props: Props) {
             key={el.uid}
             title={el.name}
             frontImgSrc={el.imageSrc}
-            moreLabel="more"
+            moreLabel={layout.readmore}
             elIndex={key + 1}
           />
         ))}

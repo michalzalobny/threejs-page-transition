@@ -1,7 +1,7 @@
 import { GetStaticProps } from 'next';
 
 import { getCards, Card } from 'utils/prismic/queries/getCards';
-import { getLayout } from 'utils/prismic/queries/getLayout';
+import { getLayout, Layout } from 'utils/prismic/queries/getLayout';
 import { getSeoHead } from 'utils/prismic/queries/getSeoHead';
 import { HeadProps } from 'seo/Head/Head';
 
@@ -10,6 +10,7 @@ import { ISR_TIMEOUT } from 'utils/prismic/isrTimeout';
 export interface Props {
   cardsCms: Card[];
   head: HeadProps;
+  layout: Layout;
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
@@ -20,6 +21,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
       cardsCms: cards,
+      layout,
       head,
     },
     revalidate: ISR_TIMEOUT,
