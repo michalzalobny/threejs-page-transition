@@ -2,6 +2,7 @@ import TWEEN, { Tween } from '@tweenjs/tween.js';
 
 import { Bounds, UpdateInfo } from 'types';
 import { indexCurtainDuration } from 'variables';
+import { isTouchDevice } from 'utils/functions/isTouchDevice';
 
 import { MouseMove } from '../Singletons/MouseMove';
 import { lerp } from '../utils/lerp';
@@ -31,6 +32,7 @@ export class Circle2D {
   _showProgress = 0;
   _showProgressTween: Tween<{ progress: number }> | null = null;
   _isCircleInit = false;
+  _isTouchDevice = isTouchDevice();
 
   constructor() {
     this._canvas = document.createElement('canvas');
@@ -56,6 +58,8 @@ export class Circle2D {
   }
 
   _animateShow(destination: number) {
+    if (this._isTouchDevice) return;
+
     if (this._showProgressTween) {
       this._showProgressTween.stop();
     }
