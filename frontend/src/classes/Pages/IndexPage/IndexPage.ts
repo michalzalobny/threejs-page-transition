@@ -4,6 +4,7 @@ import { Page } from '../Page';
 import { IndexPageCanvas } from './Canvas/IndexPageCanvas';
 import { InteractiveScene } from '../../Components/InteractiveScene';
 import { Curtain } from '../../HTMLComponents/Curtain';
+import { MoreLabel } from '../../HTMLComponents/MoreLabel';
 
 interface Constructor {
   pageId: string;
@@ -11,9 +12,11 @@ interface Constructor {
 
 export class IndexPage extends Page {
   static anmCurtain = '[data-curtain="wrapper"]';
+  static anmMoreLabel = '[data-morelabel="hover"]';
 
   _pageCanvas: IndexPageCanvas;
   _anmCurtains: Curtain[] = [];
+  _anmMoreLabels: MoreLabel[] = [];
 
   constructor({ pageId }: Constructor) {
     super({ pageId });
@@ -39,6 +42,14 @@ export class IndexPage extends Page {
 
     this._anmCurtains = curtains.map((el) => {
       return new Curtain({ element: el });
+    });
+
+    const moreLabels = Array.from(
+      this._pageEl.querySelectorAll(IndexPage.anmMoreLabel),
+    ) as HTMLElement[];
+
+    this._anmMoreLabels = moreLabels.map((el) => {
+      return new MoreLabel({ element: el });
     });
 
     this._pageCanvas.onEnter(el);
@@ -79,6 +90,10 @@ export class IndexPage extends Page {
     super._removeListeners();
 
     this._anmCurtains.forEach((el) => {
+      el.removeListeners();
+    });
+
+    this._anmMoreLabels.forEach((el) => {
       el.removeListeners();
     });
   }

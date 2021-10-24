@@ -24,32 +24,36 @@ export const CardContent = (props: Props) => {
           <RichText text={title} />
         </h2>
       </div>
-      <div
-        data-observer="none"
-        data-animation="bottomhide"
-        className="card-content__more-label__container"
-      >
-        <span
-          className={`card-content__more-label__number ${
-            whiteColor && 'card-content__more-label__number--white'
-          }`}
+      <div className="card-content__more-label__container">
+        <div
+          data-observer="none"
+          data-animation="bottomhide"
+          className="card-content__more-label__wrapper"
         >
-          {elIndex < 10 ? `0${elIndex}` : elIndex}
-        </span>
+          <span
+            className={`card-content__more-label__number ${
+              whiteColor && 'card-content__more-label__number--white'
+            }`}
+          >
+            {elIndex < 10 ? `0${elIndex}` : elIndex}
+          </span>
 
-        <span
-          className={`card-content__more-label__line ${
-            whiteColor && 'card-content__more-label__line--white'
-          }`}
-        />
+          <span
+            data-more="line"
+            className={`card-content__more-label__line ${
+              whiteColor && 'card-content__more-label__line--white'
+            }`}
+          />
 
-        <span
-          className={`card-content__more-label__more ${
-            whiteColor && 'card-content__more-label__more--white'
-          }`}
-        >
-          {moreLabel}
-        </span>
+          <span
+            data-more="label"
+            className={`card-content__more-label__more ${
+              whiteColor && 'card-content__more-label__more--white'
+            }`}
+          >
+            {moreLabel}
+          </span>
+        </div>
       </div>
     </div>
   );

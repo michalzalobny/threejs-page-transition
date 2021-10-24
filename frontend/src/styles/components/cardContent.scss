@@ -9,7 +9,9 @@
 
   &__more-label {
     &__container {
-      padding: 1rem 0;
+      padding: 1.5rem 0;
+    }
+    &__wrapper {
       display: flex;
       align-items: center;
     }
@@ -24,7 +26,7 @@
     }
 
     &__line {
-      width: 16rem;
+      width: 20rem;
       height: 1px;
       background-color: var(--black);
       transform: scaleX(0.5);
@@ -42,7 +44,7 @@
     &__more {
       font-size: 20px;
       padding-left: 20px;
-      transform: translateX(-8rem); //Its half of the line width
+      transform: translateX(-10rem); //Its half of the line width
 
       &--white {
         color: var(--white);

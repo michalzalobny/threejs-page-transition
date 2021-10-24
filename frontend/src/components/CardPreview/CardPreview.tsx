@@ -24,7 +24,11 @@ export const CardPreview = (props: Props) => {
           elIndex % 2 === 0 && 'card-preview__container--secondary'
         }`}
       >
-        <div data-curtain="hover" className="card-preview__placeholder">
+        <div
+          data-morelabel="hover"
+          data-curtain="hover"
+          className="card-preview__placeholder"
+        >
           <CardContent
             elIndex={elIndex}
             whiteColor
