@@ -25,7 +25,12 @@ export const CardPreview = (props: Props) => {
         }`}
       >
         <div data-curtain="hover" className="card-preview__placeholder">
-          <CardContent whiteColor title={title} moreLabel={moreLabel} />
+          <CardContent
+            elIndex={elIndex}
+            whiteColor
+            title={title}
+            moreLabel={moreLabel}
+          />
 
           <div className="card-preview__curtains-wrapper">
             <div
@@ -34,7 +39,11 @@ export const CardPreview = (props: Props) => {
             >
               <div className="card-preview__curtains-wrapper__top__wrapper">
                 <div className="card-preview__curtains-wrapper__top__wrapper__wrapper">
-                  <CardContent title={title} moreLabel={moreLabel} />
+                  <CardContent
+                    elIndex={elIndex}
+                    title={title}
+                    moreLabel={moreLabel}
+                  />
                 </div>
               </div>
             </div>
@@ -45,7 +54,11 @@ export const CardPreview = (props: Props) => {
             >
               <div className="card-preview__curtains-wrapper__bottom__wrapper">
                 <div className="card-preview__curtains-wrapper__bottom__wrapper__wrapper">
-                  <CardContent title={title} moreLabel={moreLabel} />
+                  <CardContent
+                    elIndex={elIndex}
+                    title={title}
+                    moreLabel={moreLabel}
+                  />
                 </div>
               </div>
             </div>

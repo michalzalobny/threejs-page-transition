@@ -1,8 +1,26 @@
 .card-content {
   padding: 5rem 0;
+  display: flex;
+  flex-direction: column;
 
   @include media('>phone') {
     padding: 10rem 0;
+  }
+
+  &__more-label {
+    &__container {
+      padding: 1rem 0;
+      display: flex;
+      align-items: center;
+    }
+
+    &__number {
+      font-size: 20px;
+
+      &--white {
+        color: var(--white);
+      }
+    }
   }
 
   &__text-wrapper {
