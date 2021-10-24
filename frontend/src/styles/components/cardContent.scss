@@ -16,9 +16,40 @@
 
     &__number {
       font-size: 20px;
+      padding-right: 20px;
 
       &--white {
         color: var(--white);
+      }
+    }
+
+    &__line {
+      width: 16rem;
+      height: 1px;
+      background-color: var(--black);
+      transform: scaleX(0.5);
+      transform-origin: left;
+
+      &--white {
+        background-color: var(--white);
+      }
+
+      &--active {
+        transform: scaleX(1);
+      }
+    }
+
+    &__more {
+      font-size: 20px;
+      padding-left: 20px;
+      transform: translateX(-8rem); //Its half of the line width
+
+      &--white {
+        color: var(--white);
+      }
+
+      &--active {
+        transform: translateX(0);
       }
     }
   }

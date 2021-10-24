@@ -36,6 +36,20 @@ export const CardContent = (props: Props) => {
         >
           {elIndex < 10 ? `0${elIndex}` : elIndex}
         </span>
+
+        <span
+          className={`card-content__more-label__line ${
+            whiteColor && 'card-content__more-label__line--white'
+          }`}
+        />
+
+        <span
+          className={`card-content__more-label__more ${
+            whiteColor && 'card-content__more-label__more--white'
+          }`}
+        >
+          {moreLabel}
+        </span>
       </div>
     </div>
   );
