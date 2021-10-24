@@ -1,13 +1,13 @@
 import { pageTransitionDuration } from 'variables';
 
-import { Animation } from './Animation';
 import { wrapEl } from '../utils/wrapEl';
 
 interface Constructor {
   element: HTMLElement;
 }
 
-export class BottomHide extends Animation {
+export class BottomHide {
+  _element: HTMLElement;
   _innerWrapper: HTMLElement;
   _outerWrapper: HTMLElement;
 
@@ -24,15 +24,13 @@ export class BottomHide extends Animation {
     const innerWrapper = element.parentElement as HTMLElement;
     const outerWrapper = innerWrapper.parentElement as HTMLElement;
 
-    super({ element, observerElement: outerWrapper });
+    this._element = element;
 
     this._innerWrapper = innerWrapper;
     this._outerWrapper = outerWrapper;
   }
 
   animateIn() {
-    super.animateIn();
-
     this._innerWrapper.classList.add('bottom-hide__inner--active');
     this._innerWrapper.style.transition = `transform ${
       pageTransitionDuration * 0.8
@@ -40,15 +38,9 @@ export class BottomHide extends Animation {
   }
 
   animateOut() {
-    super.animateOut();
     this._innerWrapper.classList.remove('bottom-hide__inner--active');
     this._innerWrapper.style.transition = `transform ${
       pageTransitionDuration * 0.7
     }ms  cubic-bezier(0.77, 0, 0.175, 1)`;
-  }
-
-  onResize() {
-    super.onResize();
-    this.initObserver();
   }
 }

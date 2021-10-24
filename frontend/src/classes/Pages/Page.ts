@@ -161,7 +161,7 @@ export class Page extends THREE.EventDispatcher {
     });
 
     this._anmBottomHide.forEach((el) => {
-      el.initObserver();
+      el.animateIn();
     });
   }
 
@@ -208,10 +208,6 @@ export class Page extends THREE.EventDispatcher {
     this._rendererBounds = bounds;
 
     this._anmParagraphs.forEach((el) => {
-      el.onResize();
-    });
-
-    this._anmBottomHide.forEach((el) => {
       el.onResize();
     });
 
