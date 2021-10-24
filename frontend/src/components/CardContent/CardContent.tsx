@@ -24,7 +24,11 @@ export const CardContent = (props: Props) => {
           <RichText text={title} />
         </h2>
       </div>
-      <div className="card-content__more-label__container">
+      <div
+        data-observer="none"
+        data-animation="bottomhide"
+        className="card-content__more-label__container"
+      >
         <span
           className={`card-content__more-label__number ${
             whiteColor && 'card-content__more-label__number--white'
