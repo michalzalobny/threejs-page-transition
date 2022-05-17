@@ -109,6 +109,17 @@ export class CanvasApp extends THREE.EventDispatcher {
   _onAssetsLoaded = (e: THREE.Event) => {
     globalState.textureItems = (e.target as Preloader).textureItems;
     this._animateGlobalOpacity();
+
+    const pageWrapper = Array.from(
+      document.querySelectorAll('.page-wrapper'),
+    )[0] as HTMLElement;
+
+    const pageOverlay = Array.from(
+      document.querySelectorAll('.page__overlay'),
+    )[0] as HTMLElement;
+
+    pageWrapper.classList.add('page-wrapper--active');
+    pageOverlay.classList.add('page__overlay--disabled');
     this._pageManager.onAssetsLoaded();
   };
 
@@ -191,17 +202,6 @@ export class CanvasApp extends THREE.EventDispatcher {
     const page = Array.from(
       document.querySelectorAll(`[data-pageid="${globalState.currentPageId}"]`),
     )[0] as HTMLElement;
-
-    const pageWrapper = Array.from(
-      document.querySelectorAll('.page-wrapper'),
-    )[0] as HTMLElement;
-
-    const pageOverlay = Array.from(
-      document.querySelectorAll('.page__overlay'),
-    )[0] as HTMLElement;
-
-    pageWrapper.classList.add('page-wrapper--active');
-    pageOverlay.classList.add('page__overlay--disabled');
 
     this._onResize();
     this.handlePageEnter(page);

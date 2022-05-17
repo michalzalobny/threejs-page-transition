@@ -52,9 +52,10 @@
     top: 0;
     left: 0;
     z-index: 10;
-    user-select: none;
 
     &--disabled {
+      pointer-events: none;
+      user-select: none;
       display: none;
     }
   }
