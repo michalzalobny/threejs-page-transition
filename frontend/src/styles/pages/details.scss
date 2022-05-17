@@ -3,11 +3,11 @@
     position: absolute;
     z-index: 1;
     top: 20px;
-    right: 15px;
+    left: 40px;
 
     @include media('>phone') {
-      top: 30px;
-      right: 35px;
+      top: 20px;
+      left: 40px;
     }
 
     &__label {

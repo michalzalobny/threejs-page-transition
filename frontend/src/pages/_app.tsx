@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import 'intersection-observer';
 
+import { Layout } from 'components/Layout/Layout';
 import { globalState } from 'utils/globalState';
 import { CanvasApp } from 'classes/CanvasApp';
 import { pageTransitionDuration } from 'variables';
@@ -76,6 +77,7 @@ export default function MyApp(props: AppProps) {
 
   return (
     <>
+      <Layout />
       <div className="canvas__wrapper" ref={rendererWrapperEl} />
       <div className="page__background" />
       <div className="page__overlay" />

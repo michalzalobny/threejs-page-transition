@@ -1,0 +1,124 @@
+//breakpoints : 767px, 1024px, 1920px
+
+.blobBtn {
+  background-color: var(--black);
+  color: var(--white);
+  border-radius: 50px;
+  cursor: pointer;
+  padding: 14px 25px;
+
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 0 13px var(--black);
+  font-size: 15px;
+  line-height: 1.6;
+
+  &Small {
+    font-size: 11px;
+    padding: 6px 18px;
+  }
+
+  &NoShadow {
+    box-shadow: none;
+  }
+
+  &::before {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+    background-color: inherit;
+    z-index: -1;
+    border-radius: inherit;
+    transition-duration: 0.8s;
+    transition-property: opacity, width, height;
+  }
+
+  &:hover {
+    &::before {
+      opacity: 0;
+      width: calc(100% + 25px);
+      height: calc(100% + 25px);
+    }
+  }
+}
+
+.text {
+  font-family: 'opensans';
+  display: inline-block;
+  font-size: 14px;
+  color: var(--white);
+  position: relative;
+
+  &Bold {
+    font-weight: 800;
+  }
+
+  &Box {
+    position: relative;
+    cursor: pointer;
+    border: 2px solid var(--white);
+    padding: 12px 15px;
+    font-size: 13px;
+    border-radius: 8px;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 70%;
+      left: 15px;
+      width: calc(100% - 30px);
+      height: 1px;
+      background-color: currentColor;
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform 0.6s cubic-bezier(0.64, 0.02, 0.16, 0.97);
+
+      @media only screen and (min-width: 767px) {
+        left: 20px;
+        width: calc(100% - 40px);
+      }
+    }
+
+    &:hover {
+      &:before {
+        transform: scaleX(1);
+      }
+    }
+
+    @media only screen and (min-width: 767px) {
+      padding: 12px 20px;
+      font-size: 14px;
+    }
+  }
+
+  &Black {
+    color: var(--black);
+    border-color: var(--black);
+  }
+
+  &Underline {
+    &:before {
+      content: '';
+      position: absolute;
+      top: 100%;
+      width: 100%;
+      height: 1px;
+      background-color: currentColor;
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform 0.6s cubic-bezier(0.64, 0.02, 0.16, 0.97);
+    }
+
+    &:hover {
+      &:before {
+        transform: scaleX(1);
+      }
+    }
+  }
+}

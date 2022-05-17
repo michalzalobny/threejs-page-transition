@@ -1,0 +1,35 @@
+.inspiredWrapper {
+  position: fixed;
+  z-index: 35;
+  top: 20px;
+  right: 40px;
+  display: flex;
+  mix-blend-mode: difference;
+}
+
+.gitWrapper {
+  position: fixed;
+  z-index: 35;
+  bottom: 20px;
+  left: 40px;
+  display: flex;
+  mix-blend-mode: difference;
+}
+
+.authorWrapper {
+  display: none;
+
+  @media screen and (min-width: 767px) {
+    display: initial;
+    position: fixed;
+    z-index: 5;
+    bottom: 20px;
+    right: 40px;
+    display: flex;
+    mix-blend-mode: difference;
+  }
+}
+
+.contactSpacer {
+  width: 8px;
+}
